@@ -44,7 +44,7 @@ export default async function Home() {
         </div>
 
         <CrudShowcase />
-        <UserButton afterSignOutAllUrl="/" />
+        <UserButton afterSignOutUrl="/" />
       </div>
     </main>
   );
