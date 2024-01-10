@@ -8,6 +8,11 @@ export default {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
+      colors: {
+        brandOrange: "#BD5103",
+        brandDark: "#0D0D0D",
+        brandLight: "#FAFAFA",
+      },
     },
   },
   plugins: [],
