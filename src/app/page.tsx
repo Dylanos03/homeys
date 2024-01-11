@@ -1,9 +1,8 @@
 import { api } from "~/trpc/server";
 import Sidebar from "./_components/sidebar";
 import Link from "next/link";
-import { timeSince } from "~/utils/timeSince";
 
-type Post = {
+export type Post = {
   id: number;
   name: string;
   desc: string;
@@ -11,6 +10,22 @@ type Post = {
   userId: string;
   createdAt: Date;
 };
+
+function timeSince(date: Date) {
+  const dateNow = new Date();
+  const diff = dateNow.getTime() - date.getTime();
+  const diffMin = Math.round(diff / 60000);
+  if (diffMin >= 60) {
+    const diffHr = Math.round(diffMin / 60);
+    if (diffHr >= 24) {
+      const diffDay = Math.round(diffHr / 24);
+      return diffDay + ` day${diffDay! > 1 ? "s" : ""} ago`;
+    }
+    return diffHr + ` hour${diffHr > 1 ? "s" : ""} ago`;
+  }
+
+  return diffMin + " mins ago";
+}
 
 const CreatePostButton = () => {
   return (
@@ -23,7 +38,7 @@ const CreatePostButton = () => {
   );
 };
 
-const PostCard = (props: Post) => {
+function PostCard(props: Post) {
   const timeSincePost = timeSince(props.createdAt);
 
   return (
@@ -36,7 +51,7 @@ const PostCard = (props: Post) => {
       <p className="text-md font-medium">{props.desc}</p>
     </div>
   );
-};
+}
 
 export default async function Home() {
   const data = await api.post.getAll.query();
