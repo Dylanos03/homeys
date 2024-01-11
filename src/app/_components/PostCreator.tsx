@@ -2,7 +2,8 @@
 
 import React from "react";
 import { api } from "~/trpc/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 type CPFormData = {

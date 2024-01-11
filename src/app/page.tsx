@@ -1,6 +1,7 @@
 import { api } from "~/trpc/server";
 import Sidebar from "./_components/sidebar";
 import Link from "next/link";
+import { timeSince } from "~/utils/timeSinceCalc";
 
 export type Post = {
   id: number;
@@ -10,22 +11,6 @@ export type Post = {
   userId: string;
   createdAt: Date;
 };
-
-function timeSince(date: Date) {
-  const dateNow = new Date();
-  const diff = dateNow.getTime() - date.getTime();
-  const diffMin = Math.round(diff / 60000);
-  if (diffMin >= 60) {
-    const diffHr = Math.round(diffMin / 60);
-    if (diffHr >= 24) {
-      const diffDay = Math.round(diffHr / 24);
-      return diffDay + ` day${diffDay! > 1 ? "s" : ""} ago`;
-    }
-    return diffHr + ` hour${diffHr > 1 ? "s" : ""} ago`;
-  }
-
-  return diffMin + " mins ago";
-}
 
 const CreatePostButton = () => {
   return (
