@@ -8,7 +8,7 @@ export type Post = {
   name: string;
   desc: string;
   housePost: boolean;
-  AuthorId: string;
+  authorId: string;
   createdAt: Date;
 };
 
