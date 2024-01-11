@@ -11,22 +11,33 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
-  // create: publicProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  //     return ctx.db.post.create({
-  //       data: {
-  //         name: input.name,
-  //       },
-  //     });
-  //   }),
+  create: publicProcedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        desc: z.string().min(1),
+        userId: z.string().min(1),
+        housePost: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.post.create({
+        data: {
+          name: input.name,
+          desc: input.desc,
+          userId: "1",
+          housePost: input.housePost,
+        },
+      });
+    }),
 
   getLatest: publicProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({
       orderBy: { createdAt: "desc" },
     });
+  }),
+
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.post.findMany({ orderBy: { createdAt: "desc" } });
   }),
 });

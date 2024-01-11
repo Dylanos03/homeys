@@ -16,6 +16,7 @@ model Post {
     userId    String
     name      String
     desc      String
+    image     String?
     housePost Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -33,4 +34,26 @@ model Profile {
     updatedAt DateTime @updatedAt
 
     @@index([name])
+}
+
+model User {
+    id        Int      @id @default(autoincrement())
+    email     String   @unique
+    name      String
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([name])
+}
+
+model Comment {
+    id        Int      @id @default(autoincrement())
+    userId    String
+    postId    Int
+    text      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([text])
 }
