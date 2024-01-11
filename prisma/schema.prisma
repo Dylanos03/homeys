@@ -13,9 +13,9 @@ generator client {
 
 model Post {
     id        Int      @id @default(autoincrement())
-    userId    String
+    authorId  String
     name      String
-    desc      String
+    desc      String   @db.VarChar(1000)
     image     String?
     housePost Boolean  @default(false)
     createdAt DateTime @default(now())
@@ -27,13 +27,16 @@ model Post {
 model Profile {
     id        Int      @id @default(autoincrement())
     userId    String
-    name      String
+    fullName  String
+    username  String   @unique
     bio       String
     image     String
+    interests String
+    location  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([name])
+    @@index([fullName])
 }
 
 model User {

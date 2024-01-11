@@ -13,6 +13,8 @@ export function timeSince(date: Date) {
     const preffix = diffHr;
     const suffix = ` hour${diffHr > 1 ? "s" : ""} ago`;
     return preffix + suffix;
+  } else if (diffMin == 0) {
+    return "Just now";
   }
   const preffix = diffMin;
   const suffix = ` min${diffMin > 1 ? "s" : ""} ago`;

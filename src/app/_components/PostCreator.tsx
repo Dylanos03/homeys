@@ -5,6 +5,7 @@ import { api } from "~/trpc/react";
 import { useForm } from "react-hook-form";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 type CPFormData = {
   title: string;
@@ -12,7 +13,12 @@ type CPFormData = {
 };
 
 export function CreatePost() {
+  const { userId } = useAuth();
   const router = useRouter();
+  const createPost = api.post.create.useMutation({
+    onSettled: () => router.push("/"),
+  });
+  if (userId === undefined || null) return router.push("/sign-in");
 
   const { register, handleSubmit } = useForm<CPFormData>();
   const onSubmit: SubmitHandler<CPFormData> = (data) => {
@@ -20,15 +26,9 @@ export function CreatePost() {
       name: data.title,
       desc: data.description,
       housePost: false,
-      userId: "1",
+      userId: userId || "",
     });
   };
-
-  const createPost = api.post.create.useMutation({
-    onSettled: () => {
-      router.push("/");
-    },
-  });
 
   return (
     <div className="flex h-screen w-screen  max-w-2xl items-center justify-center">
