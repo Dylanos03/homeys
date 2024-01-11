@@ -5,7 +5,7 @@ import { api } from "~/trpc/react";
 import { useForm } from "react-hook-form";
 import { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 
 type CPFormData = {
   title: string;
@@ -13,22 +13,24 @@ type CPFormData = {
 };
 
 export function CreatePost() {
-  const { userId } = useAuth();
+  const { user } = useUser();
   const router = useRouter();
-  const createPost = api.post.create.useMutation({
-    onSettled: () => router.push("/"),
-  });
+  const createPost = api.post.create.useMutation({});
 
   const { register, handleSubmit } = useForm<CPFormData>();
   const onSubmit: SubmitHandler<CPFormData> = (data) => {
-    createPost.mutate({
-      name: data.title,
-      desc: data.description,
-      housePost: false,
-      userId: userId ?? "",
-    });
+    createPost
+      .mutateAsync({
+        name: data.title,
+        desc: data.description,
+        housePost: false,
+        userId: user?.id ?? "",
+        authorName: user?.fullName ?? "",
+        authorImage: user?.imageUrl ?? "",
+      })
+      .then(() => router.push("/"));
   };
-  if (userId === undefined || null) {
+  if (user === undefined || null) {
     router.push("/sign-in");
     return <p>Not signed in</p>;
   }

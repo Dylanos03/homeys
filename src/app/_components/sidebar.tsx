@@ -4,16 +4,28 @@ import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 function Sidebar() {
-  const { isSignedIn } = useUser();
+  const { user } = useUser();
+  if (!user) {
+    return (
+      <aside className="fixed left-0 top-0 flex h-full flex-col justify-between border-r-2 border-slate-200 bg-brandLight p-8 pt-20">
+        <div className="flex flex-col">
+          <Link href={"/"}>Home</Link>
+
+          <Link href={"/"}>Home</Link>
+          <Link href={"/"}>Home</Link>
+        </div>
+      </aside>
+    );
+  }
   return (
     <aside className="fixed left-0 top-0 flex h-full flex-col justify-between border-r-2 border-slate-200 bg-brandLight p-8 pt-20">
       <div className="flex flex-col">
         <Link href={"/"}>Home</Link>
-        <Link href={"/"}>Home</Link>
+        <Link href={`/users/${user.id}`}>My Profile</Link>
         <Link href={"/"}>Home</Link>
         <Link href={"/"}>Home</Link>
       </div>
-      {isSignedIn && <SignOutButton />}
+      <SignOutButton />
     </aside>
   );
 }

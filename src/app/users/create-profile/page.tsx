@@ -19,6 +19,7 @@ function ProfileCreatePage() {
   const { user } = useUser();
   const { register, handleSubmit } = useForm<PFormData>();
   const router = useRouter();
+
   const create = api.profile.create.useMutation({
     onSuccess: () => router.push("/"),
     onError: (err) => {
@@ -29,18 +30,22 @@ function ProfileCreatePage() {
     },
   });
 
-  if (!user) return null;
+  if (!user) {
+    return null;
+  }
 
   const onSubmit: SubmitHandler<PFormData> = (data) => {
-    create.mutate({
-      bio: data.bio,
-      interests: data.interests,
-      location: data.location,
-      username: data.username,
-      image: user.imageUrl,
-      fullname: user.fullName ?? "",
-      userId: user.id,
-    });
+    create
+      .mutateAsync({
+        bio: data.bio,
+        interests: data.interests,
+        location: data.location,
+        username: data.username,
+        image: user.imageUrl,
+        fullname: user.fullName ?? "",
+        userId: user.id,
+      })
+      .then(() => router.push(`/users/${user.id}`));
   };
 
   return (
@@ -55,7 +60,6 @@ function ProfileCreatePage() {
 
         <section className="flex w-full items-center gap-2">
           <Image
-            loader={({ src }) => src}
             src={user.imageUrl}
             alt="Profile Picture"
             width={75}

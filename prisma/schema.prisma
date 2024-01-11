@@ -12,31 +12,33 @@ generator client {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    authorId  String
-    name      String
-    desc      String   @db.VarChar(1000)
-    image     String?
-    housePost Boolean  @default(false)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          Int      @id @default(autoincrement())
+    authorId    String
+    authorName  String
+    authorImage String
+    name        String
+    desc        String   @db.VarChar(1000)
+    image       String?
+    housePost   Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
     @@index([name])
 }
 
 model Profile {
     id        Int      @id @default(autoincrement())
-    userId    String
+    userId    String   @unique
     fullName  String
     username  String   @unique
-    bio       String
+    bio       String   @db.VarChar(1000)
     image     String
-    interests String
+    interests String   @db.VarChar(1000)
     location  String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    @@index([fullName])
+    @@index([userId])
 }
 
 model User {
