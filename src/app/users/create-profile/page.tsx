@@ -2,7 +2,7 @@
 
 import { api } from "~/trpc/react";
 import { useForm } from "react-hook-form";
-import { SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
@@ -45,7 +45,8 @@ function ProfileCreatePage() {
         fullname: user.fullName ?? "",
         userId: user.id,
       })
-      .then(() => router.push(`/users/${user.id}`));
+      .then(() => router.push(`/users/${user.id}`))
+      .catch((err) => console.log(err));
   };
 
   return (

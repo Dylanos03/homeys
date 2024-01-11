@@ -3,7 +3,7 @@
 import React from "react";
 import { api } from "~/trpc/react";
 import { useForm } from "react-hook-form";
-import { SubmitHandler } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
 

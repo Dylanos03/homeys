@@ -2,7 +2,7 @@ import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { api } from "~/trpc/server";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 async function ProfilePage({ params }: { params: { userId: string } }) {
   const data = await api.profile.findOne.query(params.userId);
