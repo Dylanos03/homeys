@@ -38,7 +38,7 @@ function ProfileCreatePage() {
       location: data.location,
       username: data.username,
       image: user.imageUrl,
-      fullname: user.fullName || "",
+      fullname: user.fullName ?? "",
       userId: user.id,
     });
   };

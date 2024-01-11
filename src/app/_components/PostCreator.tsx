@@ -18,10 +18,6 @@ export function CreatePost() {
   const createPost = api.post.create.useMutation({
     onSettled: () => router.push("/"),
   });
-  if (userId === undefined || null) {
-    router.push("/sign-in");
-    return <p>Not signed in</p>;
-  }
 
   const { register, handleSubmit } = useForm<CPFormData>();
   const onSubmit: SubmitHandler<CPFormData> = (data) => {
@@ -29,10 +25,13 @@ export function CreatePost() {
       name: data.title,
       desc: data.description,
       housePost: false,
-      userId: userId || "",
+      userId: userId ?? "",
     });
   };
-
+  if (userId === undefined || null) {
+    router.push("/sign-in");
+    return <p>Not signed in</p>;
+  }
   return (
     <div className="flex h-screen w-screen  max-w-2xl items-center justify-center">
       <form
