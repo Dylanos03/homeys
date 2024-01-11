@@ -7,15 +7,15 @@ export function timeSince(date: Date) {
     if (diffHr >= 24) {
       const diffDay = Math.round(diffHr / 24);
       const preffix = diffDay;
-      const suffix = ` day${diffDay! > 1 ? "s" : ""} ago`;
+      const suffix = ` day${diffDay > 1 ? "s" : ""} ago`;
       return preffix + suffix;
     }
     const preffix = diffHr;
-    const suffix = ` day${diffHr! > 1 ? "s" : ""} ago`;
+    const suffix = ` hour${diffHr > 1 ? "s" : ""} ago`;
     return preffix + suffix;
   }
   const preffix = diffMin;
-  const suffix = ` day${diffMin! > 1 ? "s" : ""} ago`;
+  const suffix = ` min${diffMin > 1 ? "s" : ""} ago`;
 
   return preffix + suffix;
 }
