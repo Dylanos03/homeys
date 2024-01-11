@@ -28,7 +28,8 @@ export function CreatePost() {
         authorName: user?.fullName ?? "",
         authorImage: user?.imageUrl ?? "",
       })
-      .then(() => router.push("/"));
+      .then(() => router.push("/"))
+      .catch((err) => console.log(err));
   };
   if (user === undefined || null) {
     router.push("/sign-in");
