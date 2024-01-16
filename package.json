@@ -13,7 +13,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.2",
+    "@clerk/nextjs": "^4.29.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
