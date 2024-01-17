@@ -21,9 +21,11 @@ const CreatePostButton = () => {
   return (
     <Link
       href="/create-post"
-      className="fixed bottom-12 right-12 z-50 flex items-center gap-3 rounded bg-brandOrange px-6 py-3 text-xl text-brandLight shadow-md"
+      className=" fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded bg-brandOrange px-6 py-3 text-xl text-brandLight shadow-md md:bottom-12 md:right-12"
     >
-      Create Post
+      <span className="hidden md:flex">Create Post</span>
+      <span className="flex md:hidden">New</span>
+
       <FontAwesomeIcon icon={faPenToSquare} className="w-6 " />
     </Link>
   );
@@ -42,7 +44,10 @@ function PostCard(props: Post) {
           alt={props.authorName}
           className="rounded-full outline outline-2 outline-offset-4  outline-brandOrange"
         />
-        <h1 className="text-xl font-bold">{props.authorName}</h1>
+        <Link href={`/users/${props.authorId}`}>
+          <h1 className="text-xl font-bold underline">{props.authorName}</h1>
+        </Link>
+
         <span className="h-1 w-1 rounded-full bg-slate-400"></span>
         <span className="text-slate-400">Posted {timeSincePost}</span>
       </div>
