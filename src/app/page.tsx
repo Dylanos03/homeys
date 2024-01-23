@@ -3,7 +3,7 @@ import Sidebar from "./_components/sidebar";
 import Link from "next/link";
 import { timeSince } from "~/utils/timeSinceCalc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faFilter, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
 export type Post = {
@@ -71,7 +71,24 @@ export default async function Home() {
     <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
       <Sidebar />
       <CreatePostButton />
-      <div className="mt-20 flex w-[720px] flex-col ">
+      <div className="flex w-[720px] flex-col border-x-2">
+        <div className="sticky top-0 flex w-full justify-between gap-3 border-b-2 border-slate-100 bg-brandLight px-4 font-semibold">
+          <Link
+            className="flex w-1/2 justify-center border-r-2 py-2 "
+            href={"/"}
+          >
+            People
+          </Link>
+          <Link
+            className="flex w-1/2 justify-center border-r-2 py-2"
+            href={"/"}
+          >
+            Houses
+          </Link>
+          <button>
+            <FontAwesomeIcon icon={faFilter} style={{ color: "#bd5103" }} />
+          </button>
+        </div>
         {data.map((post) => (
           <PostCard {...post} key={post.id} />
         ))}
