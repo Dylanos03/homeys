@@ -63,7 +63,8 @@ export function CreatePost() {
         </div>
         <button
           type="submit"
-          className="mt-4 rounded bg-brandOrange px-8 py-2 text-white"
+          className="mt-4 rounded bg-brandOrange px-8 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+          disabled={createPost.isLoading}
         >
           Create
         </button>

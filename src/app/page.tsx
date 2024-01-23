@@ -55,6 +55,11 @@ function PostCard(props: Post) {
         <h3 className="text-2xl font-semibold">{props.name}</h3>
         <p className="text-md font-medium">{props.desc}</p>
       </div>
+      <div className="flex justify-between text-slate-500">
+        <span>Like</span>
+        <span>Comment</span>
+        <span>Save</span>
+      </div>
     </div>
   );
 }
@@ -63,7 +68,7 @@ export default async function Home() {
   const data = await api.post.getAll.query();
   if (!data) return null;
   return (
-    <main className="relative m-0 flex min-h-screen w-screen justify-center px-4 ">
+    <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
       <Sidebar />
       <CreatePostButton />
       <div className="mt-20 flex w-[720px] flex-col ">

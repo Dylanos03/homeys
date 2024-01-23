@@ -27,7 +27,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`font-sans ${inter.variable} bg-brandLight text-brandDark`}
+          className={`font-sans ${inter.variable} overflow-x-hidden bg-brandLight text-brandDark`}
         >
           <TRPCReactProvider cookies={cookies().toString()}>
             <Navbar />
