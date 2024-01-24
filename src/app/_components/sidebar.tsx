@@ -21,7 +21,7 @@ function Sidebar() {
 
   if (!user) {
     return (
-      <aside className="sticky top-0 hidden h-screen flex-col justify-between border-slate-200 bg-brandLight p-8  md:flex">
+      <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight  p-8 md:flex">
         <div className="flex flex-col gap-4 text-xl font-semibold">
           <Image
             src={logo}
