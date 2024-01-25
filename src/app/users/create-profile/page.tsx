@@ -22,9 +22,9 @@ type PFormData = {
 function ProfileCreatePage() {
   const { user } = useUser();
   const { step, currentPage } = usePaginatedForm([
-    <YourDetails />,
-    <AboutYou />,
-    <Location />,
+    <YourDetails key={"YourDetails"} />,
+    <AboutYou key={"You"} />,
+    <Location key={"location"} />,
   ]);
   const { register, handleSubmit } = useForm<PFormData>();
   const router = useRouter();
@@ -44,7 +44,7 @@ function ProfileCreatePage() {
   }
 
   const onSubmit: SubmitHandler<PFormData> = (data) => {
-    create.mutateAsync({
+    create.mutate({
       bio: data.bio,
       interests: data.interests,
       location: data.location,
