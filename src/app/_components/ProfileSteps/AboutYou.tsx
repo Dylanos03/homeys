@@ -1,4 +1,4 @@
-import { FormWrapperP } from "~/app/users/create-profile/page";
+import { FormWrapperP } from "./FormWrapperP";
 
 function AboutYou() {
   return (
