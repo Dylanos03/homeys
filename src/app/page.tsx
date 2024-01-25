@@ -91,7 +91,7 @@ export default async function Home() {
         </div>
         {data.length === 0 && (
           <div className="mt-8 flex w-full flex-col items-center gap-3 border-b-2 border-slate-100 p-4 px-4   text-brandDark">
-            <h3>It's pretty quiet in here...</h3>
+            <h3>It&apos;s pretty quiet in here...</h3>
             <h4 className="text-2xl font-bold">
               Create a post and get the conversations started
             </h4>

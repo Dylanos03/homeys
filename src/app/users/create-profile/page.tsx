@@ -19,11 +19,13 @@ type PFormData = {
   profilePicture: string;
 };
 
-const formPages = [<YourDetails />, <AboutYou />, <Location />];
-
 function ProfileCreatePage() {
   const { user } = useUser();
-  const { step, currentPage } = usePaginatedForm([formPages]);
+  const { step, currentPage } = usePaginatedForm([
+    <YourDetails />,
+    <AboutYou />,
+    <Location />,
+  ]);
   const { register, handleSubmit } = useForm<PFormData>();
   const router = useRouter();
 
