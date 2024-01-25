@@ -5,7 +5,11 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
+
+import { usePaginatedForm } from "~/app/_hooks/usePaginatedForm";
+import YourDetails from "~/app/_components/ProfileSteps/YourDetails";
+import AboutYou from "~/app/_components/ProfileSteps/AboutYou";
+import Location from "~/app/_components/ProfileSteps/Location";
 
 type PFormData = {
   username: string;
@@ -15,13 +19,30 @@ type PFormData = {
   profilePicture: string;
 };
 
+type FormWrapperProps = {
+  title: string;
+  children: React.ReactNode;
+};
+
+const formPages = [<YourDetails />, <AboutYou />, <Location />];
+
+export function FormWrapperP({ title, children }: FormWrapperProps) {
+  return (
+    <div className="flex flex-col items-center justify-center gap-8  p-12">
+      <h1 className="text-3xl font-bold">{title}</h1>
+      {children}
+    </div>
+  );
+}
+
 function ProfileCreatePage() {
   const { user } = useUser();
+  const { step, currentPage } = usePaginatedForm([formPages]);
   const { register, handleSubmit } = useForm<PFormData>();
   const router = useRouter();
 
   const create = api.profile.create.useMutation({
-    onSuccess: () => router.push("/"),
+    onSuccess: () => router.push(`/users/${user?.id}`),
     onError: (err) => {
       console.log(err);
       if (err.message.includes("Unique constraint")) {
@@ -35,90 +56,25 @@ function ProfileCreatePage() {
   }
 
   const onSubmit: SubmitHandler<PFormData> = (data) => {
-    create
-      .mutateAsync({
-        bio: data.bio,
-        interests: data.interests,
-        location: data.location,
-        username: data.username,
-        image: user.imageUrl,
-        fullname: user.fullName ?? "",
-        userId: user.id,
-      })
-      .then(() => router.push(`/users/${user.id}`))
-      .catch((err) => console.log(err));
+    create.mutateAsync({
+      bio: data.bio,
+      interests: data.interests,
+      location: data.location,
+      username: data.username,
+      image: user.imageUrl,
+      fullname: user.fullName ?? "",
+      userId: user.id,
+    });
   };
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center">
+    <main className="flex h-screen w-screen flex-col items-center justify-center bg-brandOrange">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-[80%] flex-col items-center justify-center gap-8 rounded-lg bg-slate-100 p-16"
+        className=" rounded-lg bg-brandLight"
       >
-        <h1 className="text-3xl font-extrabold text-brandDark">
-          Create your profile
-        </h1>
-
-        <section className="flex w-full items-center gap-2">
-          <Image
-            src={user.imageUrl}
-            alt="Profile Picture"
-            width={75}
-            height={75}
-            className="rounded-full"
-          />
-          <h2 className="text-xl font-semibold">{user.fullName}</h2>
-        </section>
-
-        <section className="flex w-full gap-2">
-          <div className="w-full sm:col-span-2">
-            <label className="mb-2 block text-sm font-medium text-brandDark ">
-              Username
-            </label>
-            <input
-              {...register("username")}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-            />
-          </div>
-
-          <div className="w-full sm:col-span-2">
-            <label className="mb-2 block text-sm font-medium text-brandDark ">
-              Location
-            </label>
-            <input
-              {...register("location")}
-              className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-            />
-          </div>
-        </section>
-
-        <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            Bio
-          </label>
-          <textarea
-            {...register("bio")}
-            rows={8}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-          />
-        </div>
-
-        <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            Interests
-          </label>
-          <textarea
-            {...register("interests")}
-            rows={8}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-          />
-        </div>
-        <button
-          type="submit"
-          className="mt-4  rounded bg-brandOrange px-8 py-2 text-white"
-        >
-          Create
-        </button>
+        {step}
+        <button className=" bg-brandOrange">Next</button>
       </form>
     </main>
   );

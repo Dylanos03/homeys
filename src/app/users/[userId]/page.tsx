@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
+import Sidebar from "~/app/_components/sidebar";
 
 async function ProfilePage({ params }: { params: { userId: string } }) {
   const data = await api.profile.findOne.query(params.userId);
@@ -12,18 +13,17 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
 
   return (
     <main className="flex h-screen  items-center justify-center">
-      <section className="flex max-w-3xl flex-col gap-5 rounded-3xl bg-slate-100 p-8">
+      <Sidebar />
+      <section className="flex min-h-screen w-[720px] flex-col gap-5  border-x-2  p-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            <Image
-              src={data.image}
-              width={100}
-              height={100}
-              alt={data.fullName}
-              className="rounded-full outline outline-4 outline-offset-4  outline-brandOrange"
-            />
-            <h1 className="text-3xl font-bold">@{data.username}</h1>
-          </div>
+          <Image
+            src={data.image}
+            width={100}
+            height={100}
+            alt={data.fullName}
+            className="rounded-full outline outline-4 outline-offset-4  outline-brandOrange"
+          />
+
           <div className="flex items-center gap-2">
             <FontAwesomeIcon
               icon={faLocationPin}
@@ -35,6 +35,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
         </div>
 
         <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-bold">@{data.username}</h1>
           <p className="text-xl font-semibold">{data.fullName}</p>
 
           <div>
