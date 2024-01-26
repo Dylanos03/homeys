@@ -1,6 +1,6 @@
 import { UseFormRegister } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
-import { PFormData } from "~/app/users/create-profile/page";
+import type { PFormData } from "~/app/users/create-profile/page";
 
 function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
   return (
