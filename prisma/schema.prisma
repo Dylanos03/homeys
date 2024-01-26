@@ -27,16 +27,17 @@ model Post {
 }
 
 model Profile {
-    id        Int      @id @default(autoincrement())
-    userId    String   @unique
-    fullName  String
-    username  String   @unique
-    bio       String   @db.VarChar(1000)
-    image     String
-    interests String   @db.VarChar(1000)
-    location  String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         Int      @id @default(autoincrement())
+    userId     String   @unique
+    fullName   String
+    username   String   @unique
+    bio        String   @db.VarChar(1000)
+    image      String
+    interests  String   @db.VarChar(1000)
+    location   String
+    university String   @default("Not Specified")
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
 
     @@index([userId])
 }
@@ -61,4 +62,24 @@ model Comment {
     updatedAt DateTime @updatedAt
 
     @@index([text])
+}
+
+model FriendReq {
+    id        Int      @id @default(autoincrement())
+    userId    String
+    friendId  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+}
+
+model Friends {
+    id        Int      @id @default(autoincrement())
+    userId    String
+    friendId  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
 }

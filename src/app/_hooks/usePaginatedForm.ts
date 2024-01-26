@@ -3,7 +3,7 @@ import { ReactNode, useState } from "react";
 export function usePaginatedForm(steps: ReactNode[]) {
   const [currentPage, setCurrentPage] = useState(0);
   const next = () => {
-    if (currentPage >= steps.length - 1) {
+    if (currentPage <= steps.length - 1) {
       setCurrentPage((prev) => prev + 1);
     }
   };

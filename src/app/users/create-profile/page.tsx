@@ -15,18 +15,20 @@ type PFormData = {
   username: string;
   bio: string;
   interests: string;
+  university: string;
   location: string;
   profilePicture: string;
 };
 
 function ProfileCreatePage() {
   const { user } = useUser();
-  const { step, currentPage } = usePaginatedForm([
-    <YourDetails key={"YourDetails"} />,
-    <AboutYou key={"You"} />,
-    <Location key={"location"} />,
-  ]);
   const { register, handleSubmit } = useForm<PFormData>();
+  const { step, currentPage, next, back, isLastPage } = usePaginatedForm([
+    <YourDetails key={"YourDetails"} Register={register} />,
+    <AboutYou key={"You"} Register={register} />,
+    <Location key={"location"} Register={register} />,
+  ]);
+
   const router = useRouter();
 
   const create = api.profile.create.useMutation({
@@ -44,12 +46,20 @@ function ProfileCreatePage() {
   }
 
   const onSubmit: SubmitHandler<PFormData> = (data) => {
+    if (!isLastPage) {
+      next();
+      console.log(data);
+
+      return;
+    }
+
     create.mutate({
       bio: data.bio,
       interests: data.interests,
       location: data.location,
       username: data.username,
       image: user.imageUrl,
+      university: data.university,
       fullname: user.fullName ?? "",
       userId: user.id,
     });
@@ -62,7 +72,21 @@ function ProfileCreatePage() {
         className=" rounded-lg bg-brandLight"
       >
         {step}
-        <button className=" bg-brandOrange">Next</button>
+        <div className="flex justify-between p-3 text-brandLight">
+          <button
+            type="button"
+            className="rounded border-2 border-brandOrange px-2 py-1 font-semibold text-brandOrange"
+            onClick={() => back()}
+          >
+            Back
+          </button>
+          <button
+            className=" rounded bg-brandOrange px-4 py-1 font-semibold"
+            type="submit"
+          >
+            Next
+          </button>
+        </div>
       </form>
     </main>
   );

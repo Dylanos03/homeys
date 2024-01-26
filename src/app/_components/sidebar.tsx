@@ -18,7 +18,13 @@ import Image from "next/image";
 
 function Sidebar() {
   const { user } = useUser();
-
+  const isProfile = api.profile.findOne.useQuery(user?.id ?? "");
+  if (isProfile.isLoading)
+    return (
+      <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight  p-8 md:flex">
+        Loading...
+      </aside>
+    );
   if (!user) {
     return (
       <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight  p-8 md:flex">
@@ -64,8 +70,7 @@ function Sidebar() {
       </aside>
     );
   }
-  const isProfile = api.profile.findOne.useQuery(user?.id ?? "");
-  if (isProfile.isLoading) return <p>Loading...</p>;
+
   return (
     <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight p-8  md:flex">
       <div className="flex flex-col  text-xl font-semibold">
