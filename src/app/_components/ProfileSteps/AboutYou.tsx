@@ -1,6 +1,8 @@
+import { UseFormRegister } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
+import { PFormData } from "~/app/users/create-profile/page";
 
-function AboutYou({ Register }: { Register: any }) {
+function AboutYou({ Register }: { Register: UseFormRegister<PFormData> }) {
   return (
     <FormWrapperP title="About You">
       <div className="md:min-w-96">

@@ -11,7 +11,7 @@ import YourDetails from "~/app/_components/ProfileSteps/YourDetails";
 import AboutYou from "~/app/_components/ProfileSteps/AboutYou";
 import Location from "~/app/_components/ProfileSteps/Location";
 
-type PFormData = {
+export type PFormData = {
   username: string;
   bio: string;
   interests: string;
@@ -24,7 +24,11 @@ function ProfileCreatePage() {
   const { user } = useUser();
   const { register, handleSubmit } = useForm<PFormData>();
   const { step, currentPage, next, back, isLastPage } = usePaginatedForm([
-    <YourDetails key={"YourDetails"} Register={register} />,
+    <YourDetails
+      key={"YourDetails"}
+      Register={register}
+      name={user?.fullName}
+    />,
     <AboutYou key={"You"} Register={register} />,
     <Location key={"location"} Register={register} />,
   ]);
@@ -48,7 +52,6 @@ function ProfileCreatePage() {
   const onSubmit: SubmitHandler<PFormData> = (data) => {
     if (!isLastPage) {
       next();
-      console.log(data);
 
       return;
     }

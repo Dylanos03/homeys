@@ -1,6 +1,14 @@
+import { UseFormRegister } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
+import { PFormData } from "~/app/users/create-profile/page";
 
-function YourDetails({ Register }: { Register: any }) {
+function YourDetails({
+  Register,
+  name,
+}: {
+  Register: UseFormRegister<PFormData>;
+  name: string | null | undefined;
+}) {
   return (
     <>
       {" "}
@@ -21,7 +29,8 @@ function YourDetails({ Register }: { Register: any }) {
               Fullname
             </label>
             <input
-              {...Register("fullname")}
+              placeholder={name || "Fullname"}
+              disabled
               type="text"
               className="rounded-sm border-[1px] border-brandDark border-opacity-15 bg-brandLight px-4 py-2 outline-0 outline-brandOrange focus:outline-1"
             />
