@@ -10,6 +10,7 @@ import { usePaginatedForm } from "~/app/_hooks/usePaginatedForm";
 import YourDetails from "~/app/_components/ProfileSteps/YourDetails";
 import AboutYou from "~/app/_components/ProfileSteps/AboutYou";
 import Location from "~/app/_components/ProfileSteps/Location";
+import { useState } from "react";
 
 export type PFormData = {
   username: string;
@@ -21,6 +22,7 @@ export type PFormData = {
 };
 
 function ProfileCreatePage() {
+  const [disableButton, setDisableButton] = useState(false);
   const { user } = useUser();
   const { register, handleSubmit } = useForm<PFormData>();
   const { step, currentPage, next, back, isLastPage } = usePaginatedForm([
@@ -55,6 +57,7 @@ function ProfileCreatePage() {
 
       return;
     }
+    setDisableButton(true);
 
     create.mutate({
       bio: data.bio,
@@ -84,8 +87,9 @@ function ProfileCreatePage() {
             Back
           </button>
           <button
-            className=" rounded bg-brandOrange px-4 py-1 font-semibold"
+            className=" rounded bg-brandOrange px-4 py-1 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
             type="submit"
+            disabled={disableButton}
           >
             Next
           </button>
