@@ -45,4 +45,19 @@ export const postRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.post.delete({ where: { id: input } });
     }),
+
+  editPost: publicProcedure
+    .input(
+      z.object({
+        name: z.string().min(1),
+        desc: z.string().min(1),
+        id: z.number().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.post.update({
+        where: { id: input.id },
+        data: { name: input.name, desc: input.desc },
+      });
+    }),
 });
