@@ -59,6 +59,13 @@ function ProfileCreatePage() {
     }
     setDisableButton(true);
 
+    user.update({
+      unsafeMetadata: {
+        userUniversity: data.university,
+        userLocation: data.location,
+      },
+    });
+
     create.mutate({
       bio: data.bio,
       interests: data.interests,

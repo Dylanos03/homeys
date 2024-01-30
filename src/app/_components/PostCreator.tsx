@@ -10,6 +10,8 @@ import { useUser } from "@clerk/nextjs";
 type CPFormData = {
   title: string;
   description: string;
+  userLocation: string;
+  userUniversity: string;
 };
 
 export function CreatePost() {
@@ -27,6 +29,8 @@ export function CreatePost() {
         userId: user?.id ?? "",
         authorName: user?.fullName ?? "",
         authorImage: user?.imageUrl ?? "",
+        userLocation: data.userLocation,
+        userUniversity: data.userUniversity,
       })
       .then(() => router.push("/"))
       .catch((err) => console.log(err));
@@ -48,6 +52,28 @@ export function CreatePost() {
           </label>
           <input
             {...register("title")}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
+          />
+        </div>
+        <div className="w-full sm:col-span-2">
+          <label className="mb-2 block text-sm font-medium text-brandDark ">
+            What university are you attending?
+          </label>
+          <input
+            value={user?.unsafeMetadata.userUniversity as string}
+            disabled
+            {...register("userUniversity")}
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
+          />
+        </div>
+        <div className="w-full sm:col-span-2">
+          <label className="mb-2 block text-sm font-medium text-brandDark ">
+            Where are you looking to live?
+          </label>
+          <input
+            value={user?.unsafeMetadata.userLocation as string}
+            disabled
+            {...register("userLocation")}
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
           />
         </div>
