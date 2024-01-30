@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import Sidebar from "./sidebar";
 
 type CPFormData = {
   title: string;
@@ -19,7 +20,7 @@ export function CreatePost() {
   const router = useRouter();
   const createPost = api.post.create.useMutation({});
 
-  const { register, handleSubmit } = useForm<CPFormData>();
+  const { register, handleSubmit, reset } = useForm<CPFormData>();
   const onSubmit: SubmitHandler<CPFormData> = (data) => {
     createPost
       .mutateAsync({
@@ -29,72 +30,47 @@ export function CreatePost() {
         userId: user?.id ?? "",
         authorName: user?.fullName ?? "",
         authorImage: user?.imageUrl ?? "",
-        userLocation: data.userLocation,
-        userUniversity: data.userUniversity,
+        userLocation: user?.unsafeMetadata.userLocation as string,
+        userUniversity: user?.unsafeMetadata.userUniversity as string,
       })
-      .then(() => router.push("/"))
+      .then(() => reset())
+      .then(() => router.refresh())
       .catch((err) => console.log(err));
   };
   if (user === undefined || null) {
-    router.push("/sign-in");
-    return <p>Not signed in</p>;
+    return null;
   }
+
   return (
-    <div className="flex h-screen w-screen  max-w-2xl items-center justify-center">
+    <section className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full flex-col items-center justify-center rounded-lg bg-slate-100 p-16"
+        className="flex w-full flex-col justify-center gap-2  p-8"
       >
-        <h1 className="text-2xl font-bold">Create a post</h1>
-        <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            Title
-          </label>
+        <div className="flex w-full flex-col sm:col-span-2">
           <input
+            placeholder="Title"
             {...register("title")}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
+            className="block w-full  bg-brandLight text-2xl font-medium text-brandDark focus:outline-none"
           />
+          <span className="h-[2px] w-full bg-slate-100"></span>
         </div>
         <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            What university are you attending?
-          </label>
-          <input
-            value={user?.unsafeMetadata.userUniversity as string}
-            disabled
-            {...register("userUniversity")}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-          />
-        </div>
-        <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            Where are you looking to live?
-          </label>
-          <input
-            value={user?.unsafeMetadata.userLocation as string}
-            disabled
-            {...register("userLocation")}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
-          />
-        </div>
-        <div className="w-full sm:col-span-2">
-          <label className="mb-2 block text-sm font-medium text-brandDark ">
-            Description
-          </label>
           <textarea
+            placeholder="What would you like to say..."
             {...register("description")}
-            rows={8}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm font-medium text-brandDark focus:outline-none focus:ring-2 focus:ring-brandOrange focus:ring-offset-2"
+            className="text-md block w-full bg-brandLight font-medium text-brandDark focus:outline-none"
           />
         </div>
+
         <button
           type="submit"
           className="mt-4 rounded bg-brandOrange px-8 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
           disabled={createPost.isLoading}
         >
-          Create
+          Post
         </button>
       </form>
-    </div>
+    </section>
   );
 }

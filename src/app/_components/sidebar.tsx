@@ -28,7 +28,16 @@ function Sidebar() {
     return (
       <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight  p-8 md:flex">
         <div className="flex flex-col  text-xl font-semibold">
-          <Image src={logo} alt="logo" className="" height={100} width={160} />
+          <Link href={"/"}>
+            <Image
+              src={logo}
+              alt="logo"
+              className=""
+              height={100}
+              width={160}
+            />
+          </Link>
+
           <Link
             className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
             href={"/"}
@@ -73,7 +82,9 @@ function Sidebar() {
   return (
     <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight p-8  md:flex">
       <div className="flex flex-col  text-xl font-semibold">
-        <Image src={logo} alt="logo" className="" height={100} width={160} />
+        <Link href={"/"}>
+          <Image src={logo} alt="logo" className="" height={100} width={160} />
+        </Link>
         <Link
           className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
           href={"/"}

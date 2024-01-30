@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import PostCard from "./_components/PostCard";
+import { CreatePost } from "./_components/PostCreator";
 
 export type Post = {
   id: number;
@@ -55,21 +56,16 @@ export default async function Home() {
             <FontAwesomeIcon icon={faFilter} style={{ color: "#bd5103" }} />
           </button>
         </div>
+        <CreatePost />
         {data.length === 0 && (
           <div className="mt-8 flex w-full flex-col items-center gap-3 border-b-2 border-slate-100 p-4 px-4   text-brandDark">
             <h3>It&apos;s pretty quiet in here...</h3>
             <h4 className="text-2xl font-bold">
               Create a post and get the conversations started
             </h4>
-            <Link
-              href="/create-post"
-              className=" flex items-center gap-3 rounded bg-brandOrange px-4 py-2 text-lg text-brandLight shadow-md md:bottom-12 md:right-12"
-            >
-              <span className="hidden md:flex">Create a Post</span>
-              <span className="flex md:hidden">New Post</span>
-            </Link>
           </div>
         )}
+
         {data.map((post) => (
           <PostCard {...post} key={post.id} />
         ))}

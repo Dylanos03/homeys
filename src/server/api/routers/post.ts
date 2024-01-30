@@ -35,6 +35,13 @@ export const postRouter = createTRPCRouter({
     return ctx.db.post.findMany({ orderBy: { createdAt: "desc" } });
   }),
 
+  getByLoc: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.db.post.findMany({
+      where: { userLocation: input },
+      orderBy: { createdAt: "desc" },
+    });
+  }),
+
   getUserPosts: publicProcedure
     .input(z.string().min(1))
     .query(({ ctx, input }) => {

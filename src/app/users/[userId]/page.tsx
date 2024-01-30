@@ -8,7 +8,7 @@ import Sidebar from "~/app/_components/sidebar";
 async function ProfilePage({ params }: { params: { userId: string } }) {
   const data = await api.profile.findOne.query(params.userId);
   if (!data) {
-    return redirect("/users/create-profile");
+    return redirect("/");
   }
 
   return (
