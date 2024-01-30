@@ -10,6 +10,8 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import WarningPopUp from "./Warning";
 import { useForm } from "react-hook-form";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type PostDataUpdate = {
   title: string;
@@ -81,7 +83,7 @@ function PostEditForm(props: {
           type="button"
           onClick={() => props.handleClose(0)}
         >
-          X
+          <FontAwesomeIcon icon={faX} />
         </button>
         <input
           type="text"
