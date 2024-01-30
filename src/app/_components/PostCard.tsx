@@ -5,7 +5,7 @@ import { timeSince } from "~/utils/timeSinceCalc";
 import type { Post } from "../page";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import WarningPopUp from "./Warning";
@@ -17,9 +17,27 @@ type PostDataUpdate = {
 };
 
 // component for the options box
-function OptionBox(props: { handleClick: (i: number) => void }) {
+function OptionBox(props: {
+  handleClick: (i: number) => void;
+  handleClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const closeMenu = (e: MouseEvent) => {
+    if (!ref.current?.contains(e.target as Node)) {
+      if (props.handleClose) {
+        props.handleClose();
+      }
+    }
+  };
+
+  document.addEventListener("mousedown", closeMenu);
+
   return (
-    <div className="absolute right-0 top-6 flex flex-col gap-2 rounded-md bg-white p-4 shadow-md">
+    <div
+      ref={ref}
+      className="absolute right-0 top-6 flex flex-col gap-2 rounded-md bg-white p-4 shadow-md"
+    >
       <button className="text-left" onClick={() => props.handleClick(0)}>
         Edit
       </button>
@@ -167,7 +185,12 @@ export default function PostCard(props: Post) {
             ...
           </button>
         )}
-        {options && <OptionBox handleClick={(e) => clickHandler(e)} />}
+        {options && (
+          <OptionBox
+            handleClose={handleOptions}
+            handleClick={(e) => clickHandler(e)}
+          />
+        )}
       </div>
       <div>
         <h3 className="text-2xl font-semibold">{props.name}</h3>
