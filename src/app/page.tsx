@@ -1,10 +1,8 @@
 import { api } from "~/trpc/server";
 import Sidebar from "./_components/sidebar";
 import Link from "next/link";
-import { timeSince } from "~/utils/timeSinceCalc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import Image from "next/image";
 import PostCard from "./_components/PostCard";
 
 export type Post = {

@@ -5,28 +5,117 @@ import { timeSince } from "~/utils/timeSinceCalc";
 import type { Post } from "../page";
 import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import WarningPopUp from "./Warning";
+import { useForm } from "react-hook-form";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function OptionBox(props: { handleClick: () => void }) {
+type PostDataUpdate = {
+  title: string;
+  desc: string;
+};
+
+// component for the options box
+function OptionBox(props: {
+  handleClick: (i: number) => void;
+  handleClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const closeMenu = (e: MouseEvent) => {
+    if (!ref.current?.contains(e.target as Node)) {
+      if (props.handleClose) {
+        document.removeEventListener("mousedown", closeMenu);
+        props.handleClose();
+      }
+    }
+  };
+
+  document.addEventListener("mousedown", closeMenu);
+
   return (
-    <div className="absolute right-0 top-6 flex flex-col gap-2 rounded-md bg-white p-4 shadow-md">
-      <button className="text-left">Edit</button>
-      <button className="text-left" onClick={props.handleClick}>
+    <div
+      ref={ref}
+      className="absolute right-0 top-6 flex flex-col gap-2 rounded-md bg-white p-4 shadow-md"
+    >
+      <button className="text-left" onClick={() => props.handleClick(0)}>
+        Edit
+      </button>
+      <button className="text-left" onClick={() => props.handleClick(1)}>
         Delete
       </button>
     </div>
   );
 }
 
+// component for the edit post
+function PostEditForm(props: {
+  title: string;
+  text: string;
+  id: number;
+  handleClose: (i: number) => void;
+}) {
+  const router = useRouter();
+  const { handleSubmit, register } = useForm<PostDataUpdate>();
+  const { mutate } = api.post.editPost.useMutation({
+    onSuccess: () => {
+      props.handleClose(2);
+    },
+  });
+
+  return (
+    <div className="absolute left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-brandDark bg-opacity-15">
+      <form
+        className="relative flex w-[720px] flex-col gap-4 rounded-lg bg-brandLight p-12"
+        onSubmit={handleSubmit((data) => {
+          mutate({
+            id: props.id,
+            name: data.title,
+            desc: data.desc,
+          });
+        })}
+      >
+        <button
+          className="absolute left-3 top-3 font-extrabold"
+          type="button"
+          onClick={() => props.handleClose(0)}
+        >
+          <FontAwesomeIcon icon={faX} />
+        </button>
+        <input
+          type="text"
+          defaultValue={props.title}
+          {...register("title")}
+          className="w-full rounded-md border-2 border-slate-100 p-2"
+        />
+        <textarea
+          defaultValue={props.text}
+          {...register("desc")}
+          rows={10}
+          className="w-full rounded-md border-2 border-slate-100 p-2"
+        />
+        <button
+          type="submit"
+          className="rounded-lg bg-brandOrange px-6 py-3 font-semibold text-white"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+}
+
+// component for the post card
 export default function PostCard(props: Post) {
   const router = useRouter();
   const { user } = useUser();
   const timeSincePost = timeSince(props.createdAt);
   const [options, setOptions] = useState(false);
   const [warning, setWarning] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const { mutate } = api.post.deletePost.useMutation({
     onSuccess: () => {
@@ -38,9 +127,20 @@ export default function PostCard(props: Post) {
     setOptions(!options);
   }
 
-  const clickHandler = () => {
-    setWarning(true);
+  const clickHandler = (j: number) => {
+    if (j === 0) {
+      setEdit(!edit);
+      setOptions(false);
+      return;
+    }
+    if (j === 1) {
+      setWarning(true);
+      return;
+    }
+    setEdit(false);
+    router.refresh();
   };
+
   const responseHandler = (delRes: boolean) => {
     if (delRes) {
       console.log("delete");
@@ -53,6 +153,14 @@ export default function PostCard(props: Post) {
     <div className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4">
       {warning && (
         <WarningPopUp warningType="your post" responseFn={responseHandler} />
+      )}
+      {edit && (
+        <PostEditForm
+          handleClose={(n) => clickHandler(n)}
+          id={props.id}
+          title={props.name}
+          text={props.desc}
+        />
       )}
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
@@ -80,7 +188,12 @@ export default function PostCard(props: Post) {
             ...
           </button>
         )}
-        {options && <OptionBox handleClick={clickHandler} />}
+        {options && (
+          <OptionBox
+            handleClose={handleOptions}
+            handleClick={(e) => clickHandler(e)}
+          />
+        )}
       </div>
       <div>
         <h3 className="text-2xl font-semibold">{props.name}</h3>
