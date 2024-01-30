@@ -26,6 +26,7 @@ function OptionBox(props: {
   const closeMenu = (e: MouseEvent) => {
     if (!ref.current?.contains(e.target as Node)) {
       if (props.handleClose) {
+        document.removeEventListener("mousedown", closeMenu);
         props.handleClose();
       }
     }
