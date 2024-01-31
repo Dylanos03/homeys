@@ -12,16 +12,18 @@ generator client {
 }
 
 model Post {
-    id          Int      @id @default(autoincrement())
-    authorId    String
-    authorName  String
-    authorImage String
-    name        String
-    desc        String   @db.VarChar(1000)
-    image       String?
-    housePost   Boolean  @default(false)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    id             Int      @id @default(autoincrement())
+    authorId       String
+    authorName     String
+    authorImage    String
+    name           String
+    desc           String   @db.VarChar(1000)
+    image          String?
+    housePost      Boolean  @default(false)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+    userLocation   String
+    userUniversity String
 
     @@index([name])
 }

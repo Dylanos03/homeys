@@ -12,6 +12,8 @@ export const postRouter = createTRPCRouter({
         housePost: z.boolean(),
         authorName: z.string().min(1),
         authorImage: z.string().min(1),
+        userLocation: z.string().min(1),
+        userUniversity: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -23,12 +25,21 @@ export const postRouter = createTRPCRouter({
           housePost: input.housePost,
           authorName: input.authorName,
           authorImage: input.authorImage,
+          userLocation: input.userLocation,
+          userUniversity: input.userUniversity,
         },
       });
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.post.findMany({ orderBy: { createdAt: "desc" } });
+  }),
+
+  getByLoc: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    return ctx.db.post.findMany({
+      where: { userLocation: input },
+      orderBy: { createdAt: "desc" },
+    });
   }),
 
   getUserPosts: publicProcedure
