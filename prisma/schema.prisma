@@ -24,8 +24,21 @@ model Post {
     updatedAt      DateTime @updatedAt
     userLocation   String
     userUniversity String
+    likes          Like[]
 
     @@index([name])
+}
+
+model Like {
+    id        Int      @id @default(autoincrement())
+    userId    String
+    postId    Int
+    post      Post     @relation(fields: [postId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([postId])
 }
 
 model Profile {
