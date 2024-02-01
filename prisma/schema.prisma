@@ -42,17 +42,21 @@ model Like {
 }
 
 model Profile {
-    id         Int      @id @default(autoincrement())
-    userId     String   @unique
-    fullName   String
-    username   String   @unique
-    bio        String   @db.VarChar(1000)
-    image      String
-    interests  String   @db.VarChar(1000)
-    location   String
-    university String   @default("Not Specified")
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+    id                Int         @id @default(autoincrement())
+    userId            String      @unique
+    fullName          String
+    username          String      @unique
+    bio               String      @db.VarChar(1000)
+    image             String
+    interests         String      @db.VarChar(1000)
+    location          String
+    university        String      @default("Not Specified")
+    createdAt         DateTime    @default(now())
+    updatedAt         DateTime    @updatedAt
+    FriendReq         FriendReq[] @relation("user")
+    outFriendReq      FriendReq[] @relation("friend")
+    friends           Friends[]   @relation("user")
+    symetricalFriends Friends[]
 
     @@index([userId])
 }
@@ -82,19 +86,25 @@ model Comment {
 model FriendReq {
     id        Int      @id @default(autoincrement())
     userId    String
+    user      Profile  @relation(name: "user", fields: [userId], references: [userId])
     friendId  String
+    friend    Profile  @relation(name: "friend", fields: [friendId], references: [userId])
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([userId])
+    @@index([friendId])
 }
 
 model Friends {
     id        Int      @id @default(autoincrement())
     userId    String
+    user      Profile  @relation(name: "user", fields: [userId], references: [userId])
     friendId  String
+    friend    Profile  @relation(fields: [friendId], references: [userId])
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([userId])
+    @@index([friendId])
 }
