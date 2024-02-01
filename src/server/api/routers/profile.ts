@@ -71,4 +71,17 @@ export const profileRouter = createTRPCRouter({
         data: { friends: { disconnect: { ...user1 } } },
       });
     }),
+
+  getAllFriends: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.profile.findUnique({
+        where: { userId: input },
+        include: { friends: true },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user.friends;
+    }),
 });

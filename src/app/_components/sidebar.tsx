@@ -53,7 +53,13 @@ function Sidebar() {
             <FontAwesomeIcon icon={faUser} />
             My Profile
           </Link>
-
+          <Link
+            className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
+            href={"/friends"}
+          >
+            <FontAwesomeIcon icon={faUserGroup} />
+            friends
+          </Link>
           <Link
             className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
             href={"/"}
@@ -112,6 +118,13 @@ function Sidebar() {
             My Profile
           </Link>
         )}
+        <Link
+          className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
+          href={"/friends"}
+        >
+          <FontAwesomeIcon icon={faUserGroup} />
+          My Friends
+        </Link>
         <Link
           className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
           href={"/"}
