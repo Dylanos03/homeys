@@ -9,9 +9,12 @@ function AddFriend(props: { userId: string }) {
 
   const [pending, setPending] = useState(false);
 
+  if (!user || user.id === props.userId) return <></>;
+
+  //Checks for incoming friend requests
   const checkInReq = api.friendReq.check.useQuery(
     {
-      userId: user?.id || "",
+      userId: user?.id,
       friendId: props.userId,
     },
     {
@@ -19,31 +22,31 @@ function AddFriend(props: { userId: string }) {
     },
   );
 
+  //Checks for outgoing friend requests
   const checkOutReq = api.friendReq.check.useQuery(
     {
       userId: props.userId,
-      friendId: user?.id || "",
+      friendId: user?.id,
     },
     {
       enabled: !!user,
     },
   );
 
-  const cancel = api.friendReq.reject.useMutation({
+  //Cancels outgoing friend requests or incoming friend requests
+  const deleteReq = api.friendReq.reject.useMutation({
     onSuccess: () => setPending(false),
   });
+
   const handleCancelReq = () => {
     setPending(true);
-
-    cancel.mutate(checkOutReq.data!.id);
+    deleteReq.mutate(checkOutReq.data!.id);
   };
 
   const sendReq = api.friendReq.create.useMutation({
     onError: () => setPending(false),
     onSuccess: () => setPending(true),
   });
-
-  if (!user || user.id === props.userId) return <></>;
 
   if (checkInReq.data)
     return (
