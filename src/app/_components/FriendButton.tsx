@@ -67,7 +67,10 @@ function AddFriend(props: { userId: string }) {
 
   const handleRemoveFriend = () => {
     setPending(true);
-    removeFriend.mutate({ userId: user!.id as string, friendId: props.userId });
+    removeFriend.mutate({
+      userId: user ? (user.id as string) : "",
+      friendId: props.userId,
+    });
   };
 
   const sendReq = api.friendReq.create.useMutation({
