@@ -51,11 +51,11 @@ export const friendReqRouter = createTRPCRouter({
       }
       await ctx.db.profile.update({
         where: { userId: user1.userId },
-        data: { friends: { create: { ...user2 } } },
+        data: { friends: { connect: { ...user2 } } },
       });
       await ctx.db.profile.update({
         where: { userId: user2.userId },
-        data: { friends: { create: { ...user1 } } },
+        data: { friends: { connect: { ...user1 } } },
       });
 
       return ctx.db.friendReq.delete({ where: { id: input } });

@@ -9,12 +9,10 @@ function AddFriend(props: { userId: string }) {
 
   const [pending, setPending] = useState(false);
 
-  if (!user || user.id === props.userId) return <></>;
-
   //Checks for incoming friend requests
   const checkInReq = api.friendReq.check.useQuery(
     {
-      userId: user?.id,
+      userId: user?.id as string,
       friendId: props.userId,
     },
     {
@@ -26,7 +24,7 @@ function AddFriend(props: { userId: string }) {
   const checkOutReq = api.friendReq.check.useQuery(
     {
       userId: props.userId,
-      friendId: user?.id,
+      friendId: user?.id as string,
     },
     {
       enabled: !!user,
@@ -38,9 +36,16 @@ function AddFriend(props: { userId: string }) {
     onSuccess: () => setPending(false),
   });
 
+  const acceptReq = api.friendReq.accept.useMutation();
+
   const handleCancelReq = () => {
     setPending(true);
     deleteReq.mutate(checkOutReq.data!.id);
+  };
+
+  const handleAcceptReq = () => {
+    setPending(true);
+    acceptReq.mutate(checkInReq.data!.id);
   };
 
   const sendReq = api.friendReq.create.useMutation({
@@ -48,9 +53,15 @@ function AddFriend(props: { userId: string }) {
     onSuccess: () => setPending(true),
   });
 
+  if (!user || user.id === props.userId) return <></>;
+
   if (checkInReq.data)
     return (
-      <button className="rounded-lg bg-brandOrange px-6 py-2 font-bold text-brandLight">
+      <button
+        disabled={pending}
+        onClick={handleAcceptReq}
+        className="rounded-lg bg-brandOrange px-6 py-2 font-bold text-brandLight"
+      >
         Accept Request
       </button>
     );
