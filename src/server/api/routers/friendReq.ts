@@ -14,6 +14,17 @@ export const friendReqRouter = createTRPCRouter({
       });
     }),
 
+  check: publicProcedure
+    .input(z.object({ userId: z.string().min(1), friendId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.friendReq.findFirst({
+        where: {
+          userId: input.userId,
+          friendId: input.friendId,
+        },
+      });
+    }),
+
   reject: publicProcedure
     .input(z.number().min(1))
     .mutation(async ({ ctx, input }) => {
