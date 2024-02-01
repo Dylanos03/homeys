@@ -84,4 +84,8 @@ export const profileRouter = createTRPCRouter({
       }
       return user.friends;
     }),
+
+  delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    return ctx.db.profile.delete({ where: { userId: input } });
+  }),
 });

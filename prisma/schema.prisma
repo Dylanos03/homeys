@@ -16,7 +16,7 @@ model Post {
     authorId       String
     authorName     String
     authorImage    String
-    author         Profile  @relation(fields: [authorId], references: [userId])
+    author         Profile  @relation(fields: [authorId], references: [userId], onDelete: Cascade)
     name           String
     desc           String   @db.VarChar(1000)
     image          String?

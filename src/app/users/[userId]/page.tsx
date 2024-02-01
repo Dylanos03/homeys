@@ -5,6 +5,7 @@ import { api } from "~/trpc/server";
 import { redirect } from "next/navigation";
 import Sidebar from "~/app/_components/sidebar";
 import AddFriend from "~/app/_components/FriendButton";
+import DeleteBtn from "~/app/_components/deleteBtn";
 
 async function ProfilePage({ params }: { params: { userId: string } }) {
   const data = await api.profile.findOne.query(params.userId);
@@ -39,6 +40,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-bold">@{data.username}</h1>
             <AddFriend userId={params.userId} />
+            <DeleteBtn id={params.userId} />
           </div>
 
           <p className="text-xl font-semibold">{data.fullName}</p>
