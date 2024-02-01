@@ -16,17 +16,19 @@ model Post {
     authorId       String
     authorName     String
     authorImage    String
+    author         Profile  @relation(fields: [authorId], references: [userId])
     name           String
     desc           String   @db.VarChar(1000)
     image          String?
     housePost      Boolean  @default(false)
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
-    userLocation   String
-    userUniversity String
+    userLocation   String   @default("Not Specified")
+    userUniversity String   @default("Not Specified")
     likes          Like[]
 
     @@index([name])
+    @@index([authorId])
 }
 
 model Like {
@@ -42,17 +44,22 @@ model Like {
 }
 
 model Profile {
-    id         Int      @id @default(autoincrement())
-    userId     String   @unique
-    fullName   String
-    username   String   @unique
-    bio        String   @db.VarChar(1000)
-    image      String
-    interests  String   @db.VarChar(1000)
-    location   String
-    university String   @default("Not Specified")
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+    id           Int         @id @default(autoincrement())
+    userId       String      @unique
+    fullName     String
+    username     String      @unique
+    bio          String      @db.VarChar(1000)
+    image        String
+    interests    String      @db.VarChar(1000)
+    location     String      @default("Not Specified")
+    university   String      @default("Not Specified")
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    FriendReq    FriendReq[] @relation("user")
+    outFriendReq FriendReq[] @relation("friend")
+    friends      Profile[]   @relation(name: "friend")
+    friendOf     Profile[]   @relation(name: "friend")
+    posts        Post[]
 
     @@index([userId])
 }
@@ -82,19 +89,12 @@ model Comment {
 model FriendReq {
     id        Int      @id @default(autoincrement())
     userId    String
+    user      Profile  @relation(name: "user", fields: [userId], references: [userId])
     friendId  String
+    friend    Profile  @relation(name: "friend", fields: [friendId], references: [userId])
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([userId])
-}
-
-model Friends {
-    id        Int      @id @default(autoincrement())
-    userId    String
-    friendId  String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([userId])
+    @@index([friendId])
 }
