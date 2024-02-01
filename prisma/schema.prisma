@@ -51,7 +51,7 @@ model Profile {
     bio          String      @db.VarChar(1000)
     image        String
     interests    String      @db.VarChar(1000)
-    location     String
+    location     String      @default("Not Specified")
     university   String      @default("Not Specified")
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
