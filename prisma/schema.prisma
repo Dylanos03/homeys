@@ -23,8 +23,8 @@ model Post {
     housePost      Boolean  @default(false)
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
-    userLocation   String
-    userUniversity String
+    userLocation   String   @default("Not Specified")
+    userUniversity String   @default("Not Specified")
     likes          Like[]
 
     @@index([name])
