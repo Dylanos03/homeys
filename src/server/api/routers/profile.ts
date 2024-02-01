@@ -30,7 +30,45 @@ export const profileRouter = createTRPCRouter({
         },
       });
     }),
+
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.db.profile.findUnique({ where: { userId: input } });
   }),
+
+  checkIfFriends: publicProcedure
+    .input(z.object({ userId: z.string().min(1), friendId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.profile.findFirst({
+        where: {
+          userId: input.userId,
+          friends: {
+            some: {
+              userId: input.friendId,
+            },
+          },
+        },
+      });
+    }),
+
+  removeFriend: publicProcedure
+    .input(z.object({ userId: z.string().min(1), friendId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const user1 = await ctx.db.profile.findUnique({
+        where: { userId: input.userId },
+      });
+      const user2 = await ctx.db.profile.findUnique({
+        where: { userId: input.friendId },
+      });
+      if (!user1 || !user2) {
+        throw new Error("User not found");
+      }
+      await ctx.db.profile.update({
+        where: { userId: user1.userId },
+        data: { friends: { disconnect: { ...user2 } } },
+      });
+      await ctx.db.profile.update({
+        where: { userId: user2.userId },
+        data: { friends: { disconnect: { ...user1 } } },
+      });
+    }),
 });
