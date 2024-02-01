@@ -28,6 +28,7 @@ function FriendList(props: { userId?: string }) {
       {getFriends.data?.map((friend) => {
         return (
           <FriendCard
+            key={friend.userId}
             userId={friend.userId}
             username={friend.username}
             userImage={friend.image}
