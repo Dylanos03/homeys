@@ -60,8 +60,11 @@ model Profile {
     friends      Profile[]   @relation(name: "friend")
     friendOf     Profile[]   @relation(name: "friend")
     posts        Post[]
+    Group        Group?      @relation(fields: [groupId], references: [id])
+    groupId      Int?
 
     @@index([userId])
+    @@index([groupId])
 }
 
 model User {
@@ -97,4 +100,16 @@ model FriendReq {
 
     @@index([userId])
     @@index([friendId])
+}
+
+model Group {
+    id        Int       @id @default(autoincrement())
+    name      String
+    hostId    String
+    members   Profile[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@index([name])
+    @@index([hostId])
 }
