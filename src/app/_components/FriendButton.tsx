@@ -9,6 +9,11 @@ function AddFriend(props: { userId: string }) {
 
   const [pending, setPending] = useState(false);
 
+  const checkIfProfile = api.profile.findOne.useQuery(user ? user.id : "");
+  console.log(checkIfProfile);
+
+  if (checkIfProfile.data == null) return <></>;
+
   //Checks for incoming friend requests
   const checkInReq = api.friendReq.check.useQuery(
     {
@@ -47,24 +52,29 @@ function AddFriend(props: { userId: string }) {
     onSuccess: () => setPending(false),
   });
 
+  //Accepts incoming friend requests
   const acceptReq = api.friendReq.accept.useMutation({
     onSuccess: () => setPending(false),
   });
 
+  //Removes friends
   const removeFriend = api.profile.removeFriend.useMutation({
     onSuccess: () => setPending(false),
   });
 
+  //Handles the cancel request button
   const handleCancelReq = () => {
     setPending(true);
     deleteReq.mutate(checkOutReq.data!.id);
   };
 
+  //Handles the accept request button
   const handleAcceptReq = () => {
     setPending(true);
     acceptReq.mutate(checkInReq.data!.id);
   };
 
+  //Handles the remove friend button
   const handleRemoveFriend = () => {
     setPending(true);
     removeFriend.mutate({
@@ -73,6 +83,7 @@ function AddFriend(props: { userId: string }) {
     });
   };
 
+  //Sends a friend request
   const sendReq = api.friendReq.create.useMutation({
     onError: () => setPending(false),
     onSuccess: () => setPending(true),
