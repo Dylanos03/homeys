@@ -3,11 +3,14 @@
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import WarningPopUp from "./Warning";
 
 function AddFriend(props: { userId: string }) {
   const { user } = useUser();
 
   const [pending, setPending] = useState(false);
+  const [warning, setWarning] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const checkIfProfile = api.profile.findOne.useQuery(user ? user.id : "");
   console.log(checkIfProfile);
@@ -73,12 +76,17 @@ function AddFriend(props: { userId: string }) {
   };
 
   //Handles the remove friend button
-  const handleRemoveFriend = () => {
+  const handleRemoveFriend = (e: boolean) => {
+    if (!e) {
+      setWarning(false);
+      return;
+    }
     setPending(true);
     removeFriend.mutate({
       userId: user ? user.id : "",
       friendId: props.userId,
     });
+    location.reload();
   };
 
   //Sends a friend request
@@ -93,13 +101,21 @@ function AddFriend(props: { userId: string }) {
 
   if (checkFriends.data)
     return (
-      <button
-        disabled={pending}
-        onClick={handleRemoveFriend}
-        className="rounded-lg bg-brandOrange px-6 py-2 font-bold text-brandLight"
-      >
-        Friends
-      </button>
+      <div>
+        {warning && (
+          <WarningPopUp
+            warningType="remove a friend"
+            responseFn={(e) => handleRemoveFriend(e)}
+          />
+        )}
+        <button
+          disabled={pending}
+          onClick={() => setWarning(true)}
+          className="rounded-lg bg-brandOrange px-6 py-2 font-bold text-brandLight"
+        >
+          Friends
+        </button>
+      </div>
     );
 
   if (checkInReq.data)
@@ -112,7 +128,7 @@ function AddFriend(props: { userId: string }) {
         Accept Request
       </button>
     );
-  if (checkOutReq.data)
+  if (checkOutReq.data ?? sent)
     return (
       <button
         disabled={pending}
@@ -126,6 +142,7 @@ function AddFriend(props: { userId: string }) {
   const handleAddFriend = () => {
     setPending(true);
     sendReq.mutate({ userId: props.userId, friendId: user.id });
+    setSent(true);
   };
 
   return (
