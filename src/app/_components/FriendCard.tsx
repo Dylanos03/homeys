@@ -12,7 +12,7 @@ function FriendCard(props: friend) {
   const { username, userId, userImage, fullName } = props;
   return (
     <div>
-      <div className="flex items-center justify-between rounded-xl px-4 py-1 hover:bg-brandDark hover:bg-opacity-5">
+      <div className="flex items-center justify-between px-4 py-2 hover:bg-brandDark hover:bg-opacity-5">
         <Link href={`/users/${userId}`} className="flex items-center gap-2">
           <Image
             className="h-16 w-16 rounded-full object-cover"
@@ -26,7 +26,9 @@ function FriendCard(props: friend) {
             <span className="text-md text-gray-400">{fullName}</span>
           </div>
         </Link>
-        <button className="font-semibold underline ">Add to group</button>
+        <button className="font-semibold hover:underline ">
+          Invite to group
+        </button>
       </div>
     </div>
   );

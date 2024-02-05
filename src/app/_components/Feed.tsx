@@ -40,19 +40,23 @@ function Feed() {
       {" "}
       <div className="flex w-[720px] flex-col border-x-2">
         {user && (
-          <div className="gap sticky top-0 flex w-full justify-between border-b-2  bg-brandLight  font-semibold">
+          <div
+            className={
+              "gap sticky top-0 flex w-full justify-between  bg-brandLight  font-semibold "
+            }
+          >
             <button
               onClick={() => setByLocation(!byLocation)}
-              className={`flex w-1/2 justify-center border-r-2 py-2 ${
-                byLocation && "bg-brandOrange text-white"
+              className={`flex w-1/2 justify-center border-b-2 border-r-2 py-2 ${
+                byLocation && "border-brandOrange bg-brandOrange text-white"
               }`}
             >
               Your Location
             </button>
             <button
               onClick={() => setByUniversity(!byUniversity)}
-              className={`flex w-1/2 justify-center py-2 ${
-                byUniversity && "bg-brandOrange text-white"
+              className={`flex w-1/2 justify-center border-b-2  py-2 ${
+                byUniversity && "border-brandOrange bg-brandOrange text-white"
               }`}
             >
               Your University

@@ -4,15 +4,21 @@ import { useUser } from "@clerk/nextjs";
 import { api } from "~/trpc/react";
 import FriendCard from "./FriendCard";
 import LoadingSpinner from "./loadingSpinner";
+import { useRouter } from "next/navigation";
 
-function FriendList(props: { userId?: string }) {
+function FriendList() {
   const { user } = useUser();
+  const router = useRouter();
 
-  if (!user) {
-    return null;
+  const getFriends = api.profile.getAllFriends.useQuery(user ? user.id : "");
+
+  if (getFriends.error && !getFriends.data) {
+    router.push("users/create-profile");
   }
 
-  const getFriends = api.profile.getAllFriends.useQuery(user.id);
+  if (!user) {
+    return <></>;
+  }
 
   return (
     <>
