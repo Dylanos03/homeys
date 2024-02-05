@@ -152,7 +152,10 @@ export default function PostCard(props: Post) {
   return (
     <div className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4">
       {warning && (
-        <WarningPopUp warningType="your post" responseFn={responseHandler} />
+        <WarningPopUp
+          warningType="delete your post"
+          responseFn={responseHandler}
+        />
       )}
       {edit && (
         <PostEditForm

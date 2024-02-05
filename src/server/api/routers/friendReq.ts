@@ -6,8 +6,18 @@ export const friendReqRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ userId: z.string().min(1), friendId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
+      const reqSender = await ctx.db.profile.findUnique({
+        where: { userId: input.friendId },
+      });
+
+      if (!reqSender) {
+        throw new Error("User not found");
+      }
+
       return ctx.db.friendReq.create({
         data: {
+          friendName: reqSender.username,
+          friendPic: reqSender.image,
           userId: input.userId,
           friendId: input.friendId,
         },
