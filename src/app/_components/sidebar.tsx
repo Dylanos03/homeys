@@ -3,6 +3,7 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBell,
   faHouse,
   faMessage,
   faRightToBracket,
@@ -58,7 +59,7 @@ function Sidebar() {
             href={"/friends"}
           >
             <FontAwesomeIcon icon={faUserGroup} />
-            friends
+            My Friends
           </Link>
           <Link
             className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
@@ -73,6 +74,13 @@ function Sidebar() {
           >
             <FontAwesomeIcon icon={faUserGroup} />
             Groups
+          </Link>
+          <Link
+            className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
+            href={"/notifications"}
+          >
+            <FontAwesomeIcon icon={faBell} />
+            Notifications
           </Link>
         </div>
         <SignInButton>
@@ -138,6 +146,13 @@ function Sidebar() {
         >
           <FontAwesomeIcon icon={faUserGroup} />
           Group
+        </Link>
+        <Link
+          className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
+          href={"/notifications"}
+        >
+          <FontAwesomeIcon icon={faBell} />
+          Notifications
         </Link>
       </div>
       <SignOutButton>

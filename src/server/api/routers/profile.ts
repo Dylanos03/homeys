@@ -88,4 +88,17 @@ export const profileRouter = createTRPCRouter({
   delete: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     return ctx.db.profile.delete({ where: { userId: input } });
   }),
+
+  getFriendRequests: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.profile.findUnique({
+        where: { userId: input },
+        include: { FriendReq: true },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return user.FriendReq;
+    }),
 });

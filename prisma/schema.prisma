@@ -90,13 +90,15 @@ model Comment {
 }
 
 model FriendReq {
-    id        Int      @id @default(autoincrement())
-    userId    String
-    user      Profile  @relation(name: "user", fields: [userId], references: [userId])
-    friendId  String
-    friend    Profile  @relation(name: "friend", fields: [friendId], references: [userId])
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         Int      @id @default(autoincrement())
+    userId     String
+    user       Profile  @relation(name: "user", fields: [userId], references: [userId])
+    friendId   String
+    friend     Profile  @relation(name: "friend", fields: [friendId], references: [userId])
+    friendName String
+    friendPic  String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
 
     @@index([userId])
     @@index([friendId])

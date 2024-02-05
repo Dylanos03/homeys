@@ -12,8 +12,6 @@ function AddFriend(props: { userId: string }) {
   const checkIfProfile = api.profile.findOne.useQuery(user ? user.id : "");
   console.log(checkIfProfile);
 
-  if (checkIfProfile.data == null) return <></>;
-
   //Checks for incoming friend requests
   const checkInReq = api.friendReq.check.useQuery(
     {
@@ -90,6 +88,8 @@ function AddFriend(props: { userId: string }) {
   });
 
   if (!user || user.id === props.userId) return <></>;
+
+  if (checkIfProfile.data == null) return <></>;
 
   if (checkFriends.data)
     return (
