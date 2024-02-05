@@ -1,4 +1,4 @@
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { api } from "~/trpc/server";
@@ -26,24 +26,41 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
             className="rounded-full outline outline-4 outline-offset-4  outline-brandOrange"
           />
 
-          <div className="flex items-center gap-2">
-            <FontAwesomeIcon
-              icon={faLocationPin}
-              style={{ color: "#bd5103" }}
-              className="w-4"
-            />
-            <p>{data.location}</p>
+          <div>
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faLocationPin}
+                style={{ color: "#bd5103" }}
+                className="w-4"
+              />
+              <p>{data.location}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <FontAwesomeIcon
+                icon={faBuilding}
+                style={{ color: "#bd5103" }}
+                className="w-4"
+              />
+              <p>{data.university}</p>
+            </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <h1 className="text-3xl font-bold">@{data.username}</h1>
+
             <AddFriend userId={params.userId} />
             <DeleteBtn id={params.userId} />
           </div>
 
-          <p className="text-xl font-semibold">{data.fullName}</p>
+          <div className="flex items-center gap-4">
+            <p className="text-xl font-semibold">{data.fullName}</p>
+            <span className="h-1 w-1 rounded-full bg-slate-400"></span>
+            <span className="text-slate-400">
+              {data.friends.length} friend {data.friends.length > 1 && "'s"}
+            </span>
+          </div>
 
           <div>
             <p className="text-lg font-semibold">Bio</p>

@@ -92,9 +92,9 @@ model Comment {
 model FriendReq {
     id         Int      @id @default(autoincrement())
     userId     String
-    user       Profile  @relation(name: "user", fields: [userId], references: [userId])
+    user       Profile  @relation(name: "user", fields: [userId], references: [userId], onDelete: Cascade)
     friendId   String
-    friend     Profile  @relation(name: "friend", fields: [friendId], references: [userId])
+    friend     Profile  @relation(name: "friend", fields: [friendId], references: [userId], onDelete: Cascade)
     friendName String
     friendPic  String
     createdAt  DateTime @default(now())
