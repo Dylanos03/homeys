@@ -25,7 +25,7 @@ function ProfileCreatePage() {
   const [disableButton, setDisableButton] = useState(false);
   const { user } = useUser();
   const { register, handleSubmit } = useForm<PFormData>();
-  const { step, currentPage, next, back, isLastPage } = usePaginatedForm([
+  const { step, currentPage, next, back, isLastPage, goTo } = usePaginatedForm([
     <YourDetails
       key={"YourDetails"}
       Register={register}
@@ -43,6 +43,7 @@ function ProfileCreatePage() {
       console.log(err);
       if (err.message.includes("Unique constraint")) {
         alert("Username already taken");
+        goTo(0);
       }
     },
   });
