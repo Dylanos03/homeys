@@ -143,7 +143,7 @@ function Sidebar() {
         </Link>
         <Link
           className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
-          href={"/"}
+          href={"/group"}
         >
           <FontAwesomeIcon icon={faUserGroup} />
           Group
