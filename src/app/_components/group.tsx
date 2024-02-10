@@ -40,7 +40,7 @@ function GroupView() {
       <ul>
         {getGroup.data?.members.map((member) => {
           return (
-            <li>
+            <li key={member.username}>
               <MemberCard
                 image={member.image}
                 name={member.fullName}
