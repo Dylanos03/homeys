@@ -46,4 +46,30 @@ export const groupRouter = createTRPCRouter({
         },
       });
     }),
+  leaveGroup: publicProcedure
+    .input(z.string().min(1))
+    .mutation(async ({ ctx, input }) => {
+      const userProfile = await ctx.db.profile.findUnique({
+        where: { userId: input },
+      });
+
+      if (!userProfile) {
+        throw new Error("User not found");
+      }
+
+      if (!userProfile.groupId) {
+        throw new Error("User has no group");
+      }
+
+      return ctx.db.group.update({
+        where: { id: userProfile.groupId },
+        data: {
+          members: {
+            disconnect: {
+              userId: userProfile.userId,
+            },
+          },
+        },
+      });
+    }),
 });

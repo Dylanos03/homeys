@@ -5,6 +5,7 @@ import { api } from "~/trpc/react";
 import CreateGroup from "./GroupSteps/GroupCreator";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function MemberCard(props: { name: string; image: string; userId: string }) {
   return (
@@ -26,9 +27,19 @@ function MemberCard(props: { name: string; image: string; userId: string }) {
 
 function GroupView() {
   const { user } = useUser();
+
   const getGroup = api.group.getUserGroup.useQuery(user?.id ?? "1");
+  const leaveGroup = api.group.leaveGroup.useMutation({
+    onSuccess: () => {
+      location.reload();
+    },
+  });
   if (!user) return <></>;
   if (!getGroup.data) return <CreateGroup />;
+
+  const leavegroup = () => {
+    leaveGroup.mutate(user.id);
+  };
   return (
     <div className="flex w-full flex-col p-4">
       <h1 className="text-2xl font-bold">{getGroup.data?.name}</h1>
@@ -55,6 +66,9 @@ function GroupView() {
           </Link>
         </li>
       </ul>
+      <button onClick={leavegroup} className="text-red-700">
+        Leave Group
+      </button>
     </div>
   );
 }
