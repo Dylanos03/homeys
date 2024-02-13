@@ -28,7 +28,7 @@ function GroupView() {
   const { user } = useUser();
   const getGroup = api.group.getUserGroup.useQuery(user?.id ?? "1");
   if (!user) return <></>;
-  if (getGroup.data === null) return <CreateGroup />;
+  if (!getGroup.data) return <CreateGroup />;
   return (
     <div className="flex w-full flex-col p-4">
       <h1 className="text-2xl font-bold">{getGroup.data?.name}</h1>

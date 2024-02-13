@@ -118,14 +118,16 @@ model Group {
 }
 
 model GroupReq {
-    id        Int      @id @default(autoincrement())
-    groupId   Int
-    group     Group    @relation(fields: [groupId], references: [id])
-    userId    String
-    senderId  String
-    user      Profile  @relation(name: "toUser", fields: [userId], references: [userId])
-    sender    Profile  @relation(name: "fromUser", fields: [senderId], references: [userId])
-    createdAt DateTime @default(now())
+    id         Int      @id @default(autoincrement())
+    groupId    Int
+    group      Group    @relation(fields: [groupId], references: [id])
+    groupName  String
+    senderName String
+    userId     String
+    senderId   String
+    user       Profile  @relation(name: "toUser", fields: [userId], references: [userId])
+    sender     Profile  @relation(name: "fromUser", fields: [senderId], references: [userId])
+    createdAt  DateTime @default(now())
 
     @@index([groupId])
     @@index([userId])
