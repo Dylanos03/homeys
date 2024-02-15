@@ -19,7 +19,7 @@ import LoadingSpinner from "./loadingSpinner";
 function Sidebar() {
   const { user } = useUser();
   const isProfile = api.profile.findOne.useQuery(user?.id ?? "");
-  const isNotif = api.profile.getFriendRequests.useQuery(user?.id ?? "");
+
   if (isProfile.isLoading)
     return (
       <aside className="sticky top-0 hidden h-screen w-[240px] flex-col items-center justify-between border-slate-200 bg-brandLight  p-8 md:flex">
@@ -143,7 +143,7 @@ function Sidebar() {
         </Link>
         <Link
           className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
-          href={"/"}
+          href={"/group"}
         >
           <FontAwesomeIcon icon={faUserGroup} />
           Group
@@ -154,7 +154,10 @@ function Sidebar() {
         >
           <FontAwesomeIcon icon={faBell} />
           Notifications
-          {isNotif.isSuccess && isNotif.data.length > 0 && (
+          {isProfile.data?.FriendReq && isProfile.data.FriendReq.length > 0 && (
+            <span className="absolute -right-1 top-0 h-4 w-4 rounded-full bg-brandOrange text-sm text-brandLight"></span>
+          )}
+          {isProfile.data?.GroupReq && isProfile.data.GroupReq.length > 0 && (
             <span className="absolute -right-1 top-0 h-4 w-4 rounded-full bg-brandOrange text-sm text-brandLight"></span>
           )}
         </Link>

@@ -62,6 +62,8 @@ model Profile {
     posts        Post[]
     Group        Group?      @relation(fields: [groupId], references: [id])
     groupId      Int?
+    GroupReq     GroupReq[]  @relation("toUser")
+    outGroupReq  GroupReq[]  @relation("fromUser")
 
     @@index([userId])
     @@index([groupId])
@@ -105,13 +107,29 @@ model FriendReq {
 }
 
 model Group {
-    id        Int       @id @default(autoincrement())
+    id        Int        @id @default(autoincrement())
     name      String
-    hostId    String
     members   Profile[]
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    GroupReq  GroupReq[]
 
     @@index([name])
-    @@index([hostId])
+}
+
+model GroupReq {
+    id         Int      @id @default(autoincrement())
+    groupId    Int
+    group      Group    @relation(fields: [groupId], references: [id])
+    groupName  String
+    senderName String
+    userId     String
+    senderId   String
+    user       Profile  @relation(name: "toUser", fields: [userId], references: [userId])
+    sender     Profile  @relation(name: "fromUser", fields: [senderId], references: [userId])
+    createdAt  DateTime @default(now())
+
+    @@index([groupId])
+    @@index([userId])
+    @@index([senderId])
 }

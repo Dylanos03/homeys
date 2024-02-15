@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import InviteToGroup from "./InviteGroup";
 
 type friend = {
   username: string;
@@ -26,9 +27,7 @@ function FriendCard(props: friend) {
             <span className="text-md text-gray-400">{fullName}</span>
           </div>
         </Link>
-        <button className="font-semibold hover:underline ">
-          Invite to group
-        </button>
+        <InviteToGroup friendId={userId} userId={userId} />
       </div>
     </div>
   );
