@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { type ReactNode, useState } from "react";
 
 export function usePaginatedForm(steps: ReactNode[]) {
   const [currentPage, setCurrentPage] = useState(0);
