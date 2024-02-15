@@ -107,6 +107,8 @@ function GroupNotiCard(props: {
   const { groupName, senderName, groupId } = props;
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
+  const [isAccepted, setIsAccepted] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
 
   const deleteGroupRequest = api.groupReq.delete.useMutation({
     onMutate: () => {
@@ -114,6 +116,7 @@ function GroupNotiCard(props: {
     },
     onSuccess: () => {
       setIsRejecting(false);
+      setIsRejected(true);
     },
     onError: () => {
       setIsRejecting(false);
@@ -126,6 +129,7 @@ function GroupNotiCard(props: {
     },
     onSuccess: () => {
       setIsAccepting(false);
+      setIsAccepted(true);
     },
     onError: () => {
       setIsAccepting(false);
@@ -146,22 +150,28 @@ function GroupNotiCard(props: {
         <span className="font-semibold">{senderName}</span> invited you to join{" "}
         <span className="font-semibold">{groupName}</span>
       </p>
-      <div className="flex gap-4">
-        <button
-          onClick={handleReject}
-          disabled={isAccepting ?? isRejecting}
-          className="font-semibold  hover:underline"
-        >
-          Reject
-        </button>
-        <button
-          onClick={handleAccept}
-          disabled={isAccepting ?? isRejecting}
-          className="rounded-lg bg-brandOrange px-4 py-2 font-semibold text-brandLight hover:bg-opacity-75"
-        >
-          Accept
-        </button>
-      </div>
+      {isAccepted ? (
+        <span>Accepted</span>
+      ) : isRejected ? (
+        <span>Rejected</span>
+      ) : (
+        <div className="flex gap-4">
+          <button
+            onClick={handleReject}
+            disabled={isAccepting ?? isRejecting}
+            className="font-semibold  hover:underline disabled:opacity-50"
+          >
+            Reject
+          </button>
+          <button
+            onClick={handleAccept}
+            disabled={isAccepting ?? isRejecting}
+            className="rounded-lg bg-brandOrange px-4 py-2 font-semibold text-brandLight hover:bg-opacity-75 disabled:opacity-50"
+          >
+            Accept
+          </button>
+        </div>
+      )}
     </div>
   );
 }
