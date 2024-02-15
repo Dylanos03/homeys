@@ -157,6 +157,9 @@ function Sidebar() {
           {isProfile.data?.FriendReq && isProfile.data.FriendReq.length > 0 && (
             <span className="absolute -right-1 top-0 h-4 w-4 rounded-full bg-brandOrange text-sm text-brandLight"></span>
           )}
+          {isProfile.data?.GroupReq && isProfile.data.GroupReq.length > 0 && (
+            <span className="absolute -right-1 top-0 h-4 w-4 rounded-full bg-brandOrange text-sm text-brandLight"></span>
+          )}
         </Link>
       </div>
       <SignOutButton>
