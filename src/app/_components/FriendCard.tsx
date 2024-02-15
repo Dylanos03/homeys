@@ -27,7 +27,7 @@ function FriendCard(props: friend) {
             <span className="text-md text-gray-400">{fullName}</span>
           </div>
         </Link>
-        <InviteToGroup friendId={userId} />
+        <InviteToGroup friendId={userId} userId={userId} />
       </div>
     </div>
   );

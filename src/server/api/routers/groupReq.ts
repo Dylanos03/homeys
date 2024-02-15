@@ -18,7 +18,20 @@ export const groupReqRouter = createTRPCRouter({
 
       const userProfile = await ctx.db.profile.findUnique({
         where: { userId: input.userId },
+        include: { GroupReq: true },
       });
+
+      const groupReqSent = await ctx.db.groupReq.findUnique({
+        where: {
+          id: senderProfile?.Group?.id,
+          senderId: input.senderId,
+          userId: input.userId,
+        },
+      });
+
+      if (groupReqSent) {
+        throw new Error("Group request already sent");
+      }
 
       if (!userProfile) {
         throw new Error("User not found");

@@ -84,6 +84,13 @@ function ProfileCreatePage() {
     });
   };
 
+  const handleBack = () => {
+    if (currentPage === 0) {
+      router.push("/");
+    }
+    back();
+  };
+
   return (
     <main className="flex h-screen w-screen flex-col items-center justify-center bg-brandOrange">
       <form
@@ -95,7 +102,7 @@ function ProfileCreatePage() {
           <button
             type="button"
             className="rounded border-2 border-brandOrange px-2 py-1 font-semibold text-brandOrange"
-            onClick={() => back()}
+            onClick={() => handleBack()}
           >
             Back
           </button>

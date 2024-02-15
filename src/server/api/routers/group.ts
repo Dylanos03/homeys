@@ -61,6 +61,13 @@ export const groupRouter = createTRPCRouter({
         throw new Error("User has no group");
       }
 
+      await ctx.db.profile.update({
+        where: { userId: userProfile.userId },
+        data: {
+          groupId: null,
+        },
+      });
+
       return ctx.db.group.update({
         where: { id: userProfile.groupId },
         data: {

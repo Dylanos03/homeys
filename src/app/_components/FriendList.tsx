@@ -13,7 +13,7 @@ function FriendList() {
   const getFriends = api.profile.getAllFriends.useQuery(user ? user.id : "");
 
   if (getFriends.error && !getFriends.data) {
-    router.push("users/create-profile");
+    router.push("/");
   }
 
   if (!user) {
