@@ -44,27 +44,29 @@ model Like {
 }
 
 model Profile {
-    id            Int            @id @default(autoincrement())
-    userId        String         @unique
-    fullName      String
-    username      String         @unique
-    bio           String         @db.VarChar(1000)
-    image         String
-    interests     String         @db.VarChar(1000)
-    location      String         @default("Not Specified")
-    university    String         @default("Not Specified")
-    createdAt     DateTime       @default(now())
-    updatedAt     DateTime       @updatedAt
-    FriendReq     FriendReq[]    @relation("user")
-    outFriendReq  FriendReq[]    @relation("friend")
-    friends       Profile[]      @relation(name: "friend")
-    friendOf      Profile[]      @relation(name: "friend")
-    posts         Post[]
-    Group         Group?         @relation(fields: [groupId], references: [id])
-    groupId       Int?
-    GroupReq      GroupReq[]     @relation("toUser")
-    outGroupReq   GroupReq[]     @relation("fromUser")
-    GroupMessages GroupMessage[] @relation("GroupMessageProfile")
+    id               Int              @id @default(autoincrement())
+    userId           String           @unique
+    fullName         String
+    username         String           @unique
+    bio              String           @db.VarChar(1000)
+    image            String
+    interests        String           @db.VarChar(1000)
+    location         String           @default("Not Specified")
+    university       String           @default("Not Specified")
+    createdAt        DateTime         @default(now())
+    updatedAt        DateTime         @updatedAt
+    FriendReq        FriendReq[]      @relation("user")
+    outFriendReq     FriendReq[]      @relation("friend")
+    friends          Profile[]        @relation(name: "friend")
+    friendOf         Profile[]        @relation(name: "friend")
+    posts            Post[]
+    Group            Group?           @relation(fields: [groupId], references: [id])
+    groupId          Int?
+    GroupReq         GroupReq[]       @relation("toUser")
+    outGroupReq      GroupReq[]       @relation("fromUser")
+    GroupMessages    GroupMessage[]   @relation("GroupMessageProfile")
+    sentMessages     PrivateMessage[] @relation("FromMessages")
+    receivedMessages PrivateMessage[] @relation("ToMessages")
 
     @@index([userId])
     @@index([groupId])
@@ -147,4 +149,17 @@ model GroupMessage {
 
     @@index([userId])
     @@index([groupId])
+}
+
+model PrivateMessage {
+    id         Int      @id @default(autoincrement())
+    fromUser   Profile  @relation("FromMessages", fields: [fromUserId], references: [id])
+    fromUserId Int
+    toUser     Profile  @relation("ToMessages", fields: [toUserId], references: [id])
+    toUserId   Int
+    text       String   @db.VarChar(1000)
+    createdAt  DateTime @default(now())
+
+    @@index([fromUserId])
+    @@index([toUserId])
 }
