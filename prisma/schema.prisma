@@ -44,26 +44,27 @@ model Like {
 }
 
 model Profile {
-    id           Int         @id @default(autoincrement())
-    userId       String      @unique
-    fullName     String
-    username     String      @unique
-    bio          String      @db.VarChar(1000)
-    image        String
-    interests    String      @db.VarChar(1000)
-    location     String      @default("Not Specified")
-    university   String      @default("Not Specified")
-    createdAt    DateTime    @default(now())
-    updatedAt    DateTime    @updatedAt
-    FriendReq    FriendReq[] @relation("user")
-    outFriendReq FriendReq[] @relation("friend")
-    friends      Profile[]   @relation(name: "friend")
-    friendOf     Profile[]   @relation(name: "friend")
-    posts        Post[]
-    Group        Group?      @relation(fields: [groupId], references: [id])
-    groupId      Int?
-    GroupReq     GroupReq[]  @relation("toUser")
-    outGroupReq  GroupReq[]  @relation("fromUser")
+    id            Int            @id @default(autoincrement())
+    userId        String         @unique
+    fullName      String
+    username      String         @unique
+    bio           String         @db.VarChar(1000)
+    image         String
+    interests     String         @db.VarChar(1000)
+    location      String         @default("Not Specified")
+    university    String         @default("Not Specified")
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    FriendReq     FriendReq[]    @relation("user")
+    outFriendReq  FriendReq[]    @relation("friend")
+    friends       Profile[]      @relation(name: "friend")
+    friendOf      Profile[]      @relation(name: "friend")
+    posts         Post[]
+    Group         Group?         @relation(fields: [groupId], references: [id])
+    groupId       Int?
+    GroupReq      GroupReq[]     @relation("toUser")
+    outGroupReq   GroupReq[]     @relation("fromUser")
+    GroupMessages GroupMessage[] @relation("GroupMessageProfile")
 
     @@index([userId])
     @@index([groupId])
@@ -107,12 +108,13 @@ model FriendReq {
 }
 
 model Group {
-    id        Int        @id @default(autoincrement())
+    id        Int            @id @default(autoincrement())
     name      String
     members   Profile[]
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @updatedAt
+    createdAt DateTime       @default(now())
+    updatedAt DateTime       @updatedAt
     GroupReq  GroupReq[]
+    Messages  GroupMessage[]
 
     @@index([name])
 }
@@ -132,4 +134,17 @@ model GroupReq {
     @@index([groupId])
     @@index([userId])
     @@index([senderId])
+}
+
+model GroupMessage {
+    id        Int      @id @default(autoincrement())
+    user      Profile  @relation("GroupMessageProfile", fields: [userId], references: [id])
+    userId    Int
+    text      String   @db.VarChar(1000)
+    group     Group    @relation(fields: [groupId], references: [id])
+    groupId   Int
+    createdAt DateTime @default(now())
+
+    @@index([userId])
+    @@index([groupId])
 }
