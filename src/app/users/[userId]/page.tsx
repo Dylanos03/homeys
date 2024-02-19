@@ -6,12 +6,31 @@ import { redirect } from "next/navigation";
 import Sidebar from "~/app/_components/sidebar";
 import AddFriend from "~/app/_components/FriendButton";
 import DeleteBtn from "~/app/_components/deleteBtn";
+import { auth } from "@clerk/nextjs";
+import Link from "next/link";
+
+const ChatButton = (props: { userId: string }) => {
+  return (
+    <Link
+      href={`/messages/${props.userId}`}
+      className="rounded-md border-4 border-brandOrange px-2 py-1 font-bold text-brandOrange"
+    >
+      Message
+    </Link>
+  );
+};
 
 async function ProfilePage({ params }: { params: { userId: string } }) {
   const data = await api.profile.findOne.query(params.userId);
+  const { userId } = auth();
+  if (!userId) {
+    return redirect("/");
+  }
   if (!data) {
     return redirect("/");
   }
+
+  const isFriend = data.friends.some((friend) => friend.userId === userId);
 
   return (
     <main className="flex h-screen  items-center justify-center">
@@ -52,6 +71,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
 
             <AddFriend userId={params.userId} />
             <DeleteBtn id={params.userId} />
+            {isFriend && <ChatButton userId={params.userId} />}
           </div>
 
           <div className="flex items-center gap-4">
