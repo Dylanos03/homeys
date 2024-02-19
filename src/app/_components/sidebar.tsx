@@ -31,7 +31,7 @@ const sidebarContent = [
   {
     name: "Messages",
     icon: faMessage,
-    link: "/",
+    link: "/messages",
   },
   {
     name: "Groups",

@@ -4,6 +4,8 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { friendReqRouter } from "./routers/friendReq";
 import { groupRouter } from "./routers/group";
 import { groupReqRouter } from "./routers/groupReq";
+import { messagesRouter } from "./routers/messages";
+import { groupMessagesRouter } from "./routers/groupMessages";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +18,8 @@ export const appRouter = createTRPCRouter({
   friendReq: friendReqRouter,
   group: groupRouter,
   groupReq: groupReqRouter,
+  messages: messagesRouter,
+  groupMessages: groupMessagesRouter,
 });
 
 // export type definition of API
