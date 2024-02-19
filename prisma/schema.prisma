@@ -140,8 +140,8 @@ model GroupReq {
 
 model GroupMessage {
     id        Int      @id @default(autoincrement())
-    user      Profile  @relation("GroupMessageProfile", fields: [userId], references: [id])
-    userId    Int
+    user      Profile  @relation("GroupMessageProfile", fields: [userId], references: [userId])
+    userId    String
     text      String   @db.VarChar(1000)
     group     Group    @relation(fields: [groupId], references: [id])
     groupId   Int
@@ -153,10 +153,10 @@ model GroupMessage {
 
 model PrivateMessage {
     id         Int      @id @default(autoincrement())
-    fromUser   Profile  @relation("FromMessages", fields: [fromUserId], references: [id])
-    fromUserId Int
-    toUser     Profile  @relation("ToMessages", fields: [toUserId], references: [id])
-    toUserId   Int
+    fromUser   Profile  @relation("FromMessages", fields: [fromUserId], references: [userId])
+    fromUserId String
+    toUser     Profile  @relation("ToMessages", fields: [toUserId], references: [userId])
+    toUserId   String
     text       String   @db.VarChar(1000)
     createdAt  DateTime @default(now())
 
