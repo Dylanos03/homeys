@@ -4,6 +4,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/trpc/server";
 
+type Message = {
+  fromUser: User;
+  fromUserId: string;
+  toUser: User;
+  toUserId: string;
+  createdAt: Date;
+  text: string;
+};
+
+type User = {
+  id: number;
+  userId: string;
+  fullName: string;
+  username: string;
+  bio: string;
+  image: string;
+  interests: string;
+  location: string;
+  university: string;
+  createdAt: Date;
+  updatedAt: Date;
+  groupId: number | null;
+};
+
 async function MessageList() {
   const { userId }: { userId: string | null } = auth();
   if (userId === null) {
@@ -18,13 +42,13 @@ async function MessageList() {
   if (messages.length === 0) {
     return <div>No Messages</div>;
   }
-  const userMessageMap = new Map();
+  const userMessageMap: Map<number, Message> = new Map();
   messages.forEach((message) => {
     const user =
       message.fromUserId === userId ? message.toUser : message.fromUser;
     if (
       !userMessageMap.has(user.id) ||
-      userMessageMap.get(user.id).createdAt < message.createdAt
+      (userMessageMap.get(user.id)?.createdAt ?? 0) < message.createdAt
     ) {
       userMessageMap.set(user.id, message);
     }

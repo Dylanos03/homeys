@@ -11,10 +11,9 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useState } from "react";
 
-function ChevronLeftIcon(props: any) {
+function ChevronLeftIcon() {
   return (
     <svg
-      {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -104,7 +103,7 @@ function ChatPage() {
         <div className="container flex items-center gap-4 py-2">
           <button className="rounded-full">
             <Link className="grid h-8 w-8 place-items-center" href="/messages">
-              <ChevronLeftIcon className="h-4 w-4" />
+              <ChevronLeftIcon />
               <span className="sr-only">Back</span>
             </Link>
           </button>
