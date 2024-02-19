@@ -61,7 +61,7 @@ async function MessageList() {
         const { username, image } = user;
         return (
           <Link
-            href={`/messages/${user.userId}/${userId}`}
+            href={`/messages/${user.userId}`}
             key={user.id}
             className="flex gap-2 border-b-[1px] border-b-slate-200 px-2 py-2"
           >

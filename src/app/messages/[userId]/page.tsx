@@ -73,27 +73,25 @@ function OutgoingMessage(props: { image: string; message: string }) {
   );
 }
 
-function ChatPage() {
-  const { user1, user2 } = useParams<{ user1: string; user2: string }>();
+function ChatPage({ params }: { params: { userId: string } }) {
   const { user } = useUser();
   const [message, setMessage] = useState("");
 
-  const messageHistory = api.messages.getPrivateChat.useQuery({ user1, user2 });
+  const messageHistory = api.messages.getPrivateChat.useQuery({
+    user1: user?.id ?? "",
+    user2: params.userId,
+  });
   const sendMessage = api.messages.createMessage.useMutation();
-  const profile2 = api.profile.findOne.useQuery(
-    user?.id === user1 ? user2 : user1,
-  );
+  const profile2 = api.profile.findOne.useQuery(params.userId);
   if (!user) {
     return null;
   }
-  if (user.id !== user1 && user.id !== user2) {
-    return null;
-  }
+
   const handleSend = () => {
     setMessage("");
     sendMessage.mutate({
       senderId: user.id,
-      receiverId: user.id === user1 ? user2 : user1,
+      receiverId: params.userId,
       message: message,
     });
   };
@@ -121,7 +119,7 @@ function ChatPage() {
         <div className="flex min-h-0 flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {messageHistory.data?.map((message) => {
-              if (message.fromUserId === user1) {
+              if (message.fromUserId === params.userId) {
                 return (
                   <IncomingMessage
                     key={message.id}
