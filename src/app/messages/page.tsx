@@ -42,7 +42,7 @@ async function MessageList() {
   if (messages.length === 0) {
     return <div>No Messages</div>;
   }
-  const userMessageMap: Map<number, Message> = new Map();
+  const userMessageMap = new Map<number, Message>();
   messages.forEach((message) => {
     const user =
       message.fromUserId === userId ? message.toUser : message.fromUser;
