@@ -12,9 +12,8 @@ export const groupRouter = createTRPCRouter({
       });
 
       if (!userProfile) {
-        throw new Error("User not found");
+        return null; // or return { error: "User not found" };
       }
-
       if (!userProfile.groupId) {
         throw new Error("User has no group");
       }

@@ -26,14 +26,6 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const TopBar = () => {
-  return (
-    <header className="sticky left-0 top-0 z-50 flex w-screen justify-center bg-brandLight pb-2 pt-6 lg:hidden">
-      <Image src={Logo} alt="logo" height={40} />
-    </header>
-  );
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -46,7 +38,6 @@ export default function RootLayout({
           className={`font-sans ${inter.variable} overflow-x-hidden bg-brandLight text-brandDark`}
         >
           <TRPCReactProvider cookies={cookies().toString()}>
-            {/* <TopBar /> */}
             {children}
           </TRPCReactProvider>
         </body>

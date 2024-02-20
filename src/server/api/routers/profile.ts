@@ -68,7 +68,7 @@ export const profileRouter = createTRPCRouter({
         where: { userId: input.friendId },
       });
       if (!user1 || !user2) {
-        throw new Error("User not found");
+        return null;
       }
       await ctx.db.profile.update({
         where: { userId: user1.userId },
@@ -88,7 +88,7 @@ export const profileRouter = createTRPCRouter({
         include: { friends: true },
       });
       if (!user) {
-        throw new Error("User not found");
+        return null;
       }
       return user.friends;
     }),
@@ -105,7 +105,7 @@ export const profileRouter = createTRPCRouter({
         include: { FriendReq: true },
       });
       if (!user) {
-        throw new Error("User not found");
+        return null;
       }
       return user.FriendReq;
     }),
@@ -118,7 +118,7 @@ export const profileRouter = createTRPCRouter({
         select: { FriendReq: true, GroupReq: true },
       });
       if (!user) {
-        throw new Error("User not found");
+        return null;
       }
       if (user.FriendReq.length === 0 && user.GroupReq.length === 0) {
         return false;

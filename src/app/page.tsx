@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Feed from "./_components/Feed";
 import Navbar from "./_components/navbar";
+import { TopBar } from "./_components/Header";
 
 export type Post = {
   id: number;
@@ -32,10 +33,13 @@ const CreatePostButton = () => {
 
 export default async function Home() {
   return (
-    <main className="relative m-0 flex min-h-screen w-screen justify-center lg:px-4 ">
-      <Sidebar />
-      <Navbar name="Home" />
-      <Feed />
+    <main>
+      <TopBar />
+      <section className="relative m-0 flex min-h-screen w-screen justify-center lg:px-4 ">
+        <Sidebar />
+        <Navbar name="Home" />
+        <Feed />
+      </section>
     </main>
   );
 }
