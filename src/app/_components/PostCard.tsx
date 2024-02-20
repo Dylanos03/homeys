@@ -166,14 +166,14 @@ export default function PostCard(props: Post) {
         />
       )}
       <div className="relative flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 lg:gap-4">
           <Link href={`/users/${props.authorId}`}>
             <Image
               src={props.authorImage}
               width={50}
               height={50}
               alt={props.authorName}
-              className="w-8 rounded-full outline outline-2 outline-offset-4 outline-brandOrange  lg:w-12"
+              className="w-8 rounded-full   lg:w-12"
             />
           </Link>
           <Link href={`/users/${props.authorId}`}>
