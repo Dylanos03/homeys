@@ -23,8 +23,10 @@ function FriendCard(props: friend) {
             height={90}
           />
           <div className="flex flex-col">
-            <span className="text-lg font-bold">{username}</span>
-            <span className="text-sm text-gray-400">{fullName}</span>
+            <span className="text-md font-semibold lg:text-lg lg:font-bold">
+              {username}
+            </span>
+            <span className="text-xs text-gray-400 lg:text-sm">{fullName}</span>
           </div>
         </Link>
         <InviteToGroup friendId={userId} userId={userId} />

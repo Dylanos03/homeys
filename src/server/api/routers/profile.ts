@@ -34,7 +34,12 @@ export const profileRouter = createTRPCRouter({
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.db.profile.findUnique({
       where: { userId: input },
-      include: { friends: true, FriendReq: true, GroupReq: true },
+      include: {
+        friends: true,
+        FriendReq: true,
+        GroupReq: true,
+        Group: { include: { members: true } },
+      },
     });
   }),
 

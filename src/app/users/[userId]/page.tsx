@@ -51,7 +51,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
             width={100}
             height={100}
             alt={data.fullName}
-            className="rounded-full outline outline-4 outline-offset-4  outline-brandOrange"
+            className="rounded-full"
           />
 
           <div>
