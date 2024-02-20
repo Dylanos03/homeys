@@ -129,8 +129,8 @@ model GroupReq {
     senderName String
     userId     String
     senderId   String
-    user       Profile  @relation(name: "toUser", fields: [userId], references: [userId])
-    sender     Profile  @relation(name: "fromUser", fields: [senderId], references: [userId])
+    user       Profile  @relation(name: "toUser", fields: [userId], references: [userId], onDelete: Cascade)
+    sender     Profile  @relation(name: "fromUser", fields: [senderId], references: [userId], onDelete: Cascade)
     createdAt  DateTime @default(now())
 
     @@index([groupId])
@@ -140,7 +140,7 @@ model GroupReq {
 
 model GroupMessage {
     id        Int      @id @default(autoincrement())
-    user      Profile  @relation("GroupMessageProfile", fields: [userId], references: [userId])
+    user      Profile  @relation("GroupMessageProfile", fields: [userId], references: [userId], onDelete: Cascade)
     userId    String
     text      String   @db.VarChar(1000)
     group     Group    @relation(fields: [groupId], references: [id])
@@ -153,9 +153,9 @@ model GroupMessage {
 
 model PrivateMessage {
     id         Int      @id @default(autoincrement())
-    fromUser   Profile  @relation("FromMessages", fields: [fromUserId], references: [userId])
+    fromUser   Profile  @relation("FromMessages", fields: [fromUserId], references: [userId], onDelete: Cascade)
     fromUserId String
-    toUser     Profile  @relation("ToMessages", fields: [toUserId], references: [userId])
+    toUser     Profile  @relation("ToMessages", fields: [toUserId], references: [userId], onDelete: Cascade)
     toUserId   String
     text       String   @db.VarChar(1000)
     createdAt  DateTime @default(now())
