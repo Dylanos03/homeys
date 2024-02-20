@@ -8,6 +8,7 @@ import AddFriend from "~/app/_components/FriendButton";
 import DeleteBtn from "~/app/_components/deleteBtn";
 import { auth } from "@clerk/nextjs";
 import Link from "next/link";
+import Navbar from "~/app/_components/navbar";
 
 const ChatButton = (props: { userId: string }) => {
   return (
@@ -35,6 +36,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
   return (
     <main className="flex h-screen  items-center justify-center">
       <Sidebar />
+      <Navbar />
       <section className="flex min-h-screen w-[720px] flex-col gap-5  border-x-2  p-8">
         <div className="flex items-center justify-between">
           <Image
