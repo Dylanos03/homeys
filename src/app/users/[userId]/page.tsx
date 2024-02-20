@@ -43,7 +43,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
   return (
     <main className="flex h-screen  items-center justify-center">
       <Sidebar />
-      <Navbar />
+      <Navbar name="Home" />
       <section className="flex min-h-screen flex-col gap-5 border-x-2  p-8  lg:w-[720px]">
         <div className="flex items-center justify-between">
           <Image

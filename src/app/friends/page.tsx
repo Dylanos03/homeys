@@ -44,7 +44,7 @@ function FriendsPage() {
     <>
       <main className="relative m-0 flex min-h-screen w-screen justify-center  lg:px-4 ">
         <Sidebar />
-        <Navbar />
+        <Navbar name="My Friends" />
         <section className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
           <FriendList />
         </section>

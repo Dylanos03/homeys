@@ -34,7 +34,7 @@ export default async function Home() {
   return (
     <main className="relative m-0 flex min-h-screen w-screen justify-center lg:px-4 ">
       <Sidebar />
-      <Navbar />
+      <Navbar name="Home" />
       <Feed />
     </main>
   );
