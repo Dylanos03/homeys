@@ -15,7 +15,7 @@ export const groupRouter = createTRPCRouter({
         return null; // or return { error: "User not found" };
       }
       if (!userProfile.groupId) {
-        throw new Error("User has no group");
+        return null;
       }
 
       return ctx.db.group.findUnique({
