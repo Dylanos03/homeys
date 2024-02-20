@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/trpc/server";
+import Navbar from "../_components/navbar";
 
 type Message = {
   fromUser: User;
@@ -90,9 +91,10 @@ async function MessageList() {
 
 function MessagesPage() {
   return (
-    <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
+    <main className="relative m-0 flex min-h-screen w-screen justify-center  lg:px-4 ">
       <Sidebar />
-      <section className="flex w-[720px] flex-col border-x-2 py-2">
+      <Navbar name="Messages" />
+      <section className="flex w-full flex-col border-x-2 lg:w-[720px] lg:py-2">
         <h1 className="p-2 text-2xl font-semibold">Your Messages:</h1>
         <MessageList />
       </section>

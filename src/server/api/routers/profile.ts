@@ -34,7 +34,12 @@ export const profileRouter = createTRPCRouter({
   findOne: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
     return ctx.db.profile.findUnique({
       where: { userId: input },
-      include: { friends: true, FriendReq: true, GroupReq: true },
+      include: {
+        friends: true,
+        FriendReq: true,
+        GroupReq: true,
+        Group: { include: { members: true } },
+      },
     });
   }),
 
@@ -103,5 +108,21 @@ export const profileRouter = createTRPCRouter({
         throw new Error("User not found");
       }
       return user.FriendReq;
+    }),
+
+  notifications: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.profile.findUnique({
+        where: { userId: input },
+        select: { FriendReq: true, GroupReq: true },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      if (user.FriendReq.length === 0 && user.GroupReq.length === 0) {
+        return false;
+      }
+      return false;
     }),
 });

@@ -23,13 +23,21 @@ function InviteToGroup(props: { friendId: string; userId: string }) {
   if (!profile.data) return <></>;
   if (!userProfile.data) return <></>;
   if (!user) return <></>;
+  if (
+    userProfile.data.Group?.members.some((member) => member.userId === user.id)
+  ) {
+    return <></>;
+  }
 
   const handleClick = () => {
     setSent(true);
     sendReq.mutate({ userId: props.friendId, senderId: user.id });
   };
   return (
-    <button onClick={handleClick} className="hover:underline">
+    <button
+      onClick={handleClick}
+      className="lg:text-md text-sm hover:underline"
+    >
       {sent ? "Invite Sent " : "Invite to group"}
     </button>
   );

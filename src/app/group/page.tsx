@@ -6,6 +6,7 @@ import CreateGroup from "../_components/GroupSteps/GroupCreator";
 import Image from "next/image";
 import Link from "next/link";
 import GroupLeave from "../_components/groupLeave";
+import Navbar from "../_components/navbar";
 
 function MemberCard(props: { name: string; image: string; userId: string }) {
   return (
@@ -70,9 +71,10 @@ async function GroupView() {
 function groups() {
   return (
     <>
-      <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
+      <main className="relative m-0 flex min-h-screen w-screen justify-center  lg:px-4 ">
         <Sidebar />
-        <section className="flex w-[720px] flex-col border-x-2">
+        <Navbar name="Group" />
+        <section className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
           <GroupView />
         </section>
       </main>

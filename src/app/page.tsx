@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Feed from "./_components/Feed";
+import Navbar from "./_components/navbar";
 
 export type Post = {
   id: number;
@@ -31,9 +32,9 @@ const CreatePostButton = () => {
 
 export default async function Home() {
   return (
-    <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
+    <main className="relative m-0 flex min-h-screen w-screen justify-center lg:px-4 ">
       <Sidebar />
-
+      <Navbar name="Home" />
       <Feed />
     </main>
   );

@@ -189,7 +189,7 @@ function NotificationList() {
   }
 
   return (
-    <div className="flex flex-col p-4">
+    <div className="flex flex-col p-2 lg:p-4">
       <h2 className=" text-xl font-bold">Friend Requests</h2>
       <ul>
         {friendRequests.isLoading && <LoadingSpinner />}

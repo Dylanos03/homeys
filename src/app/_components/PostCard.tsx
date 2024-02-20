@@ -166,22 +166,24 @@ export default function PostCard(props: Post) {
         />
       )}
       <div className="relative flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 lg:gap-4">
           <Link href={`/users/${props.authorId}`}>
             <Image
               src={props.authorImage}
               width={50}
               height={50}
               alt={props.authorName}
-              className="rounded-full outline outline-2 outline-offset-4  outline-brandOrange"
+              className="w-8 rounded-full   lg:w-12"
             />
           </Link>
           <Link href={`/users/${props.authorId}`}>
-            <h1 className="text-xl font-bold underline">{props.authorName}</h1>
+            <h1 className="text-lg font-bold underline lg:text-xl">
+              {props.authorName}
+            </h1>
           </Link>
 
           <span className="h-1 w-1 rounded-full bg-slate-400"></span>
-          <span className="text-slate-400">Posted {timeSincePost}</span>
+          <span className=" text-sm text-slate-400">{timeSincePost}</span>
         </div>
         {user?.id === props.authorId && (
           <button
@@ -201,8 +203,8 @@ export default function PostCard(props: Post) {
         )}
       </div>
       <div>
-        <h3 className="text-2xl font-semibold">{props.name}</h3>
-        <p className="text-md font-medium">{props.desc}</p>
+        <h3 className="text-lg font-semibold lg:text-2xl">{props.name}</h3>
+        <p className="lg:text-md text-sm font-medium">{props.desc}</p>
       </div>
       <div className="flex justify-between text-slate-500">
         <span>Like</span>

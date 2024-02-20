@@ -42,10 +42,10 @@ export function CreatePost() {
   }
 
   return (
-    <section className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4">
+    <section className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4 py-2">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full flex-col justify-center gap-2  p-8"
+        className="flex w-full flex-col justify-center gap-2  lg:p-8"
       >
         <div className="flex w-full flex-col sm:col-span-2">
           <input

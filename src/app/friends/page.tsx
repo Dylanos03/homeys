@@ -2,6 +2,7 @@ import Sidebar from "../_components/sidebar";
 import { auth } from "@clerk/nextjs";
 import { api } from "~/trpc/server";
 import FriendCard from "../_components/FriendCard";
+import Navbar from "../_components/navbar";
 
 async function FriendList() {
   const { userId } = auth();
@@ -41,9 +42,10 @@ async function FriendList() {
 function FriendsPage() {
   return (
     <>
-      <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
+      <main className="relative m-0 flex min-h-screen w-screen justify-center  lg:px-4 ">
         <Sidebar />
-        <section className="flex w-[720px] flex-col border-x-2">
+        <Navbar name="My Friends" />
+        <section className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
           <FriendList />
         </section>
       </main>
