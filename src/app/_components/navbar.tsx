@@ -26,21 +26,21 @@ const sidebarContent = [
     link: "/messages",
   },
   {
-    name: "Group",
-    icon: faUserGroup,
-    link: "/group",
-  },
-  {
     name: "Notifications",
     icon: faBell,
     link: "/notifications",
     blip: true,
   },
+  {
+    name: "Group",
+    icon: faUserGroup,
+    link: "/group",
+  },
 ];
 
 function Navbar() {
   return (
-    <nav className="fixed bottom-0 left-0 z-50 flex w-screen justify-around bg-brandLight p-4 pb-6 lg:hidden">
+    <nav className="fixed bottom-0 left-0 z-50 flex w-screen justify-around bg-brandLight pb-6 pt-4 lg:hidden">
       {sidebarContent.map((item) => {
         return (
           <Link
