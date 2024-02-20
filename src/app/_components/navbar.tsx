@@ -26,7 +26,7 @@ const sidebarContent = [
     link: "/messages",
   },
   {
-    name: "Groups",
+    name: "Group",
     icon: faUserGroup,
     link: "/group",
   },
@@ -40,12 +40,21 @@ const sidebarContent = [
 
 function Navbar() {
   return (
-    <nav className="fixed bottom-0 left-0 z-50 flex w-screen justify-between bg-brandLight p-4 lg:hidden">
+    <nav className="fixed bottom-0 left-0 z-50 flex w-screen justify-around bg-brandLight p-4 pb-6 lg:hidden">
       {sidebarContent.map((item) => {
         return (
-          <Link href={item.link} className="relative" key={item.name}>
-            <FontAwesomeIcon icon={item.icon} size="lg" />
+          <Link
+            href={item.link}
+            className="relative flex flex-col gap-1 text-xs font-semibold"
+            key={item.name}
+          >
+            <FontAwesomeIcon
+              icon={item.icon}
+              size="2x"
+              style={{ color: "#bd5103" }}
+            />
             {item.blip && <NotiBlip />}
+            {item.name}
           </Link>
         );
       })}
