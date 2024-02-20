@@ -38,7 +38,7 @@ function Feed() {
   return (
     <>
       {" "}
-      <div className="flex flex-col lg:w-[720px] lg:border-x-2">
+      <div className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
         {user && (
           <div
             className={
