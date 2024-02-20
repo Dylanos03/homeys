@@ -8,6 +8,7 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import NotiBlip from "./notificationBlip";
 
 const sidebarContent = [
   {
@@ -35,6 +36,7 @@ const sidebarContent = [
     name: "Notifications",
     icon: faBell,
     link: "/notifications",
+    blip: true,
   },
 ];
 
@@ -43,8 +45,9 @@ function Navbar() {
     <nav className="fixed bottom-0 left-0 z-50 flex w-screen justify-between bg-brandLight p-4 lg:hidden">
       {sidebarContent.map((item) => {
         return (
-          <Link href={item.link}>
+          <Link href={item.link} className="relative">
             <FontAwesomeIcon icon={item.icon} size="lg" />
+            {item.blip && <NotiBlip />}
           </Link>
         );
       })}

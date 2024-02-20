@@ -1,4 +1,8 @@
-import { faBuilding, faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBuilding,
+  faLocationPin,
+  faMessage,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { api } from "~/trpc/server";
@@ -16,7 +20,10 @@ const ChatButton = (props: { userId: string }) => {
       href={`/messages/${props.userId}`}
       className="rounded-md border-4 border-brandOrange px-2 py-1 font-bold text-brandOrange"
     >
-      Message
+      <span className="hidden lg:flex">Message</span>
+      <span className="lg:hidden">
+        <FontAwesomeIcon icon={faMessage} style={{ color: "#bd5103" }} />
+      </span>
     </Link>
   );
 };
@@ -37,7 +44,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
     <main className="flex h-screen  items-center justify-center">
       <Sidebar />
       <Navbar />
-      <section className="flex min-h-screen w-[720px] flex-col gap-5  border-x-2  p-8">
+      <section className="flex min-h-screen flex-col gap-5 border-x-2  p-8  lg:w-[720px]">
         <div className="flex items-center justify-between">
           <Image
             src={data.image}

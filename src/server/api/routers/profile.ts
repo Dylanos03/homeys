@@ -104,4 +104,20 @@ export const profileRouter = createTRPCRouter({
       }
       return user.FriendReq;
     }),
+
+  notifications: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.profile.findUnique({
+        where: { userId: input },
+        select: { FriendReq: true, GroupReq: true },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      if (user.FriendReq.length === 0 && user.GroupReq.length === 0) {
+        return false;
+      }
+      return false;
+    }),
 });

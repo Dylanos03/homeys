@@ -71,10 +71,10 @@ async function GroupView() {
 function groups() {
   return (
     <>
-      <main className="relative m-0 flex min-h-screen w-screen justify-center  px-4 ">
+      <main className="relative m-0 flex min-h-screen w-screen justify-center  lg:px-4 ">
         <Sidebar />
         <Navbar />
-        <section className="flex w-[720px] flex-col border-x-2">
+        <section className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
           <GroupView />
         </section>
       </main>

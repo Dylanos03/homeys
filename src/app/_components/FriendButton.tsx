@@ -4,6 +4,8 @@ import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import WarningPopUp from "./Warning";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 
 function AddFriend(props: { userId: string }) {
   const { user } = useUser();
@@ -111,9 +113,12 @@ function AddFriend(props: { userId: string }) {
         <button
           disabled={pending}
           onClick={() => setWarning(true)}
-          className="rounded-lg bg-brandOrange px-6 py-2 font-bold text-brandLight"
+          className="rounded-lg bg-brandOrange px-3 py-2 font-bold text-brandLight lg:px-6"
         >
-          Friends
+          <span className="lg:hidden">
+            <FontAwesomeIcon icon={faUserGroup} />
+          </span>
+          <span className="hidden lg:flex">Friends</span>
         </button>
       </div>
     );
