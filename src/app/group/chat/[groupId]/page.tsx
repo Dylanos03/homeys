@@ -99,6 +99,9 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       message,
     });
     setMessage("");
+    group.refetch().catch((err) => {
+      err;
+    });
   };
   if (!group.data) {
     return null;
