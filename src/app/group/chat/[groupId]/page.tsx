@@ -5,7 +5,8 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
-import { messageT } from "~/app/messages/[userId]/page";
+import { messageT, profileT } from "~/app/messages/[userId]/page";
+import { GroupMessage } from "@prisma/client";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
@@ -76,31 +77,33 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
   const createMessage = api.groupMessages.createMessage.useMutation();
   const { user } = useUser();
   const [message, setMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<string | null>(null);
 
   useEffect(() => {
     pusherClient
       .subscribe(`group-chat-${params.groupId}`)
-      .bind("new-message", (post: messageT) => {
+      .bind("new-message", (post: GroupMessage) => {
         console.log(post);
-        group.refetch().catch((err) => {
-          console.error(err);
-        });
+        group.refetch();
+        setNewMessage(null);
       });
     return () => {
       pusherClient.unsubscribe(`group-chat-${params.groupId}`);
     };
-  }, []);
+  }, [group.data]);
 
   if (!user) {
     return null;
   }
   const handleSend = () => {
-    createMessage.mutate({
+    const newMessage = {
       senderId: user.id,
       groupId: Number(params.groupId),
       message,
-    });
+    };
+    createMessage.mutate(newMessage);
     setMessage("");
+    setNewMessage(message);
   };
   if (!group.data) {
     return null;
@@ -147,6 +150,9 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
                 />
               );
             })}
+            {newMessage && (
+              <OutgoingMessage image={user.imageUrl} message={newMessage} />
+            )}
           </div>
           <div className="fixed bottom-0 left-0 mt-auto w-screen p-4">
             <form className="flex gap-2">

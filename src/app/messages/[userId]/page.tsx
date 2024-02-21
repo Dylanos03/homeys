@@ -16,11 +16,23 @@ export type messageT = {
   fromUserId: string;
   toUserId: string;
   text: string;
-  fromUser: {
-    id: string;
-    username: string;
-    image: string;
-  };
+  fromUser: profileT;
+  toUser: profileT;
+};
+
+export type profileT = {
+  id: number;
+  userId: string;
+  fullName: string;
+  username: string;
+  bio: string;
+  image: string;
+  interests: string;
+  location: string;
+  university: string;
+  createdAt: Date;
+  updatedAt: Date;
+  groupId: number | null;
 };
 
 function ChevronLeftIcon() {
