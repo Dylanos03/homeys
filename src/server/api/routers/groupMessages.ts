@@ -31,11 +31,15 @@ export const groupMessagesRouter = createTRPCRouter({
         },
       });
 
-      pusherServer
-        .trigger(`group-chat-${input.groupId}`, "new-message", post)
-        .catch((err) => {
-          console.error(err);
-        });
+      try {
+        await pusherServer.trigger(
+          `group-chat-${input.groupId}`,
+          "new-message",
+          post,
+        );
+      } catch (err) {
+        console.error(err);
+      }
 
       return post;
     }),
