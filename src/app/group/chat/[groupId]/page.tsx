@@ -85,7 +85,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
         });
       });
     return () => {
-      pusherClient.unsubscribe(`group-chat-${params.groupId}`);
+      // pusherClient.unsubscribe(`group-chat-${params.groupId}`);
     };
   }, [group.data]);
 
