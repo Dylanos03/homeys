@@ -11,7 +11,7 @@ import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
 
-type message = {
+export type messageT = {
   id: string;
   fromUserId: string;
   toUserId: string;
@@ -88,7 +88,7 @@ function OutgoingMessage(props: { image: string; message: string }) {
 function ChatPage({ params }: { params: { userId: string } }) {
   const { user } = useUser();
   const [message, setMessage] = useState("");
-  const [incomingMessages, setIncomingMessages] = useState<message[]>([]);
+  const [incomingMessages, setIncomingMessages] = useState<messageT[]>([]);
 
   const messageHistory = api.messages.getPrivateChat.useQuery({
     user1: user?.id ?? "",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
+import { messageT } from "~/app/messages/[userId]/page";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
@@ -79,13 +80,14 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
   useEffect(() => {
     pusherClient
       .subscribe(`group-chat-${params.groupId}`)
-      .bind("new-message", () => {
+      .bind("new-message", (post: messageT) => {
+        console.log(post);
         group.refetch().catch((err) => {
           console.error(err);
         });
       });
     return () => {
-      // pusherClient.unsubscribe(`group-chat-${params.groupId}`);
+      pusherClient.unsubscribe(`group-chat-${params.groupId}`);
     };
   }, [group.data]);
 
@@ -99,9 +101,6 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       message,
     });
     setMessage("");
-    group.refetch().catch((err) => {
-      console.error(err);
-    });
   };
   if (!group.data) {
     return null;
