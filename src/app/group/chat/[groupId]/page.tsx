@@ -81,7 +81,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       .subscribe(`group-chat-${params.groupId}`)
       .bind("new-message", () => {
         group.refetch().catch((err) => {
-          err;
+          console.error(err);
         });
       });
     return () => {
@@ -100,7 +100,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
     });
     setMessage("");
     group.refetch().catch((err) => {
-      err;
+      console.error(err);
     });
   };
   if (!group.data) {
