@@ -89,7 +89,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
     return () => {
       pusherClient.unsubscribe(`group-chat-${params.groupId}`);
     };
-  }, [group.data]);
+  }, []);
 
   if (!user) {
     return null;
