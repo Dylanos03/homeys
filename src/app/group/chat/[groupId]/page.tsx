@@ -84,7 +84,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       .subscribe(`group-chat-${params.groupId}`)
       .bind("new-message", (post: GroupMessage) => {
         console.log(post);
-        group.refetch();
+        group.refetch().catch(console.error);
         setNewMessage(null);
       });
     return () => {
