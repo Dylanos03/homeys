@@ -80,7 +80,9 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
     pusherClient
       .subscribe(`group-chat-${params.groupId}`)
       .bind("new-message", () => {
-        group.refetch();
+        group.refetch().catch((err) => {
+          err;
+        });
       });
     return () => {
       pusherClient.unsubscribe(`group-chat-${params.groupId}`);

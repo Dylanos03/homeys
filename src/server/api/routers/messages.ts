@@ -41,11 +41,11 @@ export const messagesRouter = createTRPCRouter({
         },
       });
 
-      pusherServer.trigger(
-        `private-chat-${input.senderId}`,
-        "new-message",
-        input.message,
-      );
+      pusherServer
+        .trigger(`private-chat-${input.senderId}`, "new-message", input.message)
+        .catch((err) => {
+          err;
+        });
 
       return post;
     }),
