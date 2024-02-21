@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { pusherClient, pusherServer } from "~/server/pusher";
 
 export const groupMessagesRouter = createTRPCRouter({
   getGroupMessages: publicProcedure
@@ -29,6 +30,9 @@ export const groupMessagesRouter = createTRPCRouter({
           groupId: input.groupId,
         },
       });
+
+      pusherServer.trigger(`group-chat-${input.groupId}`, "new-message", post);
+
       return post;
     }),
 });

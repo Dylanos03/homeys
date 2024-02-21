@@ -3,7 +3,8 @@
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pusherClient } from "~/server/pusher";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
@@ -74,6 +75,18 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
   const createMessage = api.groupMessages.createMessage.useMutation();
   const { user } = useUser();
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    pusherClient
+      .subscribe(`group-chat-${params.groupId}`)
+      .bind("new-message", () => {
+        group.refetch();
+      });
+    return () => {
+      pusherClient.unsubscribe(`group-chat-${params.groupId}`);
+    };
+  }, [group.data]);
+
   if (!user) {
     return null;
   }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/0n8ngROTq5f
@@ -9,7 +8,20 @@ import { useParams } from "next/navigation";
  */
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pusherClient } from "~/server/pusher";
+
+type message = {
+  id: string;
+  fromUserId: string;
+  toUserId: string;
+  text: string;
+  fromUser: {
+    id: string;
+    username: string;
+    image: string;
+  };
+};
 
 function ChevronLeftIcon() {
   return (
@@ -76,6 +88,7 @@ function OutgoingMessage(props: { image: string; message: string }) {
 function ChatPage({ params }: { params: { userId: string } }) {
   const { user } = useUser();
   const [message, setMessage] = useState("");
+  const [incomingMessages, setIncomingMessages] = useState<message[]>([]);
 
   const messageHistory = api.messages.getPrivateChat.useQuery({
     user1: user?.id ?? "",
@@ -83,6 +96,19 @@ function ChatPage({ params }: { params: { userId: string } }) {
   });
   const sendMessage = api.messages.createMessage.useMutation();
   const profile2 = api.profile.findOne.useQuery(params.userId);
+
+  useEffect(() => {
+    pusherClient
+      .subscribe(`private-chat-${user?.id}`)
+      .bind("new-message", async (message: string) => {
+        await messageHistory.refetch();
+      });
+
+    return () => {
+      pusherClient.unsubscribe(`private-chat-${user?.id}`);
+    };
+  }, []);
+
   if (!user) {
     return null;
   }
