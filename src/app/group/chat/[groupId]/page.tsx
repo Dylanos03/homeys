@@ -83,7 +83,6 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
     pusherClient
       .subscribe(`group-chat-${params.groupId}`)
       .bind("new-message", (post: GroupMessage) => {
-        console.log(post);
         group.refetch().catch(console.error);
         setTimeout(() => {
           window.scrollTo({
@@ -170,6 +169,11 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
                 className="max-h-36 min-h-[40px] flex-1 p-1 focus:outline-none focus:ring-0"
                 placeholder="Type a message..."
                 value={message}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSend();
+                  }
+                }}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button

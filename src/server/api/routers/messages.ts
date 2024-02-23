@@ -42,7 +42,12 @@ export const messagesRouter = createTRPCRouter({
       });
 
       pusherServer
-        .trigger(`private-chat-${input.senderId}`, "new-message", input.message)
+        .trigger(`chat-${input.senderId}`, "new-message", input.message)
+        .catch((err) => {
+          err;
+        });
+      pusherServer
+        .trigger(`chat-${input.receiverId}`, "new-message", input.message)
         .catch((err) => {
           err;
         });
