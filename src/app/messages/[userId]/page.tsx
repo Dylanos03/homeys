@@ -1,7 +1,6 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { useParams } from "next/navigation";
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/0n8ngROTq5f
@@ -9,7 +8,32 @@ import { useParams } from "next/navigation";
  */
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pusherClient } from "~/server/pusher";
+
+export type messageT = {
+  id: string;
+  fromUserId: string;
+  toUserId: string;
+  text: string;
+  fromUser: profileT;
+  toUser: profileT;
+};
+
+export type profileT = {
+  id: number;
+  userId: string;
+  fullName: string;
+  username: string;
+  bio: string;
+  image: string;
+  interests: string;
+  location: string;
+  university: string;
+  createdAt: Date;
+  updatedAt: Date;
+  groupId: number | null;
+};
 
 function ChevronLeftIcon() {
   return (
@@ -76,29 +100,65 @@ function OutgoingMessage(props: { image: string; message: string }) {
 function ChatPage({ params }: { params: { userId: string } }) {
   const { user } = useUser();
   const [message, setMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<string | null>(null);
 
-  const messageHistory = api.messages.getPrivateChat.useQuery({
-    user1: user?.id ?? "",
-    user2: params.userId,
-  });
+  const messageHistory = api.messages.getPrivateChat.useQuery(
+    {
+      user1: user?.id ?? "",
+      user2: params.userId,
+    },
+    {
+      onSuccess: () => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
+      },
+    },
+  );
   const sendMessage = api.messages.createMessage.useMutation();
   const profile2 = api.profile.findOne.useQuery(params.userId);
+
+  useEffect(() => {
+    pusherClient.subscribe(`chat-${user?.id}`).bind("new-message", () => {
+      messageHistory.refetch().catch(console.error);
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 500);
+      setNewMessage(null);
+    });
+    return () => {
+      pusherClient.unsubscribe(`private-chat-${user?.id}`);
+    };
+  }, [newMessage]);
+
   if (!user) {
     return null;
   }
 
   const handleSend = () => {
     setMessage("");
-    sendMessage.mutate({
+    const sendingMessage = {
+      message: message,
       senderId: user.id,
       receiverId: params.userId,
-      message: message,
+    };
+    sendMessage.mutate(sendingMessage, {
+      onSuccess: () => {
+        messageHistory.refetch().catch(console.error);
+      },
     });
+    setNewMessage(message);
   };
   return (
     <div className="flex h-screen flex-col">
       <div className="flex-initial border-b">
-        <div className="container flex items-center gap-4 py-2">
+        <div className="container fixed left-0 top-0 flex  max-w-full items-center gap-4 bg-brandLight py-2">
           <button className="rounded-full">
             <Link className="grid h-8 w-8 place-items-center" href="/messages">
               <ChevronLeftIcon />
@@ -115,7 +175,7 @@ function ChatPage({ params }: { params: { userId: string } }) {
           </button>
         </div>
       </div>
-      <div className="flex-1 p-4">
+      <div className="mt-12 flex-1 p-4 pb-24">
         <div className="flex min-h-0 flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {messageHistory.data?.map((message) => {
@@ -136,13 +196,21 @@ function ChatPage({ params }: { params: { userId: string } }) {
                 />
               );
             })}
+            {newMessage && (
+              <OutgoingMessage image={user.imageUrl} message={newMessage} />
+            )}
           </div>
-          <div className="fixed bottom-0 left-0 mt-auto w-screen p-4">
+          <div className="fixed bottom-0 left-0 mt-auto w-screen bg-brandLight p-4">
             <form className="flex gap-2">
               <textarea
                 className="max-h-36 min-h-[40px] flex-1 p-1 focus:outline-none focus:ring-0"
                 placeholder="Type a message..."
                 value={message}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSend();
+                  }
+                }}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button

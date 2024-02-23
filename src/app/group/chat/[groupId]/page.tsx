@@ -3,7 +3,9 @@
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { api } from "~/trpc/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { pusherClient } from "~/server/pusher";
+import { GroupMessage } from "@prisma/client";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
@@ -70,20 +72,56 @@ function ChevronLeftIcon() {
 function GroupChatPage({ params }: { params: { groupId: string } }) {
   const group = api.groupMessages.getGroupMessages.useQuery(
     Number(params.groupId),
+    {
+      onSuccess: () => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
+      },
+    },
   );
   const createMessage = api.groupMessages.createMessage.useMutation();
   const { user } = useUser();
   const [message, setMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    pusherClient
+      .subscribe(`group-chat-${params.groupId}`)
+      .bind("new-message", (post: GroupMessage) => {
+        group.refetch().catch(console.error);
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
+        setNewMessage(null);
+      });
+    return () => {
+      pusherClient.unsubscribe(`group-chat-${params.groupId}`);
+    };
+  }, [newMessage]);
+
   if (!user) {
     return null;
   }
   const handleSend = () => {
-    createMessage.mutate({
+    const newMessage = {
       senderId: user.id,
       groupId: Number(params.groupId),
       message,
+    };
+    createMessage.mutate(newMessage, {
+      onSuccess() {
+        group.refetch().catch(console.error);
+      },
     });
     setMessage("");
+    setNewMessage(message);
   };
   if (!group.data) {
     return null;
@@ -91,8 +129,8 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
 
   return (
     <div className="flex h-screen flex-col">
-      <div className="flex-initial border-b">
-        <div className="container flex items-center gap-4 py-2">
+      <div className="w-screen flex-initial border-b">
+        <div className="container fixed left-0 top-0 flex  max-w-full items-center gap-4 bg-brandLight py-2">
           <button className="rounded-full">
             <Link className="grid h-8 w-8 place-items-center" href="/group">
               <ChevronLeftIcon />
@@ -109,7 +147,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
           </button>
         </div>
       </div>
-      <div className="flex-1 p-4">
+      <div className="mt-12 flex-1 p-4 pb-24">
         <div className="flex min-h-0 flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {group.data.Messages.map((message) => {
@@ -130,13 +168,21 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
                 />
               );
             })}
+            {newMessage && (
+              <OutgoingMessage image={user.imageUrl} message={newMessage} />
+            )}
           </div>
-          <div className="fixed bottom-0 left-0 mt-auto w-screen p-4">
+          <div className="fixed bottom-0 left-0 mt-auto w-screen bg-brandLight p-4">
             <form className="flex gap-2">
               <textarea
                 className="max-h-36 min-h-[40px] flex-1 p-1 focus:outline-none focus:ring-0"
                 placeholder="Type a message..."
                 value={message}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSend();
+                  }
+                }}
                 onChange={(e) => setMessage(e.target.value)}
               />
               <button

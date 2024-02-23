@@ -1,11 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { EventEmitter } from "events";
-import { observable } from "@trpc/server/observable";
-import { PrivateMessage } from "@prisma/client";
-
-const ee = new EventEmitter();
+import { pusherServer } from "../../pusher";
 
 export const messagesRouter = createTRPCRouter({
   getUserMessages: publicProcedure
@@ -44,7 +40,18 @@ export const messagesRouter = createTRPCRouter({
           text: input.message,
         },
       });
-      ee.emit("add", post);
+
+      pusherServer
+        .trigger(`chat-${input.senderId}`, "new-message", input.message)
+        .catch((err) => {
+          err;
+        });
+      pusherServer
+        .trigger(`chat-${input.receiverId}`, "new-message", input.message)
+        .catch((err) => {
+          err;
+        });
+
       return post;
     }),
   getPrivateChat: publicProcedure
@@ -69,19 +76,4 @@ export const messagesRouter = createTRPCRouter({
 
       return messages;
     }),
-  onAdd: publicProcedure.subscription(() => {
-    // return an `observable` with a callback which is triggered immediately
-    return observable<PrivateMessage>((emit) => {
-      const onAdd = (data: PrivateMessage) => {
-        // emit data to client
-        emit.next(data);
-      };
-      // trigger `onAdd()` when `add` is triggered in our event emitter
-      ee.on("add", onAdd);
-      // unsubscribe function when client disconnects or stops subscribing
-      return () => {
-        ee.off("add", onAdd);
-      };
-    });
-  }),
 });
