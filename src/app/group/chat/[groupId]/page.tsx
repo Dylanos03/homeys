@@ -5,7 +5,6 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
-import { messageT, profileT } from "~/app/messages/[userId]/page";
 import { GroupMessage } from "@prisma/client";
 
 function IncomingMessage(props: { image: string; message: string }) {
@@ -73,6 +72,7 @@ function ChevronLeftIcon() {
 function GroupChatPage({ params }: { params: { groupId: string } }) {
   const group = api.groupMessages.getGroupMessages.useQuery(
     Number(params.groupId),
+    {},
   );
   const createMessage = api.groupMessages.createMessage.useMutation();
   const { user } = useUser();
@@ -101,7 +101,11 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       groupId: Number(params.groupId),
       message,
     };
-    createMessage.mutate(newMessage);
+    createMessage.mutate(newMessage, {
+      onSuccess() {
+        group.refetch().catch(console.error);
+      },
+    });
     setMessage("");
     setNewMessage(message);
   };
