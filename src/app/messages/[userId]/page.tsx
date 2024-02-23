@@ -102,10 +102,22 @@ function ChatPage({ params }: { params: { userId: string } }) {
   const [message, setMessage] = useState("");
   const [newMessage, setNewMessage] = useState<string | null>(null);
 
-  const messageHistory = api.messages.getPrivateChat.useQuery({
-    user1: user?.id ?? "",
-    user2: params.userId,
-  });
+  const messageHistory = api.messages.getPrivateChat.useQuery(
+    {
+      user1: user?.id ?? "",
+      user2: params.userId,
+    },
+    {
+      onSuccess: () => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
+      },
+    },
+  );
   const sendMessage = api.messages.createMessage.useMutation();
   const profile2 = api.profile.findOne.useQuery(params.userId);
 

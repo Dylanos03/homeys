@@ -72,7 +72,16 @@ function ChevronLeftIcon() {
 function GroupChatPage({ params }: { params: { groupId: string } }) {
   const group = api.groupMessages.getGroupMessages.useQuery(
     Number(params.groupId),
-    {},
+    {
+      onSuccess: () => {
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
+      },
+    },
   );
   const createMessage = api.groupMessages.createMessage.useMutation();
   const { user } = useUser();
