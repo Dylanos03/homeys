@@ -85,6 +85,12 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
       .bind("new-message", (post: GroupMessage) => {
         console.log(post);
         group.refetch().catch(console.error);
+        setTimeout(() => {
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        }, 500);
         setNewMessage(null);
       });
     return () => {
@@ -115,8 +121,8 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
 
   return (
     <div className="flex h-screen flex-col">
-      <div className="flex-initial border-b">
-        <div className="container flex items-center gap-4 py-2">
+      <div className="w-screen flex-initial border-b">
+        <div className="container fixed left-0 top-0 flex  max-w-full items-center gap-4 bg-brandLight py-2">
           <button className="rounded-full">
             <Link className="grid h-8 w-8 place-items-center" href="/group">
               <ChevronLeftIcon />
@@ -133,7 +139,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
           </button>
         </div>
       </div>
-      <div className="flex-1 p-4">
+      <div className="mt-12 flex-1 p-4 pb-24">
         <div className="flex min-h-0 flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {group.data.Messages.map((message) => {
@@ -158,7 +164,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
               <OutgoingMessage image={user.imageUrl} message={newMessage} />
             )}
           </div>
-          <div className="fixed bottom-0 left-0 mt-auto w-screen p-4">
+          <div className="fixed bottom-0 left-0 mt-auto w-screen bg-brandLight p-4">
             <form className="flex gap-2">
               <textarea
                 className="max-h-36 min-h-[40px] flex-1 p-1 focus:outline-none focus:ring-0"
