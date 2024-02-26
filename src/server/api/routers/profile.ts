@@ -125,4 +125,39 @@ export const profileRouter = createTRPCRouter({
       }
       return true;
     }),
+
+  getMany: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return ctx.db.profile.findMany({
+      where: {
+        OR: [
+          {
+            username: {
+              contains: input,
+            },
+          },
+          {
+            fullName: {
+              contains: input,
+            },
+          },
+          {
+            interests: {
+              contains: input,
+            },
+          },
+          {
+            location: {
+              contains: input,
+            },
+          },
+          {
+            university: {
+              contains: input,
+            },
+          },
+        ],
+      },
+      take: 10,
+    });
+  }),
 });

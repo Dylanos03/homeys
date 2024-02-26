@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPerson,
   faRightToBracket,
+  faSearch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -34,7 +35,7 @@ export const TopBar = async () => {
       <header className="sticky left-0 top-0 z-50 flex w-screen items-center justify-between border-b-[1px] bg-brandLight px-4 pb-2 pt-6 lg:hidden">
         <Image src={Logo} alt="logo" height={40} />
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <Link
             href={`/users/${userId}`}
             className="relative hover:cursor-pointer"
@@ -48,11 +49,11 @@ export const TopBar = async () => {
             />
           </Link>
 
-          <SignOutButton>
+          <Link href={"/search"} className="items-center">
             <div className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5">
-              <FontAwesomeIcon icon={faRightToBracket} />
+              <FontAwesomeIcon icon={faSearch} />
             </div>
-          </SignOutButton>
+          </Link>
         </div>
       </header>
     );
@@ -69,11 +70,11 @@ export const TopBar = async () => {
           <ProfBlip />
           <FontAwesomeIcon icon={faUser} />
         </Link>
-        <SignOutButton>
+        <Link href={"/search"}>
           <div className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5">
-            <FontAwesomeIcon icon={faRightToBracket} />
+            <FontAwesomeIcon icon={faSearch} />
           </div>
-        </SignOutButton>
+        </Link>
       </div>
     </header>
   );
