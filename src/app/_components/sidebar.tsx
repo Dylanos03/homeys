@@ -7,6 +7,7 @@ import {
   faHouse,
   faMessage,
   faRightToBracket,
+  faSearch,
   faUser,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
@@ -42,6 +43,11 @@ const sidebarContent = [
     name: "Notifications",
     icon: faBell,
     link: "/notifications",
+  },
+  {
+    name: "Search",
+    icon: faSearch,
+    link: "/search",
   },
 ];
 
