@@ -123,6 +123,6 @@ export const profileRouter = createTRPCRouter({
       if (user.FriendReq.length === 0 && user.GroupReq.length === 0) {
         return false;
       }
-      return false;
+      return true;
     }),
 });

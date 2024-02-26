@@ -74,7 +74,7 @@ async function MessageList() {
               src={image}
             ></Image>
             <div className="flex flex-col justify-between">
-              <span className="text-lg font-semibold">{username}</span>
+              <span className="text-lg font-semibold">@{username}</span>
               <p>
                 <span className="text-neutral-400">
                   {message.fromUserId === userId ? "You: " : "Them: "}

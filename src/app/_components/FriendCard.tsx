@@ -24,7 +24,7 @@ function FriendCard(props: friend) {
           />
           <div className="flex flex-col">
             <span className="text-md font-semibold lg:text-lg lg:font-bold">
-              {username}
+              @{username}
             </span>
             <span className="text-xs text-gray-400 lg:text-sm">{fullName}</span>
           </div>
