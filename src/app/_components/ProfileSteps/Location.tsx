@@ -24,7 +24,7 @@ function Location({
 
   useEffect(() => {
     if (university.length > 2) {
-      fetchUniResults();
+      fetchUniResults().catch((err) => console.error(err));
       setUniMenu(true);
     }
     if (university.length < 2) {
@@ -34,11 +34,9 @@ function Location({
       const uniResults = await fetch(
         `http://universities.hipolabs.com/search?name=${university}&country=United%20Kingdom`,
       );
-      const uniResJson = await uniResults.json();
+      const uniResJson: TUniOp[] = await uniResults.json();
       setUniOptions(uniResJson);
     }
-
-    return () => {};
   }, [university]);
 
   return (
