@@ -1,6 +1,6 @@
 "use client";
 
-import { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
 import type { PFormData } from "~/app/users/create-profile/page";
 import { useEffect, useState } from "react";
@@ -11,23 +11,26 @@ type TUniOp = {
   web_pages: string[];
 };
 
-function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
-  const [location, setLocation] = useState("");
+function Location({
+  Register,
+  setValue,
+}: {
+  Register: UseFormRegister<PFormData>;
+  setValue: UseFormSetValue<PFormData>;
+}) {
   const [university, setUniversity] = useState("");
-  const [locationOptions, setLocationOptions] = useState([]);
   const [uniOptions, setUniOptions] = useState<TUniOp[]>([]);
-  const [locMenu, setLocMenu] = useState(false);
   const [uniMenu, setUniMenu] = useState(false);
 
   useEffect(() => {
     if (university.length > 2) {
-      fetchResults();
+      fetchUniResults();
       setUniMenu(true);
     }
     if (university.length < 2) {
       setUniMenu(false);
     }
-    async function fetchResults() {
+    async function fetchUniResults() {
       const uniResults = await fetch(
         `http://universities.hipolabs.com/search?name=${university}&country=United%20Kingdom`,
       );
@@ -36,7 +39,7 @@ function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
     }
 
     return () => {};
-  }, [location, university]);
+  }, [university]);
 
   return (
     <FormWrapperP title="Location">
@@ -48,11 +51,10 @@ function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
           <input
             {...Register("location")}
             type="text"
-            value={location}
             className="rounded-sm border-[1px] border-brandDark border-opacity-15 bg-brandLight px-4 py-2 outline-0 outline-brandOrange focus:outline-1"
           />
         </div>
-        <div className="flex flex-col gap-2 text-left">
+        <div className="relative flex flex-col gap-2 text-left">
           <label className="font-semibold">
             What university do you / will you attend?
           </label>
@@ -64,13 +66,16 @@ function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
             className="rounded-sm border-[1px] border-brandDark border-opacity-15 bg-brandLight px-4 py-2 outline-0 outline-brandOrange focus:outline-1"
           />
           {uniMenu && (
-            <div>
+            <div className="absolute top-20 w-full rounded border-2 bg-brandLight p-1">
               {uniOptions.slice(0, 4).map((uni) => (
                 <button
-                  className="flex max-w-80 flex-col gap-1 text-sm"
+                  key={uni.name}
+                  className="flex w-full max-w-80 flex-col py-2 text-left text-sm"
                   onClick={() => {
-                    setUniMenu(false);
                     setUniversity(uni.name);
+
+                    setValue("university", uni.name);
+                    setUniMenu(false);
                   }}
                 >
                   <span>{uni.name}</span>

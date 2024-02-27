@@ -87,7 +87,8 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
             <p className="text-xl font-semibold">{data.fullName}</p>
             <span className="h-1 w-1 rounded-full bg-slate-400"></span>
             <span className="text-slate-400">
-              {data.friends.length} friend{data.friends.length > 1 && "s"}
+              {data.friends.length} friend
+              {data.friends.length > 1 || (data.friends.length < 1 && "s")}
             </span>
           </div>
 

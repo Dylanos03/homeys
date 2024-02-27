@@ -52,7 +52,7 @@ model Profile {
     image            String
     interests        String           @db.VarChar(1000)
     location         String           @default("Not Specified")
-    university       String           @default("Not Specified")
+    university       String           @default("Not Specified") @db.VarChar(1000)
     createdAt        DateTime         @default(now())
     updatedAt        DateTime         @updatedAt
     FriendReq        FriendReq[]      @relation("user")

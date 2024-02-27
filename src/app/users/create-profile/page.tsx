@@ -24,7 +24,7 @@ export type PFormData = {
 function ProfileCreatePage() {
   const [disableButton, setDisableButton] = useState(false);
   const { user } = useUser();
-  const { register, handleSubmit } = useForm<PFormData>();
+  const { register, handleSubmit, setValue } = useForm<PFormData>();
   const { step, currentPage, next, back, isLastPage, goTo } = usePaginatedForm([
     <YourDetails
       key={"YourDetails"}
@@ -32,7 +32,7 @@ function ProfileCreatePage() {
       name={user?.fullName}
     />,
     <AboutYou key={"You"} Register={register} />,
-    <Location key={"location"} Register={register} />,
+    <Location key={"location"} Register={register} setValue={setValue} />,
   ]);
 
   const router = useRouter();
