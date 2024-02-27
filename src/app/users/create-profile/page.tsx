@@ -24,7 +24,7 @@ export type PFormData = {
 function ProfileCreatePage() {
   const [disableButton, setDisableButton] = useState(false);
   const { user } = useUser();
-  const { register, handleSubmit } = useForm<PFormData>();
+  const { register, handleSubmit, setValue } = useForm<PFormData>();
   const { step, currentPage, next, back, isLastPage, goTo } = usePaginatedForm([
     <YourDetails
       key={"YourDetails"}
@@ -32,7 +32,7 @@ function ProfileCreatePage() {
       name={user?.fullName}
     />,
     <AboutYou key={"You"} Register={register} />,
-    <Location key={"location"} Register={register} />,
+    <Location key={"location"} Register={register} setValue={setValue} />,
   ]);
 
   const router = useRouter();
@@ -92,11 +92,35 @@ function ProfileCreatePage() {
   };
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center bg-brandOrange">
+    <main className="animate-bg-move flex h-full w-screen flex-col items-center justify-center bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" rounded-lg bg-brandLight"
+        className=" flex w-screen flex-col justify-between bg-brandLight lg:h-screen lg:w-1/2 lg:rounded-l-lg "
       >
+        <div className="lg:text-md flex w-full items-end justify-between gap-1 p-4 text-sm">
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 0 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>1. Your Details</span>
+          </div>
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 1 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>2. About You</span>
+          </div>
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 2 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>3. Location and University</span>
+          </div>
+        </div>
+
         {step}
         <div className="flex justify-between p-3 text-brandLight">
           <button

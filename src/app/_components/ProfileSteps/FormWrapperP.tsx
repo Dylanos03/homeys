@@ -5,7 +5,7 @@ type FormWrapperProps = {
 
 export function FormWrapperP({ title, children }: FormWrapperProps) {
   return (
-    <div className="flex flex-col items-center justify-center gap-8  p-12">
+    <div className="flex flex-col items-start justify-center gap-8  p-12">
       <h1 className="text-3xl font-bold">{title}</h1>
       {children}
     </div>

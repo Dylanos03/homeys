@@ -13,6 +13,22 @@ export default {
         brandDark: "#0D0D0D",
         brandLight: "#FAFAFA",
       },
+      keyframes: {
+        "bg-move": {
+          "0%": {
+            "background-position": "0% 50%",
+          },
+          "50%": {
+            "background-position": "100% 50%",
+          },
+          "100%": {
+            "background-position": "0% 50%",
+          },
+        },
+      },
+      animation: {
+        "bg-move": "bg-move 10s linear infinite",
+      },
     },
   },
   plugins: [],
