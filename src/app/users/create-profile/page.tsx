@@ -92,10 +92,10 @@ function ProfileCreatePage() {
   };
 
   return (
-    <main className="animate-bg-move flex h-screen w-screen flex-col items-center justify-end bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
+    <main className="animate-bg-move flex h-full w-screen flex-col items-center justify-center bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" flex w-screen flex-col justify-between rounded-l-lg bg-brandLight lg:h-screen lg:w-1/2 "
+        className=" flex w-screen flex-col justify-between bg-brandLight lg:h-screen lg:w-1/2 lg:rounded-l-lg "
       >
         <div className="lg:text-md flex w-full items-end justify-between gap-1 p-4 text-sm">
           <div
