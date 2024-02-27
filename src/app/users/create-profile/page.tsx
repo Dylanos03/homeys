@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-
 import { usePaginatedForm } from "~/app/_hooks/usePaginatedForm";
 import YourDetails from "~/app/_components/ProfileSteps/YourDetails";
 import AboutYou from "~/app/_components/ProfileSteps/AboutYou";
