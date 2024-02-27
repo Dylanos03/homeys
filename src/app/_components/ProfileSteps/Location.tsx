@@ -34,7 +34,7 @@ function Location({
       const uniResults = await fetch(
         `http://universities.hipolabs.com/search?name=${university}&country=United%20Kingdom`,
       );
-      const uniResJson: TUniOp[] = await uniResults.json();
+      const uniResJson = (await uniResults.json()) as TUniOp[];
       setUniOptions(uniResJson);
     }
   }, [university]);
