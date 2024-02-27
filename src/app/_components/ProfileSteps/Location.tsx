@@ -41,27 +41,29 @@ function Location({
 
   return (
     <FormWrapperP title="Location">
-      <div className="w-full">
+      <div className="flex w-full flex-col gap-4">
         <div className="flex flex-col gap-1 text-left">
           <label className="block font-semibold">
             Where are you looking for a house?
+            <span className="text-red-700"> *</span>
           </label>
           <input
             {...Register("location")}
             type="text"
-            className="rounded-sm border-[1px] border-brandDark border-opacity-15 bg-brandLight px-4 py-2 outline-0 outline-brandOrange focus:outline-1"
+            className="rounded-sm border-b-2 bg-brandLight px-4 py-2 outline-0 focus:border-brandOrange "
           />
         </div>
         <div className="relative flex flex-col gap-2 text-left">
           <label className="font-semibold">
             What university do you / will you attend?
+            <span className="text-red-700"> *</span>
           </label>
           <input
             {...Register("university")}
             type="text"
             value={university}
             onChange={(e) => setUniversity(e.target.value)}
-            className="rounded-sm border-[1px] border-brandDark border-opacity-15 bg-brandLight px-4 py-2 outline-0 outline-brandOrange focus:outline-1"
+            className="rounded-sm border-b-2 bg-brandLight px-4 py-2 outline-0 focus:border-brandOrange "
           />
           {uniMenu && (
             <div className="absolute top-20 w-full rounded border-2 bg-brandLight p-1">

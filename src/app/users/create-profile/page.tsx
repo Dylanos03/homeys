@@ -92,11 +92,35 @@ function ProfileCreatePage() {
   };
 
   return (
-    <main className="flex h-screen w-screen flex-col items-center justify-center bg-brandOrange">
+    <main className="animate-bg-move flex h-screen w-screen flex-col items-center justify-end bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className=" rounded-lg bg-brandLight"
+        className=" flex w-screen flex-col justify-between rounded-l-lg bg-brandLight lg:h-screen lg:w-1/2 "
       >
+        <div className="lg:text-md flex w-full items-end justify-between gap-1 p-4 text-sm">
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 0 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>1. Your Details</span>
+          </div>
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 1 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>2. About You</span>
+          </div>
+          <div
+            className={`w-1/3 border-b-2 border-brandDark text-brandDark ${
+              currentPage !== 2 && "border-opacity-40 text-opacity-40"
+            }`}
+          >
+            <span>3. Location and University</span>
+          </div>
+        </div>
+
         {step}
         <div className="flex justify-between p-3 text-brandLight">
           <button

@@ -54,7 +54,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
             className="rounded-full"
           />
 
-          <div>
+          <div className="">
             <div className="flex items-center gap-2">
               <FontAwesomeIcon
                 icon={faLocationPin}
@@ -69,7 +69,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
                 style={{ color: "#bd5103" }}
                 className="w-4"
               />
-              <p>{data.university}</p>
+              <p className="text-wrap">{data.university}</p>
             </div>
           </div>
         </div>
