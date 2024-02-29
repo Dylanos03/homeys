@@ -2,9 +2,9 @@ import { SignUp } from "@clerk/nextjs";
 
 function SignUpPage() {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <main className="flex h-screen items-center justify-center bg-brandOrange">
       <SignUp afterSignUpUrl={"/users/create-profile"} signInUrl="/sign-in" />
-    </div>
+    </main>
   );
 }
 

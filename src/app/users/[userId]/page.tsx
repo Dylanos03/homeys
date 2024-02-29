@@ -2,6 +2,7 @@ import {
   faBuilding,
   faLocationPin,
   faMessage,
+  faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -10,7 +11,7 @@ import { redirect } from "next/navigation";
 import Sidebar from "~/app/_components/sidebar";
 import AddFriend from "~/app/_components/FriendButton";
 import DeleteBtn from "~/app/_components/deleteBtn";
-import { auth } from "@clerk/nextjs";
+import { SignOutButton, auth } from "@clerk/nextjs";
 import Link from "next/link";
 import Navbar from "~/app/_components/navbar";
 
@@ -25,6 +26,16 @@ const ChatButton = (props: { userId: string }) => {
         <FontAwesomeIcon icon={faMessage} style={{ color: "#bd5103" }} />
       </span>
     </Link>
+  );
+};
+
+const SignOutBtn = () => {
+  return (
+    <SignOutButton>
+      <div className="flex h-8 cursor-pointer items-center gap-2 rounded-md border-2 border-brandOrange  px-2 hover:bg-brandDark hover:bg-opacity-5">
+        <FontAwesomeIcon icon={faRightToBracket} style={{ color: "#bd5103" }} />
+      </div>
+    </SignOutButton>
   );
 };
 
@@ -54,7 +65,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
             className="rounded-full"
           />
 
-          <div className="">
+          <div className="overflow-hidden px-4">
             <div className="flex items-center gap-2">
               <FontAwesomeIcon
                 icon={faLocationPin}
@@ -63,13 +74,15 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
               />
               <p>{data.location}</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex  items-center gap-2">
               <FontAwesomeIcon
                 icon={faBuilding}
                 style={{ color: "#bd5103" }}
                 className="w-4"
               />
-              <p className="text-wrap">{data.university}</p>
+              <p className="overflow-hidden text-ellipsis whitespace-nowrap">
+                {data.university}
+              </p>
             </div>
           </div>
         </div>
@@ -80,6 +93,7 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
 
             <AddFriend userId={params.userId} />
             <DeleteBtn id={params.userId} />
+            {userId === params.userId && <SignOutBtn />}
             {isFriend && <ChatButton userId={params.userId} />}
           </div>
 
