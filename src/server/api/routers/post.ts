@@ -34,7 +34,7 @@ export const postRouter = createTRPCRouter({
           authorImage: input.authorImage,
           userLocation: input.userLocation,
           userUniversity: input.userUniversity,
-          groupId: userProfile.groupId || undefined,
+          groupId: userProfile.groupId ?? undefined,
         },
       });
     }),
