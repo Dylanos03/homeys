@@ -63,7 +63,21 @@ export const groupRouter = createTRPCRouter({
       await ctx.db.profile.update({
         where: { userId: userProfile.userId },
         data: {
-          groupId: null,
+          groupId: null as null,
+        },
+      });
+
+      await ctx.db.profile.update({
+        where: { userId: userProfile.userId },
+        data: {
+          posts: {
+            updateMany: {
+              where: { groupId: userProfile.groupId },
+              data: {
+                groupId: null as null,
+              },
+            },
+          },
         },
       });
 

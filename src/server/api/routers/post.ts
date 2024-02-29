@@ -17,6 +17,13 @@ export const postRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const userProfile = await ctx.db.profile.findUnique({
+        where: { userId: input.userId },
+      });
+      if (!userProfile) {
+        throw new Error("Post: User not found");
+      }
+
       return ctx.db.post.create({
         data: {
           name: input.name,
@@ -27,12 +34,16 @@ export const postRouter = createTRPCRouter({
           authorImage: input.authorImage,
           userLocation: input.userLocation,
           userUniversity: input.userUniversity,
+          groupId: userProfile.groupId || undefined,
         },
       });
     }),
 
   getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findMany({ orderBy: { createdAt: "desc" } });
+    return ctx.db.post.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { group: { include: { members: true } } },
+    });
   }),
 
   getUserPosts: publicProcedure

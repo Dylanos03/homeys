@@ -96,7 +96,7 @@ function Sidebar() {
   }
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight p-8  md:flex">
+    <aside className="sticky top-0 hidden h-screen w-[240px] flex-col justify-between border-slate-200 bg-brandLight p-8  lg:flex">
       <div className="flex flex-col  text-xl font-semibold">
         <Link href={"/"}>
           <Image src={logo} alt="logo" className="" height={100} width={160} />

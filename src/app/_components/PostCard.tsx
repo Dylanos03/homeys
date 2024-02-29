@@ -150,7 +150,7 @@ export default function PostCard(props: Post) {
   };
 
   return (
-    <div className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4">
+    <div className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4 pb-8">
       {warning && (
         <WarningPopUp
           warningType="delete your post"
@@ -206,10 +206,40 @@ export default function PostCard(props: Post) {
         <h3 className="text-lg font-semibold lg:text-2xl">{props.name}</h3>
         <p className="lg:text-md text-sm font-medium">{props.desc}</p>
       </div>
-      <div className="flex justify-between text-slate-500">
-        <span>Like</span>
-        <span>Comment</span>
-        <span>Save</span>
+      <div className="flex  items-center justify-end text-slate-500 lg:justify-between">
+        <div className="hidden flex-col lg:flex">
+          <p>Location: {props.userLocation}</p>
+          <p>University: {props.userUniversity}</p>
+        </div>
+        <div>
+          {props.group ? (
+            <div className="flex items-center gap-2">
+              <div className="flex  ">
+                {props.group?.members.map((member, index) => (
+                  <Image
+                    src={member.image}
+                    alt={member.fullName}
+                    width={40}
+                    height={40}
+                    key={member.id}
+                    className={` rounded-full ${index === 0 ? "-mr-4" : ""}`}
+                  />
+                ))}
+                {props.group?.members.length > 2 && (
+                  <span className="-ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
+                    +{props.group.members.length - 2}
+                  </span>
+                )}
+              </div>
+
+              <Link href={`/groups/${props.group.id}`}>
+                <span className="underline">View group</span>
+              </Link>
+            </div>
+          ) : (
+            <span>Solo Student</span>
+          )}
+        </div>
       </div>
     </div>
   );
