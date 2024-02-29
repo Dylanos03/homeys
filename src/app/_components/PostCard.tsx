@@ -203,8 +203,8 @@ export default function PostCard(props: Post) {
         )}
       </div>
       <div>
-        <h3 className="text-lg font-semibold lg:text-2xl">{props.name}</h3>
-        <p className="lg:text-md text-sm font-medium">{props.desc}</p>
+        <h3 className="text-lg font-semibold lg:text-3xl">{props.name}</h3>
+        <p className="text-md font-medium lg:text-lg">{props.desc}</p>
       </div>
       <div className="flex  items-center justify-end text-slate-500 lg:justify-between">
         <div className="hidden flex-col lg:flex">
@@ -232,9 +232,7 @@ export default function PostCard(props: Post) {
                 )}
               </div>
 
-              <Link href={`/groups/${props.group.id}`}>
-                <span className="underline">View group</span>
-              </Link>
+              <span className="">{props.group.name}</span>
             </div>
           ) : (
             <span>Solo Student</span>
