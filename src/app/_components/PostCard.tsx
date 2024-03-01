@@ -18,6 +18,11 @@ type PostDataUpdate = {
   desc: string;
 };
 
+type UPostCardProps = Post & {
+  handleClose: (arg: number) => void;
+  timeSincePost: string;
+};
+
 // component for the options box
 function OptionBox(props: {
   handleClick: (i: number) => void;
@@ -52,12 +57,7 @@ function OptionBox(props: {
 }
 
 // component for the edit post
-function PostEditForm(props: {
-  title: string;
-  text: string;
-  id: number;
-  handleClose: (i: number) => void;
-}) {
+function PostEditForm(props: UPostCardProps) {
   const router = useRouter();
   const { handleSubmit, register } = useForm<PostDataUpdate>();
   const { mutate } = api.post.editPost.useMutation({
@@ -66,45 +66,95 @@ function PostEditForm(props: {
     },
   });
 
+  const onSubmit = (data: PostDataUpdate) => {
+    mutate({ id: props.id, name: data.title, desc: data.desc });
+  };
+
   return (
-    <div className="absolute left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-brandDark bg-opacity-15">
-      <form
-        className="relative flex w-[720px] flex-col gap-4 rounded-lg bg-brandLight p-12"
-        onSubmit={handleSubmit((data) => {
-          mutate({
-            id: props.id,
-            name: data.title,
-            desc: data.desc,
-          });
-        })}
-      >
-        <button
-          className="absolute left-3 top-3 font-extrabold"
-          type="button"
-          onClick={() => props.handleClose(0)}
-        >
-          <FontAwesomeIcon icon={faX} />
-        </button>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mt-4 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4 pb-8"
+    >
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center gap-2 lg:gap-4">
+          <Link href={`/users/${props.authorId}`}>
+            <Image
+              src={props.authorImage}
+              width={50}
+              height={50}
+              alt={props.authorName}
+              className="w-8 rounded-full   lg:w-12"
+            />
+          </Link>
+          <Link href={`/users/${props.authorId}`}>
+            <h1 className="text-lg font-bold underline lg:text-xl">
+              {props.authorName}
+            </h1>
+          </Link>
+
+          <span className="h-1 w-1 rounded-full bg-slate-400"></span>
+          <span className=" text-sm text-slate-400">{props.timeSincePost}</span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-1">
         <input
-          type="text"
-          defaultValue={props.title}
-          {...register("title")}
-          className="w-full rounded-md border-2 border-slate-100 p-2"
-        />
+          className="rounded border-2 bg-brandLight text-lg font-semibold focus:outline-none lg:text-3xl"
+          {...register("title", { required: true })}
+          defaultValue={props.name}
+        ></input>
+
         <textarea
-          defaultValue={props.text}
-          {...register("desc")}
-          rows={10}
-          className="w-full rounded-md border-2 border-slate-100 p-2"
-        />
-        <button
-          type="submit"
-          className="rounded-lg bg-brandOrange px-6 py-3 font-semibold text-white"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+          className="text-md rounded border-2 bg-brandLight font-semibold focus:outline-none lg:text-lg"
+          {...register("desc", { required: true })}
+          defaultValue={props.desc}
+          rows={5}
+        ></textarea>
+      </div>
+      <div className="flex  items-center justify-end text-slate-500 lg:justify-between">
+        <div>
+          {props.group ? (
+            <div className="flex items-center gap-2">
+              <div className="flex  ">
+                {props.group?.members.map((member, index) => (
+                  <Image
+                    src={member.image}
+                    alt={member.fullName}
+                    width={40}
+                    height={40}
+                    key={member.id}
+                    className={` rounded-full ${index === 0 ? "-mr-4" : ""}`}
+                  />
+                ))}
+                {props.group?.members.length > 2 && (
+                  <span className="-ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
+                    +{props.group.members.length - 2}
+                  </span>
+                )}
+              </div>
+
+              <span className="">In group</span>
+            </div>
+          ) : (
+            <span>Solo Student</span>
+          )}
+        </div>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className="h-10 w-20 rounded border-2 border-brandOrange text-brandOrange"
+            onClick={() => props.handleClose(2)}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="h-10 w-20 rounded bg-brandOrange text-brandLight"
+          >
+            Save
+          </button>
+        </div>
+      </div>
+    </form>
   );
 }
 
@@ -149,6 +199,16 @@ export default function PostCard(props: Post) {
     setWarning(false);
   };
 
+  if (edit) {
+    return (
+      <PostEditForm
+        {...props}
+        handleClose={(n) => clickHandler(n)}
+        timeSincePost={timeSincePost}
+      />
+    );
+  }
+
   return (
     <div className="mt-8 flex w-full flex-col gap-3 border-b-2 border-slate-100 px-4 pb-8">
       {warning && (
@@ -157,14 +217,7 @@ export default function PostCard(props: Post) {
           responseFn={responseHandler}
         />
       )}
-      {edit && (
-        <PostEditForm
-          handleClose={(n) => clickHandler(n)}
-          id={props.id}
-          title={props.name}
-          text={props.desc}
-        />
-      )}
+
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-2 lg:gap-4">
           <Link href={`/users/${props.authorId}`}>
@@ -232,7 +285,7 @@ export default function PostCard(props: Post) {
                 )}
               </div>
 
-              <span className="">{props.group.name}</span>
+              <span className="">In group</span>
             </div>
           ) : (
             <span>Solo Student</span>
