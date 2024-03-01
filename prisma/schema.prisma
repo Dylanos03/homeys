@@ -26,9 +26,12 @@ model Post {
     userLocation   String   @default("Not Specified")
     userUniversity String   @default("Not Specified")
     likes          Like[]
+    group          Group?   @relation(fields: [groupId], references: [id])
+    groupId        Int?
 
     @@index([name])
     @@index([authorId])
+    @@index([groupId])
 }
 
 model Like {
@@ -117,6 +120,7 @@ model Group {
     updatedAt DateTime       @updatedAt
     GroupReq  GroupReq[]
     Messages  GroupMessage[]
+    posts     Post[]
 
     @@index([name])
 }

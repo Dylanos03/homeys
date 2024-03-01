@@ -5,6 +5,11 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Feed from "./_components/Feed";
 import Navbar from "./_components/navbar";
 import { TopBar } from "./_components/Header";
+import type { Group, Profile } from "@prisma/client";
+
+type groupT = Group & {
+  members: Profile[];
+};
 
 export type Post = {
   id: number;
@@ -15,6 +20,9 @@ export type Post = {
   createdAt: Date;
   authorName: string;
   authorImage: string;
+  group: groupT | null;
+  userLocation: string;
+  userUniversity: string;
 };
 
 const CreatePostButton = () => {
