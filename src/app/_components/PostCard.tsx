@@ -10,8 +10,6 @@ import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import WarningPopUp from "./Warning";
 import { useForm } from "react-hook-form";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type PostDataUpdate = {
   title: string;
@@ -111,33 +109,7 @@ function PostEditForm(props: UPostCardProps) {
         ></textarea>
       </div>
       <div className="flex  items-center justify-end text-slate-500 lg:justify-between">
-        <div>
-          {props.group ? (
-            <div className="flex items-center gap-2">
-              <div className="flex  ">
-                {props.group?.members.map((member, index) => (
-                  <Image
-                    src={member.image}
-                    alt={member.fullName}
-                    width={40}
-                    height={40}
-                    key={member.id}
-                    className={` rounded-full ${index === 0 ? "-mr-4" : ""}`}
-                  />
-                ))}
-                {props.group?.members.length > 2 && (
-                  <span className="-ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
-                    +{props.group.members.length - 2}
-                  </span>
-                )}
-              </div>
-
-              <span className="">In group</span>
-            </div>
-          ) : (
-            <span>Solo Student</span>
-          )}
-        </div>
+        <div></div>
         <div className="flex gap-2">
           <button
             type="button"

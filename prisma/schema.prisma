@@ -163,6 +163,7 @@ model PrivateMessage {
     toUserId   String
     text       String   @db.VarChar(1000)
     createdAt  DateTime @default(now())
+    seen       Boolean  @default(false)
 
     @@index([fromUserId])
     @@index([toUserId])

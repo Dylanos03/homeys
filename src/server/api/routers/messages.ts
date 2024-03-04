@@ -74,6 +74,31 @@ export const messagesRouter = createTRPCRouter({
         orderBy: { createdAt: "asc" },
       });
 
+      await ctx.db.privateMessage.updateMany({
+        where: {
+          fromUserId: input.user2,
+          toUserId: input.user1,
+        },
+        data: {
+          seen: true,
+        },
+      });
+
       return messages;
+    }),
+
+  newMessage: publicProcedure
+    .input(z.string())
+    .query(async ({ input, ctx }) => {
+      const messages = await ctx.db.privateMessage.findMany({
+        where: {
+          toUserId: input,
+          seen: false,
+        },
+      });
+      if (messages.length > 0) {
+        return true;
+      }
+      return false;
     }),
 });

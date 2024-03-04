@@ -16,6 +16,9 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import Image from "next/image";
 import LoadingSpinner from "./loadingSpinner";
+import NotiBlip from "./notificationBlip";
+import { useRouter } from "next/navigation";
+import MessBlip from "./messageBlip";
 
 const sidebarContent = [
   {
@@ -33,6 +36,7 @@ const sidebarContent = [
     name: "Messages",
     icon: faMessage,
     link: "/messages",
+    messBlip: true,
   },
   {
     name: "Groups",
@@ -43,6 +47,7 @@ const sidebarContent = [
     name: "Notifications",
     icon: faBell,
     link: "/notifications",
+    blip: true,
   },
   {
     name: "Search",
@@ -54,6 +59,7 @@ const sidebarContent = [
 function Sidebar() {
   const { user } = useUser();
   const isProfile = api.profile.findOne.useQuery(user?.id ?? "");
+  const router = useRouter();
 
   if (isProfile.isLoading)
     return (
@@ -104,11 +110,13 @@ function Sidebar() {
         {sidebarContent.map((item) => (
           <Link
             key={item.name}
-            className="flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
+            className="relative flex items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5"
             href={item.link}
           >
             <FontAwesomeIcon icon={item.icon} />
             {item.name}
+            {item.blip && <NotiBlip />}
+            {item.messBlip && <MessBlip />}
           </Link>
         ))}
       </div>
@@ -133,7 +141,7 @@ function Sidebar() {
             My Profile
           </Link>
         )}
-        <SignOutButton>
+        <SignOutButton signOutCallback={() => router.push("/")}>
           <div className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5">
             <span className="text-xl font-semibold">Sign Out</span>
             <FontAwesomeIcon icon={faRightToBracket} />
