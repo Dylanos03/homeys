@@ -8,7 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 
 function Feed() {
-  const { data, isLoading } = api.post.getAll.useQuery();
+  const { data, isLoading, refetch } = api.post.getAll.useQuery();
   const { user } = useUser();
   const [byLocation, setByLocation] = useState(false);
   const [byUniversity, setByUniversity] = useState(false);
@@ -38,7 +38,7 @@ function Feed() {
   return (
     <>
       {" "}
-      <div className="flex w-full flex-col lg:w-[720px] lg:border-x-2">
+      <div className="flex w-full flex-col pb-[86px] lg:w-[720px] lg:border-x-2 lg:pb-0">
         {user && (
           <div
             className={
@@ -63,7 +63,7 @@ function Feed() {
             </button>
           </div>
         )}
-        {user && <CreatePost />}
+        {user && <CreatePost refetch={refetch} />}
         {(() => {
           switch (true) {
             case byLocation && byUniversity:

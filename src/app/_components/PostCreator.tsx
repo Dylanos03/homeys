@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import Sidebar from "./sidebar";
 
 type CPFormData = {
   title: string;
@@ -15,10 +14,10 @@ type CPFormData = {
   userUniversity: string;
 };
 
-export function CreatePost() {
+export function CreatePost({ refetch }: { refetch: () => void }) {
   const { user } = useUser();
   const router = useRouter();
-  const createPost = api.post.create.useMutation({});
+  const createPost = api.post.create.useMutation({ onSuccess: refetch });
 
   const { register, handleSubmit, reset } = useForm<CPFormData>();
   const onSubmit: SubmitHandler<CPFormData> = (data) => {

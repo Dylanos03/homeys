@@ -8,7 +8,10 @@ function GroupLeave(props: { userId: string }) {
     leaveGroup.mutate(props.userId);
   };
   return (
-    <button onClick={leavegroup} className="text-red-700">
+    <button
+      onClick={leavegroup}
+      className="h-8 text-nowrap rounded-md bg-red-700 px-2 text-white"
+    >
       Leave Group
     </button>
   );

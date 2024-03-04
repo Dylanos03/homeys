@@ -9,7 +9,7 @@ function NotiBlip() {
   const notifications = api.profile.notifications.useQuery(userId);
   if (!notifications.data) return <></>;
   return (
-    <span className="absolute right-2 top-0 h-3 w-3 rounded-full bg-brandOrange text-sm text-brandLight"></span>
+    <span className="absolute right-1 top-1 h-3 w-3 rounded-full bg-brandOrange text-sm text-brandLight lg:right-2 lg:top-0"></span>
   );
 }
 

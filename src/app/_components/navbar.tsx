@@ -6,7 +6,8 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import NotiBlip from "./notificationBlip";
+import NotiBlip from "./blips/notificationBlip";
+import MessBlip from "./blips/messageBlip";
 
 const sidebarContent = [
   {
@@ -24,6 +25,7 @@ const sidebarContent = [
     name: "Messages",
     icon: faMessage,
     link: "/messages",
+    messBlip: true,
   },
   {
     name: "Notifications",
@@ -56,6 +58,7 @@ function Navbar({ name }: { name: string }) {
               style={{ color: "#bd5103" }}
             />
             {item.blip && <NotiBlip />}
+            {item.messBlip && <MessBlip />}
             {item.name}
           </Link>
         );

@@ -16,9 +16,8 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import Image from "next/image";
 import LoadingSpinner from "./loadingSpinner";
-import NotiBlip from "./notificationBlip";
-import { useRouter } from "next/navigation";
-import MessBlip from "./messageBlip";
+import NotiBlip from "./blips/notificationBlip";
+import MessBlip from "./blips/messageBlip";
 
 const sidebarContent = [
   {
@@ -59,7 +58,6 @@ const sidebarContent = [
 function Sidebar() {
   const { user } = useUser();
   const isProfile = api.profile.findOne.useQuery(user?.id ?? "");
-  const router = useRouter();
 
   if (isProfile.isLoading)
     return (
@@ -141,7 +139,7 @@ function Sidebar() {
             My Profile
           </Link>
         )}
-        <SignOutButton signOutCallback={() => router.push("/")}>
+        <SignOutButton>
           <div className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-1 hover:bg-brandDark hover:bg-opacity-5">
             <span className="text-xl font-semibold">Sign Out</span>
             <FontAwesomeIcon icon={faRightToBracket} />
