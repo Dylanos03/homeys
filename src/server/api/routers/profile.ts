@@ -160,4 +160,31 @@ export const profileRouter = createTRPCRouter({
       take: 10,
     });
   }),
+
+  display: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    return ctx.db.profile.findUnique({
+      where: { userId: input },
+    });
+  }),
+
+  edit: publicProcedure
+    .input(
+      z.object({
+        fullName: z.string().min(1),
+        bio: z.string().min(1),
+        interests: z.string().min(1),
+
+        userId: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.profile.update({
+        where: { userId: input.userId },
+        data: {
+          fullName: input.fullName,
+          bio: input.bio,
+          interests: input.interests,
+        },
+      });
+    }),
 });
