@@ -1,5 +1,6 @@
 import {
   faBuilding,
+  faEdit,
   faLocationPin,
   faMessage,
   faRightToBracket,
@@ -36,6 +37,18 @@ const SignOutBtn = () => {
         <FontAwesomeIcon icon={faRightToBracket} style={{ color: "#bd5103" }} />
       </div>
     </SignOutButton>
+  );
+};
+
+const EditProfileBtn = () => {
+  return (
+    <Link
+      href={"/users/edit-profile"}
+      className="flex h-8 items-center gap-1 rounded-md border-2 border-brandOrange px-2 font-bold text-brandOrange"
+    >
+      <FontAwesomeIcon icon={faEdit} style={{ color: "#bd5103" }} />
+      Edit Profile
+    </Link>
   );
 };
 
@@ -93,7 +106,9 @@ async function ProfilePage({ params }: { params: { userId: string } }) {
 
             <AddFriend userId={params.userId} />
             <DeleteBtn id={params.userId} />
+            {userId === params.userId && <EditProfileBtn />}
             {userId === params.userId && <SignOutBtn />}
+
             {isFriend && <ChatButton userId={params.userId} />}
           </div>
 
