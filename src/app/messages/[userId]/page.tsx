@@ -1,11 +1,11 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import parse from "html-react-parser";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
+import { urlify } from "~/utils/urlify";
 
 export type messageT = {
   id: string;
@@ -47,20 +47,6 @@ function ChevronLeftIcon() {
       <path d="m15 18-6-6 6-6" />
     </svg>
   );
-}
-
-export function urlify(text: string) {
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  const newText = text.replace(urlRegex, function (url) {
-    return (
-      '<a href="' +
-      url +
-      '" className="text-blue-600 hover:underline" target="_blank">' +
-      url +
-      "</a>"
-    );
-  });
-  return parse(newText);
 }
 
 function IncomingMessage(props: { image: string; message: string }) {

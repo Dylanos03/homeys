@@ -6,7 +6,7 @@ import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
 import { GroupMessage } from "@prisma/client";
-import { urlify } from "~/app/messages/[userId]/page";
+import { urlify } from "~/utils/urlify";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
