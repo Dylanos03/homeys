@@ -54,7 +54,7 @@ function IncomingMessage(props: { image: string; message: string }) {
 
   const newMessage = urlify(message);
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex  items-center gap-2 ">
       <img
         alt="Avatar"
         className="rounded-full"
@@ -66,8 +66,8 @@ function IncomingMessage(props: { image: string; message: string }) {
         }}
         width="40"
       />
-      <div className="rounded-lg bg-gray-100 p-4 ">
-        <p className="text-sm">{newMessage}</p>
+      <div className=" rounded bg-gray-100 p-4">
+        <p className=" text-sm">{newMessage}</p>
       </div>
     </div>
   );
@@ -156,7 +156,7 @@ function ChatPage({ params }: { params: { userId: string } }) {
     setNewMessage(message);
   };
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col ">
       <div className="flex-initial border-b">
         <div className="container fixed left-0 top-0 flex  max-w-full items-center gap-4 bg-brandLight py-2">
           <button className="rounded-full">
