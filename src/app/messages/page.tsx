@@ -12,6 +12,7 @@ type Message = {
   toUserId: string;
   createdAt: Date;
   text: string;
+  seen: boolean;
 };
 
 type User = {
@@ -64,7 +65,9 @@ async function MessageList() {
           <Link
             href={`/messages/${user.userId}`}
             key={user.id}
-            className="flex gap-2 border-b-[1px] border-b-slate-200 px-2 py-2"
+            className={`flex gap-2 border-b-[1px] border-b-slate-200 px-2 py-2 ${
+              message.seen ? "" : "bg-slate-100"
+            }`}
           >
             <Image
               height={50}
@@ -73,9 +76,9 @@ async function MessageList() {
               alt={username}
               src={image}
             ></Image>
-            <div className="flex flex-col justify-between">
+            <div className="flex max-w-full flex-col justify-between">
               <span className="text-lg font-semibold">@{username}</span>
-              <p>
+              <p className="text-overflow w-80 overflow-hidden text-ellipsis whitespace-nowrap">
                 <span className="text-neutral-400">
                   {message.fromUserId === userId ? "You: " : "Them: "}
                 </span>
