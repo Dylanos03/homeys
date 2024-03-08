@@ -66,7 +66,7 @@ async function MessageList() {
             href={`/messages/${user.userId}`}
             key={user.id}
             className={`flex gap-2 border-b-[1px] border-b-slate-200 px-2 py-2 ${
-              message.seen ? "" : "bg-slate-100"
+              message.toUserId === userId && message.seen ? "" : "bg-slate-100"
             }`}
           >
             <Image
