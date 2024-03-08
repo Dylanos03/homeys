@@ -6,9 +6,11 @@ import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
 import { GroupMessage } from "@prisma/client";
+import { urlify } from "~/app/messages/[userId]/page";
 
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
+  const newMessage = urlify(message);
   return (
     <div className="flex items-center gap-2">
       <img
@@ -23,7 +25,7 @@ function IncomingMessage(props: { image: string; message: string }) {
         width="40"
       />
       <div className="rounded-lg bg-gray-100 p-4 ">
-        <p className="text-sm">{message}</p>
+        <p className="text-sm">{newMessage}</p>
       </div>
     </div>
   );
@@ -31,10 +33,11 @@ function IncomingMessage(props: { image: string; message: string }) {
 
 function OutgoingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
+  const newMessage = urlify(message);
   return (
     <div className="flex items-center justify-end gap-2">
       <div className="rounded-lg bg-gray-100 p-4 ">
-        <p className="text-sm">{message}</p>
+        <p className="text-sm">{newMessage}</p>
       </div>
       <img
         alt="Avatar"

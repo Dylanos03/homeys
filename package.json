@@ -27,6 +27,7 @@
     "@trpc/react-query": "^10.43.6",
     "@trpc/server": "^10.43.6",
     "autosize": "^6.0.1",
+    "html-react-parser": "^5.1.8",
     "next": "^14.0.4",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",

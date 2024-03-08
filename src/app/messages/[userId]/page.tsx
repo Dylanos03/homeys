@@ -1,11 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/0n8ngROTq5f
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
+import parse from "html-react-parser";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
@@ -53,8 +49,24 @@ function ChevronLeftIcon() {
   );
 }
 
+export function urlify(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const newText = text.replace(urlRegex, function (url) {
+    return (
+      '<a href="' +
+      url +
+      '" className="text-blue-600 hover:underline" target="_blank">' +
+      url +
+      "</a>"
+    );
+  });
+  return parse(newText);
+}
+
 function IncomingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
+
+  const newMessage = urlify(message);
   return (
     <div className="flex items-center gap-2">
       <img
@@ -69,7 +81,7 @@ function IncomingMessage(props: { image: string; message: string }) {
         width="40"
       />
       <div className="rounded-lg bg-gray-100 p-4 ">
-        <p className="text-sm">{message}</p>
+        <p className="text-sm">{newMessage}</p>
       </div>
     </div>
   );
@@ -77,10 +89,12 @@ function IncomingMessage(props: { image: string; message: string }) {
 
 function OutgoingMessage(props: { image: string; message: string }) {
   const { image, message } = props;
+
+  const newMessage = urlify(message);
   return (
     <div className="flex items-center justify-end gap-2">
       <div className="rounded-lg bg-gray-100 p-4 ">
-        <p className="text-sm">{message}</p>
+        <p className="text-sm">{newMessage}</p>
       </div>
       <img
         alt="Avatar"
