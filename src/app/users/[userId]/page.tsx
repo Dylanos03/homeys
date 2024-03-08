@@ -47,7 +47,7 @@ const EditProfileBtn = () => {
       className="flex h-8 items-center gap-1 rounded-md border-2 border-brandOrange px-2 font-bold text-brandOrange"
     >
       <FontAwesomeIcon icon={faEdit} style={{ color: "#bd5103" }} />
-      Edit Profile
+      <span className="hidden lg:flex">Edit Profile</span>
     </Link>
   );
 };

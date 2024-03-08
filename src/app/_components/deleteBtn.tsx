@@ -47,7 +47,8 @@ function DeleteBtn(props: { id: string }) {
         onClick={() => setWarning(true)}
         className="rounded-md bg-brandOrange px-2 py-1 font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
       >
-        Delete Profile <FontAwesomeIcon icon={faTrash} />
+        <FontAwesomeIcon icon={faTrash} />
+        <span className="hidden lg:flex">Delete Profile</span>
       </button>
     </div>
   );

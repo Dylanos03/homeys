@@ -66,7 +66,9 @@ async function MessageList() {
             href={`/messages/${user.userId}`}
             key={user.id}
             className={`flex gap-2 border-b-[1px] border-b-slate-200 px-2 py-2 ${
-              message.toUserId === userId && message.seen ? "" : "bg-slate-100"
+              message.fromUserId === userId || message.seen
+                ? "bg-slate-100"
+                : ""
             }`}
           >
             <Image
@@ -78,11 +80,16 @@ async function MessageList() {
             ></Image>
             <div className="flex max-w-full flex-col justify-between">
               <span className="text-lg font-semibold">@{username}</span>
-              <p className="text-overflow w-80 overflow-hidden text-ellipsis whitespace-nowrap">
+              <p className="text-overflow relative w-80 overflow-hidden text-ellipsis whitespace-nowrap">
                 <span className="text-neutral-400">
                   {message.fromUserId === userId ? "You: " : "Them: "}
                 </span>
                 {message.text}
+                {message.fromUserId === userId || message.seen ? (
+                  <></>
+                ) : (
+                  <span className="absolute h-2 w-2 rounded-full bg-brandOrange"></span>
+                )}
               </p>
             </div>
           </Link>
