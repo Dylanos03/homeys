@@ -31,11 +31,13 @@ function Location({
       setUniMenu(false);
     }
     async function fetchUniResults() {
-      const uniResults = await fetch(
-        `http://universities.hipolabs.com/search?name=${university}&country=United%20Kingdom`,
+      const uniResults = await fetch(`/uni.json`);
+      const uniResJson = await uniResults.json();
+      const uniRes = uniResJson.filter((uni: TUniOp) =>
+        uni.name.toLowerCase().includes(university.toLowerCase()),
       );
-      const uniResJson = (await uniResults.json()) as TUniOp[];
-      setUniOptions(uniResJson);
+      // const uniResJson = (await uniResults.json()) as TUniOp[];
+      setUniOptions(uniRes);
     }
   }, [university]);
 
