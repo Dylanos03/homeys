@@ -32,7 +32,7 @@ function Location({
     }
     async function fetchUniResults() {
       const uniResults = await fetch(`/uni.json`);
-      const uniResJson = await uniResults.json();
+      const uniResJson = (await uniResults.json()) as TUniOp[];
       const uniRes = uniResJson.filter((uni: TUniOp) =>
         uni.name.toLowerCase().includes(university.toLowerCase()),
       );
