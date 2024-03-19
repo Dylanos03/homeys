@@ -13,6 +13,9 @@ function Feed() {
   const [byLocation, setByLocation] = useState(false);
   const [byUniversity, setByUniversity] = useState(false);
 
+  if (!user) {
+    console.log("No user found");
+  }
   const filteredBothData = data
     ?.filter(
       (post) =>
