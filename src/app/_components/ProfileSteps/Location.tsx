@@ -1,6 +1,7 @@
 "use client";
 
 import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { promises as fs } from "fs";
 import { FormWrapperP } from "./FormWrapperP";
 import type { PFormData } from "~/app/users/create-profile/page";
 import { useEffect, useState } from "react";
@@ -32,10 +33,11 @@ function Location({
       setUniMenu(false);
     }
     async function fetchUniResults() {
-      const uniRes = uniData.filter((uni: TUniOp) =>
+      const data = await fs.readFile("./uni.json", "utf-8");
+      const uniJson = await JSON.parse(data); // Parse the uniJson string into an array of objects
+      const uniRes = uniJson.filter((uni: TUniOp) =>
         uni.name.toLowerCase().includes(university.toLowerCase()),
       );
-      // const uniResJson = (await uniResults.json()) as TUniOp[];
       setUniOptions(uniRes);
     }
   }, [university]);
