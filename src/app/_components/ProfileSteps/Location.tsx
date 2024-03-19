@@ -4,6 +4,7 @@ import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
 import type { PFormData } from "~/app/users/create-profile/page";
 import { useEffect, useState } from "react";
+import uniData from "../../../../public/uni.json";
 
 type TUniOp = {
   country: string;
@@ -31,9 +32,7 @@ function Location({
       setUniMenu(false);
     }
     async function fetchUniResults() {
-      const uniResults = await fetch(`/uni.json`);
-      const uniResJson = (await uniResults.json()) as TUniOp[];
-      const uniRes = uniResJson.filter((uni: TUniOp) =>
+      const uniRes = uniData.filter((uni: TUniOp) =>
         uni.name.toLowerCase().includes(university.toLowerCase()),
       );
       // const uniResJson = (await uniResults.json()) as TUniOp[];
