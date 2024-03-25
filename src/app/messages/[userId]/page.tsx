@@ -49,8 +49,12 @@ function ChevronLeftIcon() {
   );
 }
 
-function IncomingMessage(props: { image: string; message: string }) {
-  const { image, message } = props;
+function IncomingMessage(props: {
+  image: string;
+  message: string;
+  username: string;
+}) {
+  const { image, message, username } = props;
 
   const newMessage = urlify(message);
   return (
@@ -67,6 +71,7 @@ function IncomingMessage(props: { image: string; message: string }) {
         width="40"
       />
       <div className=" rounded bg-gray-100 p-4">
+        <span className="text-sm font-semibold">{username}</span>
         <p className=" text-sm">{newMessage}</p>
       </div>
     </div>
@@ -185,6 +190,7 @@ function ChatPage({ params }: { params: { userId: string } }) {
                     key={message.id}
                     image={message.fromUser.image}
                     message={message.text}
+                    username={message.fromUser.username}
                   />
                 );
               }

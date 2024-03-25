@@ -155,6 +155,11 @@ export const profileRouter = createTRPCRouter({
               contains: input,
             },
           },
+          {
+            bio: {
+              contains: input,
+            },
+          },
         ],
       },
       take: 10,

@@ -8,8 +8,12 @@ import { pusherClient } from "~/server/pusher";
 import { GroupMessage } from "@prisma/client";
 import { urlify } from "~/utils/urlify";
 
-function IncomingMessage(props: { image: string; message: string }) {
-  const { image, message } = props;
+function IncomingMessage(props: {
+  image: string;
+  message: string;
+  username: string;
+}) {
+  const { image, message, username } = props;
   const newMessage = urlify(message);
   return (
     <div className="flex items-center gap-2">
@@ -25,6 +29,7 @@ function IncomingMessage(props: { image: string; message: string }) {
         width="40"
       />
       <div className="rounded-lg bg-gray-100 p-4 ">
+        <span className="text-sm font-semibold">{username}</span>
         <p className="text-sm">{newMessage}</p>
       </div>
     </div>
@@ -160,6 +165,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
                     key={message.id}
                     image={message.user.image}
                     message={message.text}
+                    username={message.user.username}
                   />
                 );
               }
