@@ -25,20 +25,6 @@ export type Post = {
   userUniversity: string;
 };
 
-const CreatePostButton = () => {
-  return (
-    <Link
-      href="/create-post"
-      className=" fixed bottom-4 right-4 z-50 flex items-center gap-3 rounded bg-brandOrange px-6 py-3 text-xl text-brandLight shadow-md md:bottom-12 md:right-12"
-    >
-      <span className="hidden md:flex">Create Post</span>
-      <span className="flex md:hidden">New</span>
-
-      <FontAwesomeIcon icon={faPenToSquare} className="w-6 " />
-    </Link>
-  );
-};
-
 export default async function Home() {
   return (
     <main>

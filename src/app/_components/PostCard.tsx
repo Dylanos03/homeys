@@ -56,7 +56,6 @@ function OptionBox(props: {
 
 // component for the edit post
 function PostEditForm(props: UPostCardProps) {
-  const router = useRouter();
   const { handleSubmit, register } = useForm<PostDataUpdate>();
   const { mutate } = api.post.editPost.useMutation({
     onSuccess: () => {

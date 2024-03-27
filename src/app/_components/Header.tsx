@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Logo from "../../../public/LogoMd.webp";
-import { SignOutButton, SignInButton, auth } from "@clerk/nextjs";
+import { SignInButton, auth } from "@clerk/nextjs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPerson,
   faRightToBracket,
   faSearch,
   faUser,

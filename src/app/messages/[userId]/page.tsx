@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
 import { urlify } from "~/utils/urlify";
+import Image from "next/image";
 
 export type messageT = {
   id: string;
@@ -59,7 +60,7 @@ function IncomingMessage(props: {
   const newMessage = urlify(message);
   return (
     <div className="flex  items-center gap-2 ">
-      <img
+      <Image
         alt="Avatar"
         className="rounded-full"
         height="40"
@@ -87,7 +88,7 @@ function OutgoingMessage(props: { image: string; message: string }) {
       <div className="rounded-lg bg-gray-100 p-4 ">
         <p className="text-sm">{newMessage}</p>
       </div>
-      <img
+      <Image
         alt="Avatar"
         className="rounded-full"
         height="40"
@@ -140,7 +141,7 @@ function ChatPage({ params }: { params: { userId: string } }) {
     return () => {
       pusherClient.unsubscribe(`private-chat-${user?.id}`);
     };
-  }, [newMessage]);
+  }, [newMessage, messageHistory, user?.id]);
 
   if (!user) {
     return null;

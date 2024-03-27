@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { api } from "~/trpc/react";
@@ -20,7 +21,13 @@ function ProfileCard({
       href={`/users/${userId}`}
       className="flex items-center gap-2 border-b-2 border-slate-200 p-2"
     >
-      <img src={image} alt="profile" className="h-10 w-10 rounded-full" />
+      <Image
+        width={50}
+        height={50}
+        src={image}
+        alt="profile"
+        className="h-10 w-10 rounded-full"
+      />
       <div className="flex flex-col">
         <h1 className="text-lg font-semibold">{username}</h1>
         <p className="text-slate-400">{fullName}</p>

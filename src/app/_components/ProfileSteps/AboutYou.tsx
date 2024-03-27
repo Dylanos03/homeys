@@ -1,4 +1,4 @@
-import { UseFormRegister } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
 import type { PFormData } from "~/app/users/create-profile/page";
 

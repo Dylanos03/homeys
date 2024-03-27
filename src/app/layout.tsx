@@ -1,10 +1,7 @@
 import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
-import Logo from "../../public/Logo.webp";
-
 import { TRPCReactProvider } from "~/trpc/react";
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
@@ -12,7 +9,6 @@ import { TRPCReactProvider } from "~/trpc/react";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 // Prevent fontawesome from adding its CSS since we did it manually above:
 import { config } from "@fortawesome/fontawesome-svg-core";
-import Image from "next/image";
 config.autoAddCss = false; /* eslint-disable import/first */
 
 const inter = Inter({

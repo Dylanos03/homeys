@@ -1,22 +1,10 @@
 "use client";
 
-import type { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import type { UseFormRegister } from "react-hook-form";
 import { FormWrapperP } from "./FormWrapperP";
 import type { PFormData } from "~/app/users/create-profile/page";
 
-type TUniOp = {
-  country: string;
-  name: string;
-  web_pages: string[];
-};
-
-function Location({
-  Register,
-  setValue,
-}: {
-  Register: UseFormRegister<PFormData>;
-  setValue: UseFormSetValue<PFormData>;
-}) {
+function Location({ Register }: { Register: UseFormRegister<PFormData> }) {
   return (
     <FormWrapperP title="Location">
       <div className="flex w-full flex-col gap-4">

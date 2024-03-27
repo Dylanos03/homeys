@@ -5,8 +5,8 @@ import Link from "next/link";
 import { api } from "~/trpc/react";
 import { useEffect, useState } from "react";
 import { pusherClient } from "~/server/pusher";
-import { GroupMessage } from "@prisma/client";
 import { urlify } from "~/utils/urlify";
+import Image from "next/image";
 
 function IncomingMessage(props: {
   image: string;
@@ -17,7 +17,7 @@ function IncomingMessage(props: {
   const newMessage = urlify(message);
   return (
     <div className="flex items-center gap-2">
-      <img
+      <Image
         alt="Avatar"
         className="rounded-full"
         height="40"
@@ -44,7 +44,7 @@ function OutgoingMessage(props: { image: string; message: string }) {
       <div className="rounded-lg bg-gray-100 p-4 ">
         <p className="text-sm">{newMessage}</p>
       </div>
-      <img
+      <Image
         alt="Avatar"
         className="rounded-full"
         height="40"
@@ -99,7 +99,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
   useEffect(() => {
     pusherClient
       .subscribe(`group-chat-${params.groupId}`)
-      .bind("new-message", (post: GroupMessage) => {
+      .bind("new-message", () => {
         group.refetch().catch(console.error);
         setTimeout(() => {
           window.scrollTo({
@@ -112,7 +112,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
     return () => {
       pusherClient.unsubscribe(`group-chat-${params.groupId}`);
     };
-  }, [newMessage]);
+  }, [newMessage, group, params.groupId]);
 
   if (!user) {
     return null;

@@ -18,7 +18,7 @@ type friendRequest = {
 };
 
 function NotiCard(props: friendRequest) {
-  const { friendId, friendName, friendPic, userId, id } = props;
+  const { friendId, friendName, friendPic, id } = props;
 
   const [isAccepting, setIsAccepting] = useState(false);
   const [isRejecting, setIsRejecting] = useState(false);
