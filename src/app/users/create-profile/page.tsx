@@ -23,7 +23,7 @@ export type PFormData = {
 function ProfileCreatePage() {
   const [disableButton, setDisableButton] = useState(false);
   const { user } = useUser();
-  const { register, handleSubmit, setValue } = useForm<PFormData>();
+  const { register, handleSubmit } = useForm<PFormData>();
   const { step, currentPage, next, back, isLastPage, goTo } = usePaginatedForm([
     <YourDetails
       key={"YourDetails"}

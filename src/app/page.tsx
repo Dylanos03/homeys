@@ -1,7 +1,4 @@
 import Sidebar from "./_components/sidebar";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Feed from "./_components/Feed";
 import Navbar from "./_components/navbar";
 import { TopBar } from "./_components/Header";
