@@ -239,18 +239,18 @@ export default function PostCard(props: Post) {
           {props.group ? (
             <div className="flex items-center gap-2">
               <div className="flex  ">
-                {props.group?.members.map((member, index) => (
+                {props.group?.members.map((member) => (
                   <Image
                     src={member.image}
                     alt={member.fullName}
                     width={40}
                     height={40}
                     key={member.id}
-                    className={` rounded-full ${index === 0 ? "-mr-4" : ""}`}
+                    className={` -mr-4 rounded-full `}
                   />
                 ))}
                 {props.group?.members.length > 2 && (
-                  <span className="-ml-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
+                  <span className="-mrl-4 flex h-10 w-10 items-center justify-center rounded-full bg-white">
                     +{props.group.members.length - 2}
                   </span>
                 )}
