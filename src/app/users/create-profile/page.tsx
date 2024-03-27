@@ -31,7 +31,7 @@ function ProfileCreatePage() {
       name={user?.fullName}
     />,
     <AboutYou key={"You"} Register={register} />,
-    <Location key={"location"} Register={register} setValue={setValue} />,
+    <Location key={"location"} Register={register} />,
   ]);
 
   const router = useRouter();
@@ -91,7 +91,7 @@ function ProfileCreatePage() {
   };
 
   return (
-    <main className="animate-bg-move flex h-full w-screen flex-col items-center justify-center bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
+    <main className="flex h-full w-screen animate-bg-move flex-col items-center justify-center bg-gradient-to-tr from-orange-500 to-brandOrange lg:items-end lg:justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" flex w-screen flex-col justify-between bg-brandLight lg:h-screen lg:w-1/2 lg:rounded-l-lg "
