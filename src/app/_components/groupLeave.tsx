@@ -3,7 +3,11 @@
 import { api } from "~/trpc/react";
 
 function GroupLeave(props: { userId: string }) {
-  const leaveGroup = api.group.leaveGroup.useMutation();
+  const leaveGroup = api.group.leaveGroup.useMutation({
+    onSuccess: () => {
+      location.reload();
+    },
+  });
   const leavegroup = () => {
     leaveGroup.mutate(props.userId);
   };

@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { api } from "~/trpc/react";
 
@@ -15,6 +16,7 @@ function CreateGroup() {
   const createGroup = api.group.createGroup.useMutation({
     onSuccess: (data) => {
       console.log(data);
+      location.reload();
     },
   });
 
