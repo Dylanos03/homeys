@@ -133,31 +133,37 @@ export const profileRouter = createTRPCRouter({
           {
             username: {
               contains: input,
+              mode: "insensitive",
             },
           },
           {
             fullName: {
               contains: input,
+              mode: "insensitive",
             },
           },
           {
             interests: {
               contains: input,
+              mode: "insensitive",
             },
           },
           {
             location: {
               contains: input,
+              mode: "insensitive",
             },
           },
           {
             university: {
               contains: input,
+              mode: "insensitive",
             },
           },
           {
             bio: {
               contains: input,
+              mode: "insensitive",
             },
           },
         ],
