@@ -182,7 +182,7 @@ function ChatPage({ params }: { params: { userId: string } }) {
         </div>
       </div>
       <div className="mt-12 flex-1 p-4 pb-24">
-        <div className="flex min-h-0 flex-col justify-end gap-4">
+        <div className="flex min-h-screen flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {messageHistory.data?.map((message) => {
               if (message.fromUserId === params.userId) {

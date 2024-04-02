@@ -156,7 +156,7 @@ function GroupChatPage({ params }: { params: { groupId: string } }) {
         </div>
       </div>
       <div className="mt-12 flex-1 p-4 pb-24">
-        <div className="flex min-h-0 flex-col justify-end gap-4">
+        <div className="flex min-h-screen flex-col justify-end gap-4">
           <div className="flex flex-col gap-2">
             {group.data.Messages.map((message) => {
               if (message.userId !== user.id) {
